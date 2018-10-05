@@ -1,19 +1,13 @@
 #ifndef EVENT_H
 #define EVENT_H
 
+#include <map>
+#include "../Math/StringHash.h"
+
 namespace slt
 {
-class Event
-{
-public:
-	Event(int evenyKey);
-	~Event();
-
-	int getEventKey();
-private:
-	int m_eventKey;
-	//params
-};
+typedef StringHash EventKey;
+typedef std::map<StringHash, void *> EventData;
 }
 
 #endif

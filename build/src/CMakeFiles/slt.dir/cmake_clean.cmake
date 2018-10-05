@@ -1,9 +1,9 @@
 file(REMOVE_RECURSE
   "CMakeFiles/slt.dir/Math/Math.cpp.o"
+  "CMakeFiles/slt.dir/Math/StringHash.cpp.o"
   "CMakeFiles/slt.dir/MemoryManager/Ref.cpp.o"
   "CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.o"
   "CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.o"
-  "CMakeFiles/slt.dir/Event/Event.cpp.o"
   "CMakeFiles/slt.dir/Event/EventSender.cpp.o"
   "CMakeFiles/slt.dir/Event/EventReciver.cpp.o"
   "CMakeFiles/slt.dir/Event/EventHandler.cpp.o"

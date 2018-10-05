@@ -1,13 +1,14 @@
 #ifndef EVENTSENDER_H
 #define EVENTSENDER_H
 
+#include "Event.h"
+
 namespace slt
 {
-class Event;
 class EventSender
 {
 public:
-	virtual void SendEvent(Event * event);
+	virtual void SendEvent(EventKey &key, EventData &data);
 };
 }
 

@@ -82,11 +82,11 @@ Box2D/Box2D.h
 ../MemoryManager/Ref.h
 /home/lscott/Documents/Projrect/Slt/src/MemoryManager/Ref.h
 
-/home/lscott/Documents/Projrect/Slt/src/Event/Event.cpp
-Event.h
 /home/lscott/Documents/Projrect/Slt/src/Event/Event.h
-
-/home/lscott/Documents/Projrect/Slt/src/Event/Event.h
+map
+-
+../Math/StringHash.h
+/home/lscott/Documents/Projrect/Slt/src/Math/StringHash.h
 
 /home/lscott/Documents/Projrect/Slt/src/Event/EventHandler.cpp
 EventHandler.h
@@ -184,6 +184,18 @@ Box2D/Box2D.h
 
 /home/lscott/Documents/Projrect/Slt/src/Math/Node.h
 map
+-
+
+/home/lscott/Documents/Projrect/Slt/src/Math/StringHash.cpp
+StringHash.h
+/home/lscott/Documents/Projrect/Slt/src/Math/StringHash.h
+Math.h
+/home/lscott/Documents/Projrect/Slt/src/Math/Math.h
+cstdio
+-
+
+/home/lscott/Documents/Projrect/Slt/src/Math/StringHash.h
+string
 -
 
 /home/lscott/Documents/Projrect/Slt/src/Math/Tree.h

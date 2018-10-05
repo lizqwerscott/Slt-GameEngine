@@ -15,8 +15,8 @@ EventHandler::~EventHandler()
 
 }
 
-void EventHandler::DispatchEvent(Event * evt, EventSender * sender)
+void EventHandler::DispatchEvent(EventKey &key, EventData &data, EventSender * sender)
 {
-	this->m_reciver->OnEvent(sender, evt);
+	this->m_reciver->OnEvent(sender, key, data);
 }
 

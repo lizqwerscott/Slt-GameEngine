@@ -2,7 +2,7 @@
 #define EventManager_H
 
 #include <list>
-#include <map>
+#include "Event.h"
 
 #define SubscribeEventIml(key, fu, sender) EventManager::Instance()->AddEventHandler(key, (new EventHandlerIml(key, fu, sender)))
 
@@ -10,13 +10,12 @@
 
 namespace slt
 {
-class Event;
 class EventHandler;
 class EventSender;
 class EventManager
 {
 	typedef std::list<EventHandler *> HandlerList;
-	typedef std::map<int, HandlerList> IdHandlerMap;
+	typedef std::map<EventKey &, HandlerList> IdHandlerMap;
 public:
 	static EventManager * Instance();
 	static void Destory();
@@ -24,7 +23,7 @@ public:
 	void AddEventHandler(int id, EventHandler * handler);
 	void RemoveEventHandler(int id, EventHandler *handler);
 	void ClearEventHandler(int id);
-	void DispatchEvent(Event * evt, EventSender * sender = nullptr);
+	void DispatchEvent(EventKey &key, EventData &data, EventSender * sender = nullptr);
 private:
 	EventManager() {}
 	EventManager(const EventManager *) {}

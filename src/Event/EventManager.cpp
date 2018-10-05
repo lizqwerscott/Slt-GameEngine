@@ -80,13 +80,13 @@ void EventManager::ClearEventHandler(int id)
 	m_events.erase(id);
 }
 
-void EventManager::DispatchEvent(Event * evt, EventSender * sender/*=nullptr*/)
+void EventManager::DispatchEvent(EventKey &key, EventData &data, EventSender * sender/*=nullptr*/)
 {
 	printf("Begine\n");
-	auto it = m_events.find(evt->getEventKey());
+	auto it = m_events.find(key);
 	if (it == m_events.end())
 	{
-		printf("[Error]:EventManager::DispatchEvent()::It is the end, DispatchEvent can't find this<%d>event Handler\n", evt->getEventKey());
+		printf("[Error]:EventManager::DispatchEvent()::It is the end, DispatchEvent can't find this<%u>event Handler\n", key.Value());
 		printf("End\n");
 		return;
 	}
@@ -98,11 +98,10 @@ void EventManager::DispatchEvent(Event * evt, EventSender * sender/*=nullptr*/)
 		{
 			if (listIt->m_sender == sender)
 			{
-				listIt->DispatchEvent(evt, sender);
+				listIt->DispatchEvent(key, data, sender);
 			}
 		}
 	}
 	printf("End\n");
-	delete evt;
 }
 

@@ -3,7 +3,7 @@
 
 using namespace slt;
 
-void EventSender::SendEvent(Event * evt)
+void EventSender::SendEvent(EventKey &key, EventData &data)
 {
-	EventManager::Instance()->DispatchEvent(evt, this);
+	EventManager::Instance()->DispatchEvent(key, data, this);
 }

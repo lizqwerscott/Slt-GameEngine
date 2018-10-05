@@ -179,33 +179,6 @@ Engine/Engine.cpp.s:
 	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Engine/Engine.cpp.s
 .PHONY : Engine/Engine.cpp.s
 
-Event/Event.o: Event/Event.cpp.o
-
-.PHONY : Event/Event.o
-
-# target to build an object file
-Event/Event.cpp.o:
-	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Event/Event.cpp.o
-.PHONY : Event/Event.cpp.o
-
-Event/Event.i: Event/Event.cpp.i
-
-.PHONY : Event/Event.i
-
-# target to preprocess a source file
-Event/Event.cpp.i:
-	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Event/Event.cpp.i
-.PHONY : Event/Event.cpp.i
-
-Event/Event.s: Event/Event.cpp.s
-
-.PHONY : Event/Event.s
-
-# target to generate assembly for a file
-Event/Event.cpp.s:
-	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Event/Event.cpp.s
-.PHONY : Event/Event.cpp.s
-
 Event/EventHandler.o: Event/EventHandler.cpp.o
 
 .PHONY : Event/EventHandler.o
@@ -394,6 +367,33 @@ Math/Math.s: Math/Math.cpp.s
 Math/Math.cpp.s:
 	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Math/Math.cpp.s
 .PHONY : Math/Math.cpp.s
+
+Math/StringHash.o: Math/StringHash.cpp.o
+
+.PHONY : Math/StringHash.o
+
+# target to build an object file
+Math/StringHash.cpp.o:
+	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Math/StringHash.cpp.o
+.PHONY : Math/StringHash.cpp.o
+
+Math/StringHash.i: Math/StringHash.cpp.i
+
+.PHONY : Math/StringHash.i
+
+# target to preprocess a source file
+Math/StringHash.cpp.i:
+	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Math/StringHash.cpp.i
+.PHONY : Math/StringHash.cpp.i
+
+Math/StringHash.s: Math/StringHash.cpp.s
+
+.PHONY : Math/StringHash.s
+
+# target to generate assembly for a file
+Math/StringHash.cpp.s:
+	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Math/StringHash.cpp.s
+.PHONY : Math/StringHash.cpp.s
 
 MemoryManager/AutoreleasePool.o: MemoryManager/AutoreleasePool.cpp.o
 
@@ -707,9 +707,6 @@ help:
 	@echo "... Engine/Engine.o"
 	@echo "... Engine/Engine.i"
 	@echo "... Engine/Engine.s"
-	@echo "... Event/Event.o"
-	@echo "... Event/Event.i"
-	@echo "... Event/Event.s"
 	@echo "... Event/EventHandler.o"
 	@echo "... Event/EventHandler.i"
 	@echo "... Event/EventHandler.s"
@@ -731,6 +728,9 @@ help:
 	@echo "... Math/Math.o"
 	@echo "... Math/Math.i"
 	@echo "... Math/Math.s"
+	@echo "... Math/StringHash.o"
+	@echo "... Math/StringHash.i"
+	@echo "... Math/StringHash.s"
 	@echo "... MemoryManager/AutoreleasePool.o"
 	@echo "... MemoryManager/AutoreleasePool.i"
 	@echo "... MemoryManager/AutoreleasePool.s"

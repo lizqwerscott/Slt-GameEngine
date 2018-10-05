@@ -52,6 +52,10 @@ public:
 	static const float MeterToSLT(float meter);
 	static const float MeterToPixel(float meter);
 	static const float PixelToMeter(float pixel);
+public:
+	// Use BKDR Hash Function
+	static const unsigned int bkdrHash(std::string str);
+	static const unsigned int bkdrHash(char * str);
 private:
 	float SLTOMETER_UNIT = 1;
 	float SLTTOPIXEL_UNIT = 10;

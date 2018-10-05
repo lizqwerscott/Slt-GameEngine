@@ -1,14 +1,15 @@
 #ifndef EVENTRECIVER_H
 #define EVENTRECIVER_H
 
+#include "Event.h"
+
 namespace slt
 {
-class Event;
 class EventSender;
 class EventReciver
 {
 public:
-	virtual void OnEvent(EventSender * sender, Event * evt);
+	virtual void OnEvent(EventSender * sender, EventKey &key, EventData &data);
 };
 }
 

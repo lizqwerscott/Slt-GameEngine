@@ -9,12 +9,12 @@ namespace slt
 class EventHandlerIml : public EventHandler
 {
 public:
-	EventHandlerIml(int eventType, std::function<void(Event *, EventSender *)> onEvent, EventSender * sender = nullptr);
+	EventHandlerIml(int eventType, std::function<void(EventKey &key, EventData &data, EventSender *)> onEvent, EventSender * sender = nullptr);
 	~EventHandlerIml();
 public:
-	virtual void DispatchEvent(Event * evt, EventSender * sender);
+	virtual void DispatchEvent(EventKey &key, EventData &data, EventSender * sender);
 public:
-	std::function<void(Event *, EventSender *)> m_onEventF;
+	std::function<void(EventKey &key, EventData &data, EventSender *)> m_onEventF;
 };
 }
 

@@ -109,3 +109,23 @@ const float
 Math::PixelToMeter(float pixel) {
 	return Math::SLTToMeter(Math::PixelToSLT(pixel));
 }
+
+const unsigned int 
+bkdrHash(std::string str)
+{
+	return Math::bkdrHash(str.c_str());
+}
+
+const unsigned int 
+bkdrHash(char * str)
+{
+	unsigned int seed = 131; // 31 131 1313 13131 131313 etc..
+	unsigned int hash = 0;
+
+	while (*str)
+	{
+		hash = hash * seed + (*str++);
+	}
+	return (hash & 0x7FFFFFFF);
+}
+

@@ -1,9 +1,9 @@
-set(Header_SRC_LIST Math/Math.cpp)
+set(Header_SRC_LIST Math/Math.cpp
+					Math/StringHash.cpp)
 set(Memory_SRC_LIST MemoryManager/Ref.cpp 
 				  	MemoryManager/AutoreleasePool.cpp 
 				  	MemoryManager/PoolManager.cpp )
-set(Event_SRC_LIST 	Event/Event.cpp
-					Event/EventSender.cpp
+set(Event_SRC_LIST  Event/EventSender.cpp
 					Event/EventReciver.cpp
 					Event/EventHandler.cpp
 					Event/EventHandlerIml.cpp
