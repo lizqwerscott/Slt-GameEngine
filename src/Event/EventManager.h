@@ -46,7 +46,7 @@ struct EventNameRegistrar
 #define SubscribeEvent(key, sender, reciver) EventManager::Instance()->AddEventHandler(key, (new EventHandler(key, sender, reciver)))
 
 //Event
-#define SLT_EVENT(eventID, eventName) static const EventKey eventID = slt::EventNameRegistrar::RegisterEventName(#eventName); namespace eventName
-#define SLT_PARAM(paramID, paramName) static const EventKey paramID = slt::Math::bkdrHash(#paramName)
+#define SLT_EVENT(eventID, eventName) static const EventKey eventID = slt::EventNameRegistrar::RegisterEventName((char *)#eventName); namespace eventName
+#define SLT_PARAM(paramID, paramName) static const EventKey paramID = slt::Math::bkdrHash((char *)#paramName)
 
 #endif

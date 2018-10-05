@@ -1,5 +1,4 @@
 #include "MyBreakoutScene.h"
-#include "../../../src/Scene/SNode.h"
 #include <cstdlib>
 #include <ctime>
 #define random(a, b) (rand()%(b-a+1)+a)
@@ -154,11 +153,12 @@ void MyBreakoutScene::init()
         node->InsertShape("MainRectangle", shape);
     });
 
-    SubscribeEventIml(slt::NodeUpdateBegin::E_NODEUPDATEBEGIN, [](EventKey key, EventData &eventData, EventSender * sender)->void {
-        printf("SNode::EventSNodeType::ES_UpdateBegin:Type1:%d\n", ((EventSNodeUpdateBegin *)evt)->m_type);
+    SubscribeEventIml(E_NODEUPDATEBEGIN, [](EventKey key, EventData &data, EventSender * sender)->void {
+        using namespace slt::NodeUpdateBegin;
+        printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (int)data[P_TYPE]);
     }, ballNode);
 
-    SubscribeEvent(SNode::EventSNodeType::ES_UpdateBegin, ballNode, this);
+    SubscribeEvent(E_NODEUPDATEBEGIN, ballNode, this);
 
     /*
     SubscribeEventIml(SNode::EventSNodeType::ES_UpdateBegin, [](Event * evt, EventSender * sender)->void {
@@ -167,8 +167,9 @@ void MyBreakoutScene::init()
     */
 
     
-    SubscribeEventIml(slt::NodeUpdateEnd::E_NODEUPDATEEND, [](EventKey key, EventData &eventData, EventSender * sender)->void {
-        printf("SNode::EventSNodeType::ES_UpdateEnd:Type:%d\n", ((EventSNodeUpdateEnd *)evt)->m_type);
+    SubscribeEventIml(E_NODEUPDATEEND, [](EventKey key, EventData &data, EventSender * sender)->void {
+        using namespace slt::NodeUpdateBegin;
+        printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (int)data[P_TYPE]);
     }, ballNode);
     
     /*
@@ -310,7 +311,7 @@ void MyBreakoutScene::UpdateSelf(sf::Time &dt)
     */
 }
 
-void MyBreakoutScene::OnEvent(EventSender * sender, EventKey key, EventData &eventData) {
+void MyBreakoutScene::OnEvent(EventKey key, EventData &data, EventSender * sender) {
     using namespace slt::NodeUpdateBegin;
-    printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (int)eventData[P_TYPE]);
+    printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (int)data[P_TYPE]);
 }

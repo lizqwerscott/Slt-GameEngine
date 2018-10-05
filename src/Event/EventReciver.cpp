@@ -2,7 +2,7 @@
 
 using namespace slt;
 
-void EventReciver::OnEvent(EventSender * sender, EventKey &key, EventData &data)
+void EventReciver::OnEvent(EventKey key, EventData &data, EventSender * sender)
 {
 	
 }

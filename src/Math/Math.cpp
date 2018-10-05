@@ -111,13 +111,13 @@ Math::PixelToMeter(float pixel) {
 }
 
 const unsigned int 
-bkdrHash(std::string str)
+Math::bkdrHash(std::string str)
 {
-	return Math::bkdrHash(str.c_str());
+	return Math::bkdrHash((char *)str.c_str());
 }
 
 const unsigned int 
-bkdrHash(char * str)
+Math::bkdrHash(char * str)
 {
 	unsigned int seed = 131; // 31 131 1313 13131 131313 etc..
 	unsigned int hash = 0;

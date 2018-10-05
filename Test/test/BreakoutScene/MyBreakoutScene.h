@@ -17,7 +17,7 @@ public:
 	static MyBreakoutScene * create();
 	virtual void init() override;
 	virtual void UpdateSelf(sf::Time &dt) override;
-	virtual void OnEvent(EventSender * sender, EventKey key, EventData &eventData);
+	virtual void OnEvent(EventKey key, EventData &data, EventSender * sender);
 private:
 	b2Vec2 speed;
 };
