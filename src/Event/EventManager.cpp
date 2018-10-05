@@ -3,6 +3,8 @@
 #include "EventHandler.h"
 #include "EventSender.h"
 #include "EventReciver.h"
+#include "../Math/Math.h"
+#include <functional>
 
 using namespace slt;
 
@@ -37,7 +39,7 @@ EventManager::~EventManager()
 	}
 }
 
-void EventManager::AddEventHandler(int id, EventHandler * handler)
+void EventManager::AddEventHandler(EventKey id, EventHandler * handler)
 {
 	if (handler == nullptr)
 	{
@@ -54,7 +56,7 @@ void EventManager::AddEventHandler(int id, EventHandler * handler)
 	it->second.push_back(handler);
 }
 
-void EventManager::RemoveEventHandler(int id, EventHandler * handler)
+void EventManager::RemoveEventHandler(EventKey id, EventHandler * handler)
 {
 	if (handler == nullptr)
 		return;
@@ -75,18 +77,18 @@ void EventManager::RemoveEventHandler(int id, EventHandler * handler)
 	}
 }
 
-void EventManager::ClearEventHandler(int id)
+void EventManager::ClearEventHandler(EventKey id)
 {
 	m_events.erase(id);
 }
 
-void EventManager::DispatchEvent(EventKey &key, EventData &data, EventSender * sender/*=nullptr*/)
+void EventManager::DispatchEvent(EventKey key, EventData &data, EventSender * sender/*=nullptr*/)
 {
 	printf("Begine\n");
 	auto it = m_events.find(key);
 	if (it == m_events.end())
 	{
-		printf("[Error]:EventManager::DispatchEvent()::It is the end, DispatchEvent can't find this<%u>event Handler\n", key.Value());
+		printf("[Error]:EventManager::DispatchEvent()::It is the end, DispatchEvent can't find this<%u>event Handler\n", key);
 		printf("End\n");
 		return;
 	}
@@ -105,3 +107,25 @@ void EventManager::DispatchEvent(EventKey &key, EventData &data, EventSender * s
 	printf("End\n");
 }
 
+EventKey
+EventNameRegistrar::RegisterEventName(const char * eventName)
+{
+	EventKey id = Math::bkdrHash(eventName);
+    GetEventNameMap()[id] = eventName;
+    return id;
+}
+
+const std::string &
+EventNameRegistrar::GetEventName(EventKey eventID)
+{
+	auto it = GetEventNameMap().find(eventID);
+	std::shared_ptr<std::string> str = std::shared_ptr<std::string>(new std::string(""));
+    return  it != GetEventNameMap().end() ? it->second : *str;
+}
+
+std::map<EventKey, std::string> &
+EventNameRegistrar::GetEventNameMap()
+{
+	static std::map<EventKey, std::string> eventNameMap_;
+	return eventNameMap_;
+}

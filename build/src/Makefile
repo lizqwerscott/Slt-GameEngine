@@ -368,33 +368,6 @@ Math/Math.cpp.s:
 	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Math/Math.cpp.s
 .PHONY : Math/Math.cpp.s
 
-Math/StringHash.o: Math/StringHash.cpp.o
-
-.PHONY : Math/StringHash.o
-
-# target to build an object file
-Math/StringHash.cpp.o:
-	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Math/StringHash.cpp.o
-.PHONY : Math/StringHash.cpp.o
-
-Math/StringHash.i: Math/StringHash.cpp.i
-
-.PHONY : Math/StringHash.i
-
-# target to preprocess a source file
-Math/StringHash.cpp.i:
-	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Math/StringHash.cpp.i
-.PHONY : Math/StringHash.cpp.i
-
-Math/StringHash.s: Math/StringHash.cpp.s
-
-.PHONY : Math/StringHash.s
-
-# target to generate assembly for a file
-Math/StringHash.cpp.s:
-	cd /home/lscott/Documents/Projrect/Slt/build && $(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Math/StringHash.cpp.s
-.PHONY : Math/StringHash.cpp.s
-
 MemoryManager/AutoreleasePool.o: MemoryManager/AutoreleasePool.cpp.o
 
 .PHONY : MemoryManager/AutoreleasePool.o
@@ -728,9 +701,6 @@ help:
 	@echo "... Math/Math.o"
 	@echo "... Math/Math.i"
 	@echo "... Math/Math.s"
-	@echo "... Math/StringHash.o"
-	@echo "... Math/StringHash.i"
-	@echo "... Math/StringHash.s"
 	@echo "... MemoryManager/AutoreleasePool.o"
 	@echo "... MemoryManager/AutoreleasePool.i"
 	@echo "... MemoryManager/AutoreleasePool.s"

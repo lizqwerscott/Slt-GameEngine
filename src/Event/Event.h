@@ -2,12 +2,11 @@
 #define EVENT_H
 
 #include <map>
-#include "../Math/StringHash.h"
 
 namespace slt
 {
-typedef StringHash EventKey;
-typedef std::map<StringHash, void *> EventData;
+typedef unsigned int EventKey;
+typedef std::map<unsigned int, void *> EventData;
 }
 
 #endif

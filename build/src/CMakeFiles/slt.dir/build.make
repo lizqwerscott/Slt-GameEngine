@@ -81,33 +81,9 @@ src/CMakeFiles/slt.dir/Math/Math.cpp.o.provides: src/CMakeFiles/slt.dir/Math/Mat
 src/CMakeFiles/slt.dir/Math/Math.cpp.o.provides.build: src/CMakeFiles/slt.dir/Math/Math.cpp.o
 
 
-src/CMakeFiles/slt.dir/Math/StringHash.cpp.o: src/CMakeFiles/slt.dir/flags.make
-src/CMakeFiles/slt.dir/Math/StringHash.cpp.o: ../src/Math/StringHash.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/slt.dir/Math/StringHash.cpp.o"
-	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Math/StringHash.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Math/StringHash.cpp
-
-src/CMakeFiles/slt.dir/Math/StringHash.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/slt.dir/Math/StringHash.cpp.i"
-	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lscott/Documents/Projrect/Slt/src/Math/StringHash.cpp > CMakeFiles/slt.dir/Math/StringHash.cpp.i
-
-src/CMakeFiles/slt.dir/Math/StringHash.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/slt.dir/Math/StringHash.cpp.s"
-	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lscott/Documents/Projrect/Slt/src/Math/StringHash.cpp -o CMakeFiles/slt.dir/Math/StringHash.cpp.s
-
-src/CMakeFiles/slt.dir/Math/StringHash.cpp.o.requires:
-
-.PHONY : src/CMakeFiles/slt.dir/Math/StringHash.cpp.o.requires
-
-src/CMakeFiles/slt.dir/Math/StringHash.cpp.o.provides: src/CMakeFiles/slt.dir/Math/StringHash.cpp.o.requires
-	$(MAKE) -f src/CMakeFiles/slt.dir/build.make src/CMakeFiles/slt.dir/Math/StringHash.cpp.o.provides.build
-.PHONY : src/CMakeFiles/slt.dir/Math/StringHash.cpp.o.provides
-
-src/CMakeFiles/slt.dir/Math/StringHash.cpp.o.provides.build: src/CMakeFiles/slt.dir/Math/StringHash.cpp.o
-
-
 src/CMakeFiles/slt.dir/MemoryManager/Ref.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/MemoryManager/Ref.cpp.o: ../src/MemoryManager/Ref.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/slt.dir/MemoryManager/Ref.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/slt.dir/MemoryManager/Ref.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/MemoryManager/Ref.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/MemoryManager/Ref.cpp
 
 src/CMakeFiles/slt.dir/MemoryManager/Ref.cpp.i: cmake_force
@@ -131,7 +107,7 @@ src/CMakeFiles/slt.dir/MemoryManager/Ref.cpp.o.provides.build: src/CMakeFiles/sl
 
 src/CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.o: ../src/MemoryManager/AutoreleasePool.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/MemoryManager/AutoreleasePool.cpp
 
 src/CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.i: cmake_force
@@ -155,7 +131,7 @@ src/CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.o.provides.build: src/C
 
 src/CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.o: ../src/MemoryManager/PoolManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/MemoryManager/PoolManager.cpp
 
 src/CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.i: cmake_force
@@ -179,7 +155,7 @@ src/CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.o.provides.build: src/CMake
 
 src/CMakeFiles/slt.dir/Event/EventSender.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Event/EventSender.cpp.o: ../src/Event/EventSender.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CMakeFiles/slt.dir/Event/EventSender.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/slt.dir/Event/EventSender.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Event/EventSender.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Event/EventSender.cpp
 
 src/CMakeFiles/slt.dir/Event/EventSender.cpp.i: cmake_force
@@ -203,7 +179,7 @@ src/CMakeFiles/slt.dir/Event/EventSender.cpp.o.provides.build: src/CMakeFiles/sl
 
 src/CMakeFiles/slt.dir/Event/EventReciver.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Event/EventReciver.cpp.o: ../src/Event/EventReciver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CMakeFiles/slt.dir/Event/EventReciver.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CMakeFiles/slt.dir/Event/EventReciver.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Event/EventReciver.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Event/EventReciver.cpp
 
 src/CMakeFiles/slt.dir/Event/EventReciver.cpp.i: cmake_force
@@ -227,7 +203,7 @@ src/CMakeFiles/slt.dir/Event/EventReciver.cpp.o.provides.build: src/CMakeFiles/s
 
 src/CMakeFiles/slt.dir/Event/EventHandler.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Event/EventHandler.cpp.o: ../src/Event/EventHandler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/slt.dir/Event/EventHandler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CMakeFiles/slt.dir/Event/EventHandler.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Event/EventHandler.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Event/EventHandler.cpp
 
 src/CMakeFiles/slt.dir/Event/EventHandler.cpp.i: cmake_force
@@ -251,7 +227,7 @@ src/CMakeFiles/slt.dir/Event/EventHandler.cpp.o.provides.build: src/CMakeFiles/s
 
 src/CMakeFiles/slt.dir/Event/EventHandlerIml.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Event/EventHandlerIml.cpp.o: ../src/Event/EventHandlerIml.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/slt.dir/Event/EventHandlerIml.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/slt.dir/Event/EventHandlerIml.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Event/EventHandlerIml.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Event/EventHandlerIml.cpp
 
 src/CMakeFiles/slt.dir/Event/EventHandlerIml.cpp.i: cmake_force
@@ -275,7 +251,7 @@ src/CMakeFiles/slt.dir/Event/EventHandlerIml.cpp.o.provides.build: src/CMakeFile
 
 src/CMakeFiles/slt.dir/Event/EventManager.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Event/EventManager.cpp.o: ../src/Event/EventManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/slt.dir/Event/EventManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/slt.dir/Event/EventManager.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Event/EventManager.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Event/EventManager.cpp
 
 src/CMakeFiles/slt.dir/Event/EventManager.cpp.i: cmake_force
@@ -299,7 +275,7 @@ src/CMakeFiles/slt.dir/Event/EventManager.cpp.o.provides.build: src/CMakeFiles/s
 
 src/CMakeFiles/slt.dir/Object.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Object.cpp.o: ../src/Object.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/slt.dir/Object.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/slt.dir/Object.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Object.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Object.cpp
 
 src/CMakeFiles/slt.dir/Object.cpp.i: cmake_force
@@ -323,7 +299,7 @@ src/CMakeFiles/slt.dir/Object.cpp.o.provides.build: src/CMakeFiles/slt.dir/Objec
 
 src/CMakeFiles/slt.dir/ResourceManager/ResourceManager.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/ResourceManager/ResourceManager.cpp.o: ../src/ResourceManager/ResourceManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/slt.dir/ResourceManager/ResourceManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/slt.dir/ResourceManager/ResourceManager.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/ResourceManager/ResourceManager.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/ResourceManager/ResourceManager.cpp
 
 src/CMakeFiles/slt.dir/ResourceManager/ResourceManager.cpp.i: cmake_force
@@ -347,7 +323,7 @@ src/CMakeFiles/slt.dir/ResourceManager/ResourceManager.cpp.o.provides.build: src
 
 src/CMakeFiles/slt.dir/Physical/PhysicalFixture.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Physical/PhysicalFixture.cpp.o: ../src/Physical/PhysicalFixture.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/slt.dir/Physical/PhysicalFixture.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/slt.dir/Physical/PhysicalFixture.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Physical/PhysicalFixture.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Physical/PhysicalFixture.cpp
 
 src/CMakeFiles/slt.dir/Physical/PhysicalFixture.cpp.i: cmake_force
@@ -371,7 +347,7 @@ src/CMakeFiles/slt.dir/Physical/PhysicalFixture.cpp.o.provides.build: src/CMakeF
 
 src/CMakeFiles/slt.dir/Physical/PhysicalBody.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Physical/PhysicalBody.cpp.o: ../src/Physical/PhysicalBody.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/slt.dir/Physical/PhysicalBody.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/slt.dir/Physical/PhysicalBody.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Physical/PhysicalBody.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Physical/PhysicalBody.cpp
 
 src/CMakeFiles/slt.dir/Physical/PhysicalBody.cpp.i: cmake_force
@@ -395,7 +371,7 @@ src/CMakeFiles/slt.dir/Physical/PhysicalBody.cpp.o.provides.build: src/CMakeFile
 
 src/CMakeFiles/slt.dir/Physical/PhysicalWorld.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Physical/PhysicalWorld.cpp.o: ../src/Physical/PhysicalWorld.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/CMakeFiles/slt.dir/Physical/PhysicalWorld.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/slt.dir/Physical/PhysicalWorld.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Physical/PhysicalWorld.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Physical/PhysicalWorld.cpp
 
 src/CMakeFiles/slt.dir/Physical/PhysicalWorld.cpp.i: cmake_force
@@ -419,7 +395,7 @@ src/CMakeFiles/slt.dir/Physical/PhysicalWorld.cpp.o.provides.build: src/CMakeFil
 
 src/CMakeFiles/slt.dir/Graphic/Graphic.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Graphic/Graphic.cpp.o: ../src/Graphic/Graphic.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object src/CMakeFiles/slt.dir/Graphic/Graphic.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/CMakeFiles/slt.dir/Graphic/Graphic.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Graphic/Graphic.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Graphic/Graphic.cpp
 
 src/CMakeFiles/slt.dir/Graphic/Graphic.cpp.i: cmake_force
@@ -443,7 +419,7 @@ src/CMakeFiles/slt.dir/Graphic/Graphic.cpp.o.provides.build: src/CMakeFiles/slt.
 
 src/CMakeFiles/slt.dir/Scene/SNode.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Scene/SNode.cpp.o: ../src/Scene/SNode.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object src/CMakeFiles/slt.dir/Scene/SNode.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object src/CMakeFiles/slt.dir/Scene/SNode.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Scene/SNode.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Scene/SNode.cpp
 
 src/CMakeFiles/slt.dir/Scene/SNode.cpp.i: cmake_force
@@ -467,7 +443,7 @@ src/CMakeFiles/slt.dir/Scene/SNode.cpp.o.provides.build: src/CMakeFiles/slt.dir/
 
 src/CMakeFiles/slt.dir/Scene/Scene.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Scene/Scene.cpp.o: ../src/Scene/Scene.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object src/CMakeFiles/slt.dir/Scene/Scene.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object src/CMakeFiles/slt.dir/Scene/Scene.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Scene/Scene.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Scene/Scene.cpp
 
 src/CMakeFiles/slt.dir/Scene/Scene.cpp.i: cmake_force
@@ -491,7 +467,7 @@ src/CMakeFiles/slt.dir/Scene/Scene.cpp.o.provides.build: src/CMakeFiles/slt.dir/
 
 src/CMakeFiles/slt.dir/Scene/SceneManager.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Scene/SceneManager.cpp.o: ../src/Scene/SceneManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object src/CMakeFiles/slt.dir/Scene/SceneManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object src/CMakeFiles/slt.dir/Scene/SceneManager.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Scene/SceneManager.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Scene/SceneManager.cpp
 
 src/CMakeFiles/slt.dir/Scene/SceneManager.cpp.i: cmake_force
@@ -515,7 +491,7 @@ src/CMakeFiles/slt.dir/Scene/SceneManager.cpp.o.provides.build: src/CMakeFiles/s
 
 src/CMakeFiles/slt.dir/Engine/Engine.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Engine/Engine.cpp.o: ../src/Engine/Engine.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object src/CMakeFiles/slt.dir/Engine/Engine.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object src/CMakeFiles/slt.dir/Engine/Engine.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Engine/Engine.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Engine/Engine.cpp
 
 src/CMakeFiles/slt.dir/Engine/Engine.cpp.i: cmake_force
@@ -539,7 +515,7 @@ src/CMakeFiles/slt.dir/Engine/Engine.cpp.o.provides.build: src/CMakeFiles/slt.di
 
 src/CMakeFiles/slt.dir/Application.cpp.o: src/CMakeFiles/slt.dir/flags.make
 src/CMakeFiles/slt.dir/Application.cpp.o: ../src/Application.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object src/CMakeFiles/slt.dir/Application.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object src/CMakeFiles/slt.dir/Application.cpp.o"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slt.dir/Application.cpp.o -c /home/lscott/Documents/Projrect/Slt/src/Application.cpp
 
 src/CMakeFiles/slt.dir/Application.cpp.i: cmake_force
@@ -564,7 +540,6 @@ src/CMakeFiles/slt.dir/Application.cpp.o.provides.build: src/CMakeFiles/slt.dir/
 # Object files for target slt
 slt_OBJECTS = \
 "CMakeFiles/slt.dir/Math/Math.cpp.o" \
-"CMakeFiles/slt.dir/Math/StringHash.cpp.o" \
 "CMakeFiles/slt.dir/MemoryManager/Ref.cpp.o" \
 "CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.o" \
 "CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.o" \
@@ -589,7 +564,6 @@ slt_OBJECTS = \
 slt_EXTERNAL_OBJECTS =
 
 src/libslt.a: src/CMakeFiles/slt.dir/Math/Math.cpp.o
-src/libslt.a: src/CMakeFiles/slt.dir/Math/StringHash.cpp.o
 src/libslt.a: src/CMakeFiles/slt.dir/MemoryManager/Ref.cpp.o
 src/libslt.a: src/CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.o
 src/libslt.a: src/CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.o
@@ -611,7 +585,7 @@ src/libslt.a: src/CMakeFiles/slt.dir/Engine/Engine.cpp.o
 src/libslt.a: src/CMakeFiles/slt.dir/Application.cpp.o
 src/libslt.a: src/CMakeFiles/slt.dir/build.make
 src/libslt.a: src/CMakeFiles/slt.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Linking CXX static library libslt.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lscott/Documents/Projrect/Slt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Linking CXX static library libslt.a"
 	cd /home/lscott/Documents/Projrect/Slt/build/src && $(CMAKE_COMMAND) -P CMakeFiles/slt.dir/cmake_clean_target.cmake
 	cd /home/lscott/Documents/Projrect/Slt/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/slt.dir/link.txt --verbose=$(VERBOSE)
 
@@ -621,7 +595,6 @@ src/CMakeFiles/slt.dir/build: src/libslt.a
 .PHONY : src/CMakeFiles/slt.dir/build
 
 src/CMakeFiles/slt.dir/requires: src/CMakeFiles/slt.dir/Math/Math.cpp.o.requires
-src/CMakeFiles/slt.dir/requires: src/CMakeFiles/slt.dir/Math/StringHash.cpp.o.requires
 src/CMakeFiles/slt.dir/requires: src/CMakeFiles/slt.dir/MemoryManager/Ref.cpp.o.requires
 src/CMakeFiles/slt.dir/requires: src/CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.o.requires
 src/CMakeFiles/slt.dir/requires: src/CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.o.requires

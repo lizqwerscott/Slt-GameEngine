@@ -10,12 +10,12 @@ class EventReciver;
 class EventHandler
 {
 public:
-	EventHandler(int eventType, EventSender * sender = nullptr, EventReciver * reciver = nullptr);
+	EventHandler(EventKey eventType, EventSender * sender = nullptr, EventReciver * reciver = nullptr);
 	virtual ~EventHandler();
 public:
-	virtual void DispatchEvent(EventKey &key, EventData &data, EventSender * sender);
+	virtual void DispatchEvent(EventKey key, EventData &data, EventSender * sender);
 public:
-	int m_eventType;
+	EventKey m_eventType;
 	EventSender * m_sender;
 	EventReciver * m_reciver;
 };

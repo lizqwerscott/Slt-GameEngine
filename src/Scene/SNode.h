@@ -8,7 +8,9 @@
 
 #include "../Math/Node.h"
 #include "../Object.h"
-#include "../Event/Event.h"
+
+#include "../Math/Math.h"
+#include "../Event/EventManager.h"
 
 //Edit by lscott in 2018 7 19 21:48
 
@@ -70,17 +72,18 @@ private:
 	b2Vec2 m_posation;
 };
 
-class EventSNodeUpdateBegin : public Event
+//Events
+//Node Update Begin
+SLT_EVENT(E_NODEUPDATEBEGIN, NodeUpdateBegin)
 {
-public:
-	EventSNodeUpdateBegin(int type = 0) : Event(SNode::EventSNodeType::ES_UpdateBegin), m_type(type) {}
-	int m_type;
-};
-class EventSNodeUpdateEnd : public Event
+	SLT_PARAM(P_TYPE, type);
+}
+
+//Node Update End
+SLT_EVENT(E_NODEUPDATEEND, NodeUpdateEnd)
 {
-public:
-	EventSNodeUpdateEnd(int type = 1) : Event(SNode::EventSNodeType::ES_UpdateEnd), m_type(type) {}
-	int m_type;
-};
+	SLT_PARAM(P_TYPE, type);
+}
+
 }
 #endif

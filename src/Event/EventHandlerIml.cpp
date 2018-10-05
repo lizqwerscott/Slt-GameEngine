@@ -3,7 +3,7 @@
 
 using namespace slt;
 
-EventHandlerIml::EventHandlerIml(int eventType, std::function<void(EventKey &key, EventData &data, EventSender *)> onEvent, EventSender * sender /* = nullptr*/)
+EventHandlerIml::EventHandlerIml(EventKey eventType, std::function<void(EventKey key, EventData &data, EventSender *)> onEvent, EventSender * sender /* = nullptr*/)
 	: EventHandler(eventType, sender, nullptr), m_onEventF(onEvent) 
 {
 
@@ -14,7 +14,7 @@ EventHandlerIml::~EventHandlerIml()
 
 }
 
-void EventHandlerIml::DispatchEvent(EventKey &key, EventData &data, EventSender * sender)
+void EventHandlerIml::DispatchEvent(EventKey key, EventData &data, EventSender * sender)
 {
 	if (this->m_onEventF != nullptr)
 	{

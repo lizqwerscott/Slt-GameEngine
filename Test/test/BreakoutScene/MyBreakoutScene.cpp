@@ -1,4 +1,5 @@
 #include "MyBreakoutScene.h"
+#include "../../../src/Scene/SNode.h"
 #include <cstdlib>
 #include <ctime>
 #define random(a, b) (rand()%(b-a+1)+a)
@@ -153,7 +154,7 @@ void MyBreakoutScene::init()
         node->InsertShape("MainRectangle", shape);
     });
 
-    SubscribeEventIml(SNode::EventSNodeType::ES_UpdateBegin, [](Event * evt, EventSender * sender)->void {
+    SubscribeEventIml(slt::NodeUpdateBegin::E_NODEUPDATEBEGIN, [](EventKey key, EventData &eventData, EventSender * sender)->void {
         printf("SNode::EventSNodeType::ES_UpdateBegin:Type1:%d\n", ((EventSNodeUpdateBegin *)evt)->m_type);
     }, ballNode);
 
@@ -166,7 +167,7 @@ void MyBreakoutScene::init()
     */
 
     
-    SubscribeEventIml(SNode::EventSNodeType::ES_UpdateEnd, [](Event * evt, EventSender * sender)->void {
+    SubscribeEventIml(slt::NodeUpdateEnd::E_NODEUPDATEEND, [](EventKey key, EventData &eventData, EventSender * sender)->void {
         printf("SNode::EventSNodeType::ES_UpdateEnd:Type:%d\n", ((EventSNodeUpdateEnd *)evt)->m_type);
     }, ballNode);
     
@@ -309,12 +310,7 @@ void MyBreakoutScene::UpdateSelf(sf::Time &dt)
     */
 }
 
-void MyBreakoutScene::OnEvent(EventSender * sender, Event * evt) {
-    printf("SNode::EventSNodeType::ES_UpdateUpdate:Type2\n");
-    if (evt == nullptr)
-    {
-        printf("Error\n");
-        return;
-    }
-    printf("SNode::EventSNodeType::ES_UpdateUpdate:Type2:%d\n", ((EventSNodeUpdateBegin *)evt)->m_type);
+void MyBreakoutScene::OnEvent(EventSender * sender, EventKey key, EventData &eventData) {
+    using namespace slt::NodeUpdateBegin;
+    printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (int)eventData[P_TYPE]);
 }

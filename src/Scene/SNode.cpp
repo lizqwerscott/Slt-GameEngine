@@ -2,7 +2,6 @@
 #include "../Graphic/Graphic.h"
 #include <cstdio>
 #include "../Physical/PhysicalBody.h"
-#include "../Math/Math.h"
 
 using namespace slt;
 
@@ -24,7 +23,12 @@ void SNode::Update(sf::Time &dt, b2Vec2 parentsWorldPos)
 {
 	if (this->m_isActive)
 	{
-		this->SendEvent(new EventSNodeUpdateBegin());
+		{
+			using namespace NodeUpdateBegin;
+			EventData eventData;
+			eventData[P_TYPE] = (void *)0;
+			this->SendEvent(E_NODEUPDATEBEGIN, eventData);
+		}
 		if (this->m_physicalBody != nullptr)
 			this->m_posation = this->m_physicalBody->GetPosition() - parentsWorldPos;
 		this->UpdateSelf(dt);
@@ -32,7 +36,12 @@ void SNode::Update(sf::Time &dt, b2Vec2 parentsWorldPos)
 		{
 			callBack(this);
 		}
-		this->SendEvent(new EventSNodeUpdateEnd());
+		{
+			using namespace NodeUpdateEnd;
+			EventData eventData;
+			eventData[P_TYPE] = (void *)1;
+			this->SendEvent(E_NODEUPDATEEND, eventData);
+		}
 		for (auto next : this->m_next)
 		{
 			next.second->Update(dt, this->m_posation + parentsWorldPos);

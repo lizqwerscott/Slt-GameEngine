@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/slt.dir/Math/Math.cpp.o"
-  "CMakeFiles/slt.dir/Math/StringHash.cpp.o"
   "CMakeFiles/slt.dir/MemoryManager/Ref.cpp.o"
   "CMakeFiles/slt.dir/MemoryManager/AutoreleasePool.cpp.o"
   "CMakeFiles/slt.dir/MemoryManager/PoolManager.cpp.o"

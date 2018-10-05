@@ -1,5 +1,4 @@
-set(Header_SRC_LIST Math/Math.cpp
-					Math/StringHash.cpp)
+set(Header_SRC_LIST Math/Math.cpp)
 set(Memory_SRC_LIST MemoryManager/Ref.cpp 
 				  	MemoryManager/AutoreleasePool.cpp 
 				  	MemoryManager/PoolManager.cpp )
