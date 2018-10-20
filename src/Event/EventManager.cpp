@@ -37,6 +37,12 @@ EventManager::~EventManager()
 			delete listIt;
 		}
 	}
+	for (auto mapIt : this->m_dataMaps)
+	{
+		delete mapIt.second;
+	}
+	this->m_events.clear();
+	this->m_dataMaps.clear();
 }
 
 void EventManager::AddEventHandler(EventKey id, EventHandler * handler)
@@ -107,6 +113,23 @@ void EventManager::DispatchEvent(EventKey key, EventData &data, EventSender * se
 	printf("End\n");
 }
 
+EventData &
+EventManager::GetEventData(EventKey id)
+{
+	printf("GetEventData\n");
+	EventData * eventData;
+	auto it = m_dataMaps.find(id);
+	if (it == m_dataMaps.end())
+	{
+		printf("GetEventData:new eventData\n");
+		eventData = new EventData();
+		m_dataMaps[id] = eventData;
+		return *eventData;
+	}
+	eventData = it->second;
+	return *eventData;
+}
+
 EventKey
 EventNameRegistrar::RegisterEventName(const char * eventName)
 {
@@ -123,9 +146,9 @@ EventNameRegistrar::GetEventName(EventKey eventID)
     return  it != GetEventNameMap().end() ? it->second : *str;
 }
 
-std::map<EventKey, std::string> &
+__gnu_cxx::hash_map<EventKey, std::string> &
 EventNameRegistrar::GetEventNameMap()
 {
-	static std::map<EventKey, std::string> eventNameMap_;
+	static __gnu_cxx::hash_map<EventKey, std::string> eventNameMap_;
 	return eventNameMap_;
 }

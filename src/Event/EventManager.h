@@ -11,7 +11,8 @@ class EventSender;
 class EventManager
 {
 	typedef std::list<EventHandler *> HandlerList;
-	typedef std::map<EventKey, HandlerList> IdHandlerMap;
+	typedef __gnu_cxx::hash_map<EventKey, EventData * > EventDataMap;
+	typedef __gnu_cxx::hash_map<EventKey, HandlerList> IdHandlerMap;
 public:
 	static EventManager * Instance();
 	static void Destory();
@@ -21,6 +22,8 @@ public:
 	void ClearEventHandler(EventKey id);
 	void DispatchEvent(EventKey key, EventData &data, EventSender * sender = nullptr);
 
+	EventData &GetEventData(EventKey id);
+
 private:
 	EventManager() {}
 	EventManager(const EventManager *) {}
@@ -28,6 +31,7 @@ private:
 private:
 	//int m_nowEventKeyNumber; //Rember now best key.we can create a new key when we registered a new Event
 	IdHandlerMap m_events;
+	EventDataMap m_dataMaps;
 };
 
 struct EventNameRegistrar
@@ -37,7 +41,7 @@ struct EventNameRegistrar
     /// Return Event name or empty string if not found.
     static const std::string& GetEventName(EventKey eventID);
     /// Return Event name map.
-    static std::map<EventKey, std::string>& GetEventNameMap();
+    static __gnu_cxx::hash_map<EventKey, std::string>& GetEventNameMap();
 };
 }
 

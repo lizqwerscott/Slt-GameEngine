@@ -3,7 +3,7 @@
 
 //edit by lscott at 2018 7 20 18:34
 
-#include <map>
+#include <ext/hash_map>
 
 namespace slt
 {

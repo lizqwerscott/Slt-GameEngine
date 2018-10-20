@@ -89,7 +89,7 @@ Box2D/Box2D.h
 /home/lscott/Documents/Projrect/Slt/src/MemoryManager/Ref.h
 
 /home/lscott/Documents/Projrect/Slt/src/Event/Event.h
-map
+ext/hash_map
 -
 
 /home/lscott/Documents/Projrect/Slt/src/Event/EventHandler.h
@@ -141,7 +141,7 @@ Box2D/Box2D.h
 -
 
 /home/lscott/Documents/Projrect/Slt/src/Math/Node.h
-map
+ext/hash_map
 -
 
 /home/lscott/Documents/Projrect/Slt/src/Math/Tree.h
@@ -225,7 +225,7 @@ memory
 /home/lscott/Documents/Projrect/Slt/src/Object.h
 
 /home/lscott/Documents/Projrect/Slt/src/Scene/SceneManager.h
-map
+ext/hash_map
 -
 string
 -

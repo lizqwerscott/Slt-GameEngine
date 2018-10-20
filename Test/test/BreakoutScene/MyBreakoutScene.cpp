@@ -37,7 +37,7 @@ MyBreakoutScene::create()
  */
 void MyBreakoutScene::init()
 {
-    auto physicalWorld = this->CreatePhysicalWorld(std::string("World"), true, b2Vec2(0, 0));
+    auto physicalWorld = this->CreatePhysicalWorld(std::string("World"), false, b2Vec2(0, 0));
 	sf::Vector2u windowSize = Graphic::getWindowSize();
 	//printf("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
     // Wall node

@@ -8,7 +8,7 @@
 #ifndef SCENEMANAGER_H
 #define SCENEMANAGER_H
 
-#include <map>
+#include <ext/hash_map>
 #include <string>
 #include <list>
 #include <memory>

@@ -25,7 +25,7 @@ void SNode::Update(sf::Time &dt, b2Vec2 parentsWorldPos)
 	{
 		{
 			using namespace NodeUpdateBegin;
-			EventData eventData;
+			EventData &eventData = EventManager::Instance()->GetEventData(E_NODEUPDATEBEGIN);
 			eventData[P_TYPE] = (void *)0;
 			this->SendEvent(E_NODEUPDATEBEGIN, eventData);
 		}
@@ -38,7 +38,7 @@ void SNode::Update(sf::Time &dt, b2Vec2 parentsWorldPos)
 		}
 		{
 			using namespace NodeUpdateEnd;
-			EventData eventData;
+			EventData &eventData = EventManager::Instance()->GetEventData(E_NODEUPDATEEND);
 			eventData[P_TYPE] = (void *)1;
 			this->SendEvent(E_NODEUPDATEEND, eventData);
 		}
