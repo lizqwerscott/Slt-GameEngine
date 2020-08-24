@@ -90,7 +90,7 @@ void EventManager::ClearEventHandler(EventKey id)
 
 void EventManager::DispatchEvent(EventKey key, EventData &data, EventSender * sender/*=nullptr*/)
 {
-	printf("Begine\n");
+	//printf("Begine\n");
 	auto it = m_events.find(key);
 	if (it == m_events.end())
 	{
@@ -110,13 +110,12 @@ void EventManager::DispatchEvent(EventKey key, EventData &data, EventSender * se
 			}
 		}
 	}
-	printf("End\n");
+	//printf("End\n");
 }
 
 EventData &
 EventManager::GetEventData(EventKey id)
 {
-	printf("GetEventData\n");
 	EventData * eventData;
 	auto it = m_dataMaps.find(id);
 	if (it == m_dataMaps.end())

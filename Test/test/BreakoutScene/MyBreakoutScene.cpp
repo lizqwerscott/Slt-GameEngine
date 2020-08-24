@@ -38,8 +38,9 @@ MyBreakoutScene::create()
 void MyBreakoutScene::init()
 {
   auto physicalWorld = this->CreatePhysicalWorld(std::string("World"), false, b2Vec2(0, 0));
+  //Graphic::SetDebugDraw(physicalWorld.get());
   sf::Vector2u windowSize = Graphic::getWindowSize();
-	//printf("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
+  printf("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
   // Wall node
   this->GetRootNode()->CreateChild(std::string("Wall"), [windowSize, physicalWorld](SNode * node)->void {
       node->SetPosation(b2Vec2(0, 0));
@@ -91,63 +92,63 @@ void MyBreakoutScene::init()
       rightfixtureDef.shape = &rightPolygonShape;
       physicalBody->CreateFixture(std::string("UpWall"), rightfixtureDef);
   });
-// Ball node
-auto ballNode = this->GetRootNode()->CreateChild(std::string("Ball"), [windowSize, physicalWorld](SNode * node)->void {
-      b2Vec2 nodePos = Math::DrawCoordSToWorldCoordS(sf::Vector2f(windowSize.x / 2, 0));
-	node->SetPosation(nodePos);
-      b2Vec2 localWorldPos(0, 0);
-      b2BodyDef bodyDef;
-      bodyDef.type = b2BodyType::b2_dynamicBody;
-      bodyDef.position = Math::WorldCoordSToPhysicalCoordS(nodePos + localWorldPos);
-      bodyDef.angle = 0;
-      bodyDef.bullet = true;
-      auto physicalBody = node->CreatePhysicalBody(std::string("BallBody"), localWorldPos, bodyDef, physicalWorld.get());
-      physicalBody->GetBody()->ApplyLinearImpulse(b2Vec2(random(1, 10) * random(1, 5), random(1, 10) * random(1, 5)), b2Vec2(0, 0), true);
-      b2CircleShape circleShape;
-      // circleShape.m_p = Math::WorldCoordSToPhysicalCoordS(nodePos +
-      // localWorldPos); //position, relative to body position
-      circleShape.m_p = b2Vec2(0, 0);
-      circleShape.m_radius = 1;  // radius
-      b2FixtureDef fixtureDef;
-      fixtureDef.density = 0.1;
-      fixtureDef.friction = 0;
-      fixtureDef.shape = &circleShape;
-      fixtureDef.restitution = 1;
-      auto fixture = physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
-      auto shape = Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 200, 35));
-	node->InsertShape("MainCircle", shape);   
-});
+  // Ball node
+  auto ballNode = this->GetRootNode()->CreateChild(std::string("Ball"), [windowSize, physicalWorld](SNode * node)->void {
+    b2Vec2 nodePos = Math::DrawCoordSToWorldCoordS(sf::Vector2f(windowSize.x / 2, 0));
+    node->SetPosation(nodePos);
+    b2Vec2 localWorldPos(0, 0);
+    b2BodyDef bodyDef;
+    bodyDef.type = b2BodyType::b2_dynamicBody;
+    bodyDef.position = Math::WorldCoordSToPhysicalCoordS(nodePos + localWorldPos);
+    bodyDef.angle = 0;
+    bodyDef.bullet = true;
+    auto physicalBody = node->CreatePhysicalBody(std::string("BallBody"), localWorldPos, bodyDef, physicalWorld.get());
+    physicalBody->GetBody()->ApplyLinearImpulse(b2Vec2(random(1, 10) * random(1, 5), random(1, 10) * random(1, 5)), b2Vec2(0, 0), true);
+    b2CircleShape circleShape;
+    // circleShape.m_p = Math::WorldCoordSToPhysicalCoordS(nodePos +
+    // localWorldPos); //position, relative to body position
+    circleShape.m_p = b2Vec2(0, 0);
+    circleShape.m_radius = 1;  // radius
+    b2FixtureDef fixtureDef;
+    fixtureDef.density = 0.1;
+    fixtureDef.friction = 0;
+    fixtureDef.shape = &circleShape;
+    fixtureDef.restitution = 1;
+    auto fixture = physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
+    auto shape = Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 200, 35));
+    node->InsertShape("MainCircle", shape);   
+  });
   // Baffle node
   SNode * baffleNode = this->GetRootNode()->CreateChild(std::string("Baffle"), [windowSize, physicalWorld](SNode * node)->void {
-      b2Vec2 nodePos = Math::DrawCoordSToWorldCoordS(sf::Vector2f(windowSize.x / 2, windowSize.y / 2));
-      node->SetPosation(nodePos);
-      b2Vec2 localWorldPos(0, 0);
-      b2BodyDef bodyDef;
-      bodyDef.type = b2BodyType::b2_kinematicBody;
-      bodyDef.position = Math::WorldCoordSToPhysicalCoordS(nodePos + localWorldPos);
-      bodyDef.angle = 0;
-      bodyDef.bullet = true;
-      auto physicalBody = node->CreatePhysicalBody(std::string("BaffleBody"), localWorldPos, bodyDef, physicalWorld.get());
-      b2PolygonShape polygonShape;
-      // polygonShape.SetAsBox(3, 1, Math::WorldCoordSToPhysicalCoordS(nodePos +
-      // localWorldPos), 0);
-      polygonShape.SetAsBox(3, 1, b2Vec2(0, 0), 0);
-      b2FixtureDef fixtureDef;
-      fixtureDef.density = 1;
-      fixtureDef.friction = 0;
-      fixtureDef.restitution = 1;
-      fixtureDef.shape = &polygonShape;
-      auto fixture = physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
-      auto shape = Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 0, 125));
-      // auto shape = Graphic::GetShape(&polygonShape, bodyDef., sf::Color(0,
-      // 0, 125));
-      node->InsertShape("MainRectangle", shape);
+    b2Vec2 nodePos = Math::DrawCoordSToWorldCoordS(sf::Vector2f(windowSize.x / 2, windowSize.y / 2));
+    node->SetPosation(nodePos);
+    b2Vec2 localWorldPos(0, 0);
+    b2BodyDef bodyDef;
+    bodyDef.type = b2BodyType::b2_kinematicBody;
+    bodyDef.position = Math::WorldCoordSToPhysicalCoordS(nodePos + localWorldPos);
+    bodyDef.angle = 0;
+    bodyDef.bullet = true;
+    auto physicalBody = node->CreatePhysicalBody(std::string("BaffleBody"), localWorldPos, bodyDef, physicalWorld.get());
+    b2PolygonShape polygonShape;
+    // polygonShape.SetAsBox(3, 1, Math::WorldCoordSToPhysicalCoordS(nodePos +
+    // localWorldPos), 0);
+    polygonShape.SetAsBox(3, 1, b2Vec2(0, 0), 0);
+    b2FixtureDef fixtureDef;
+    fixtureDef.density = 1;
+    fixtureDef.friction = 0;
+    fixtureDef.restitution = 1;
+    fixtureDef.shape = &polygonShape;
+    auto fixture = physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
+    auto shape = Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 0, 125));
+    // auto shape = Graphic::GetShape(&polygonShape, bodyDef., sf::Color(0,
+    // 0, 125));
+    node->InsertShape("MainRectangle", shape);
   });
   SubscribeEventIml(E_NODEUPDATEBEGIN, [](EventKey key, EventData &data, EventSender * sender)->void {
-      using namespace slt::NodeUpdateBegin;
-      printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (long)data[P_TYPE]);
-  }, ballNode);
-  SubscribeEvent(E_NODEUPDATEBEGIN, ballNode, this);
+    using namespace slt::NodeUpdateBegin;
+    //printf("Sub1:EventName:%s,EventType:%ld\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (long)data[P_TYPE]);
+    }, ballNode);
+  //SubscribeEvent(E_NODEUPDATEBEGIN, ballNode, this);
   /*
   SubscribeEventIml(SNode::EventSNodeType::ES_UpdateBegin, [](Event * evt, EventSender * sender)->void {
       printf("SNode::EventSNodeType::ES_UpdateBegin:Type2:%d\n", ((EventSNodeUpdateBegin *)evt)->m_type);
@@ -155,8 +156,8 @@ auto ballNode = this->GetRootNode()->CreateChild(std::string("Ball"), [windowSiz
   */
   
   SubscribeEventIml(E_NODEUPDATEEND, [](EventKey key, EventData &data, EventSender * sender)->void {
-      using namespace slt::NodeUpdateBegin;
-      printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (long)data[P_TYPE]);
+    using namespace slt::NodeUpdateBegin;
+    //printf("Sub2EventName:%s,EventType:%ld\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (long)data[P_TYPE]);
   }, ballNode);
   
   /*
@@ -174,42 +175,41 @@ auto ballNode = this->GetRootNode()->CreateChild(std::string("Ball"), [windowSiz
       //printf("Baffle:Pos:%f, %f\n", pos.x, pos.y);
   });
   physicalWorld->onBeginContact([](b2Contact * contact)->void {
-      void * userDataA = contact->GetFixtureA()->GetBody()->GetUserData();
-      void * userDataB = contact->GetFixtureB()->GetBody()->GetUserData();
-      if (userDataA && userDataB)
+    void * userDataA = contact->GetFixtureA()->GetBody()->GetUserData();
+    void * userDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+    if (userDataA && userDataB)
+    {
+      PhysicalBody * bodyA = static_cast<PhysicalBody *>(userDataA);
+      PhysicalBody * bodyB = static_cast<PhysicalBody *>(userDataB);
+      if (bodyA->GetName() == "Ball")
       {
-          PhysicalBody * bodyA = static_cast<PhysicalBody *>(userDataA);
-          PhysicalBody * bodyB = static_cast<PhysicalBody *>(userDataB);
-          if (bodyA->GetName() == "Ball")
-          {
-          }
-          else if (bodyB->GetName() == "Ball")
-          {
-          }
       }
+      else if (bodyB->GetName() == "Ball")
+      {
+      }
+    }
   });
   physicalWorld->onEndContact([](b2Contact * contact)->void {
-      
   });
   // bind key callBack
   Graphic::insertKeyCallBack(sf::Keyboard::Key::Left, [baffleNode]()->void {
-      //printf("Move:Left\n");
-      baffleNode->move(b2Vec2(-2, 0));
+    //printf("Move:Left\n");
+    baffleNode->move(b2Vec2(-2, 0));
   });
   Graphic::insertKeyCallBack(sf::Keyboard::Key::Right, [baffleNode]()->void {
-      //printf("Move:Right\n");
-      baffleNode->move(b2Vec2( 2, 0));
+    //printf("Move:Right\n");
+    baffleNode->move(b2Vec2( 2, 0));
   });
   Graphic::insertKeyCallBack(sf::Keyboard::Key::Up, [baffleNode]()->void {
-      //printf("Move:Up\n");
-      baffleNode->move(b2Vec2( 0, 2));
+    //printf("Move:Up\n");
+    baffleNode->move(b2Vec2( 0, 2));
   });
   Graphic::insertKeyCallBack(sf::Keyboard::Key::Down, [baffleNode]()->void {
-      //printf("Move:Down\n");
-      baffleNode->move(b2Vec2( 0,-2));
+    //printf("Move:Down\n");
+    baffleNode->move(b2Vec2( 0,-2));
   });
   Graphic::insertKeyCallBack(sf::Keyboard::Key::Escape, []()->void {
-      Graphic::Close();
+    Graphic::Close();
   });
   /*
   srand((unsigned)time(NULL));
@@ -288,5 +288,5 @@ void MyBreakoutScene::UpdateSelf(sf::Time &dt){
 }
 void MyBreakoutScene::OnEvent(EventKey key, EventData &data, EventSender * sender) {
   using namespace slt::NodeUpdateBegin;
-  printf("EventName:%s,EventType:%ld\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (long)data[P_TYPE]);
+  printf("MyBreakoutScene:EventName:%s,EventType:%ld\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (long)data[P_TYPE]);
 }
