@@ -155,7 +155,7 @@ void MyBreakoutScene::init()
 
     SubscribeEventIml(E_NODEUPDATEBEGIN, [](EventKey key, EventData &data, EventSender * sender)->void {
         using namespace slt::NodeUpdateBegin;
-        printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (int)data[P_TYPE]);
+        printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (long)data[P_TYPE]);
     }, ballNode);
 
     SubscribeEvent(E_NODEUPDATEBEGIN, ballNode, this);
@@ -169,7 +169,7 @@ void MyBreakoutScene::init()
     
     SubscribeEventIml(E_NODEUPDATEEND, [](EventKey key, EventData &data, EventSender * sender)->void {
         using namespace slt::NodeUpdateBegin;
-        printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (int)data[P_TYPE]);
+        printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (long)data[P_TYPE]);
     }, ballNode);
     
     /*
@@ -313,5 +313,5 @@ void MyBreakoutScene::UpdateSelf(sf::Time &dt)
 
 void MyBreakoutScene::OnEvent(EventKey key, EventData &data, EventSender * sender) {
     using namespace slt::NodeUpdateBegin;
-    printf("EventName:%s,EventType:%d\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (int)data[P_TYPE]);
+    printf("EventName:%s,EventType:%ld\n", slt::EventNameRegistrar::GetEventName(key).c_str(), (long)data[P_TYPE]);
 }

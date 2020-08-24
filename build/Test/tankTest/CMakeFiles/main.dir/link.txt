@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/main.dir/MainScene/MainScene.cpp.o CMakeFiles/main.dir/MyApplication.cpp.o CMakeFiles/main.dir/mainTest.cpp.o  -o ../../bin/main ../../src/libslt.a -lsfml-graphics -lsfml-window -lsfml-system -ldl -lBox2D 

@@ -1,8 +1,0 @@
-/home/lscott/Documents/Projrect/Slt/build/CMakeFiles/rebuild_cache.dir
-/home/lscott/Documents/Projrect/Slt/build/CMakeFiles/edit_cache.dir
-/home/lscott/Documents/Projrect/Slt/build/src/CMakeFiles/rebuild_cache.dir
-/home/lscott/Documents/Projrect/Slt/build/src/CMakeFiles/slt.dir
-/home/lscott/Documents/Projrect/Slt/build/src/CMakeFiles/edit_cache.dir
-/home/lscott/Documents/Projrect/Slt/build/Test/test/CMakeFiles/rebuild_cache.dir
-/home/lscott/Documents/Projrect/Slt/build/Test/test/CMakeFiles/main.dir
-/home/lscott/Documents/Projrect/Slt/build/Test/test/CMakeFiles/edit_cache.dir

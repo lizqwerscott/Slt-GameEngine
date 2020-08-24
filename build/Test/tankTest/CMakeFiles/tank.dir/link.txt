@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/tank.dir/MainScene/MainScene.cpp.o CMakeFiles/tank.dir/MyApplication.cpp.o CMakeFiles/tank.dir/mainTest.cpp.o  -o ../../bin/tank ../../src/libslt.a -lsfml-graphics -lsfml-window -lsfml-system -ldl -lBox2D 
