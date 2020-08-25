@@ -14,6 +14,7 @@ set(Tool_SRC_LIST 	${Memory_SRC_LIST}
 				  	Physical/PhysicalFixture.cpp
 				  	Physical/PhysicalBody.cpp
 				  	Physical/PhysicalWorld.cpp
+            Graphic/Camera.cpp
 				  	Graphic/Graphic.cpp 
 				  	Math/Tree.h
 				  	Scene/SNode.cpp 

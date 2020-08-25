@@ -5,6 +5,7 @@
 * @Last Modified time: 2018-06-18 10:15:42
 */
 
+#include <cstdlib>
 #include "ResourceManager.h"
 
 using namespace slt;
@@ -47,7 +48,7 @@ ResourceManager::LoadTextureFromFile(std::string fileName, std::string textureNa
 	sf::Texture * texture = new sf::Texture();
 	if (!texture->loadFromFile(fileName.c_str()))
 	{
-		//Error
+    printf("[ERROR]:The %s(fileName:%s) texture load error", fileName.c_str(), textureName.c_str());
 	}
 	resourceManager->m_textures[textureName] = texture;
 	return texture;
@@ -70,7 +71,7 @@ ResourceManager::LoadFontFromFile(std::string fileName, std::string fontName)
 	sf::Font * font = new sf::Font();
 	if (!font->loadFromFile(fileName.c_str()))
 	{
-		//Error
+    printf("[ERROR]:The %s(fileName:%s) font load error", fileName.c_str(), fontName.c_str());
 	}
 	resourceManager->m_fonts[fontName] = font;
 	return font;

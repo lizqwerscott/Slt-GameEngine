@@ -32,6 +32,10 @@ void MainScene::init() {
       this->CreatePhysicalWorld(std::string("World"), true, b2Vec2(0, 0));
   sf::Vector2u windowSize = Graphic::getWindowSize();
   printf("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
+  ResourceManager::LoadFontFromFile(
+      std::string(
+          "/home/lizqwer/project/Slt-GameEngine/resource/font/yudit.ttf"),
+      std::string("yudit"));
 
   // Wall node
   this->GetRootNode()->CreateChild(
@@ -173,10 +177,26 @@ void MainScene::init() {
         // 0, 125));
         node->InsertShape("MainRectangle", shape);
       });
+  auto camera = Graphic::getInstance()->getCamera(std::string("Main"));
+  auto camera_pos = camera->getView().getCenter();
+  printf("ViewPos:%f, %f", camera_pos.x, camera_pos.y);
+  auto worview_pos = Graphic::getInstance()->worldToPixel(sf::Vector2f(0.f, 0.f));
+  printf("converPos:%i, %i", worview_pos.x, worview_pos.y);
+
+  SubscribeEventIml(
+      E_NODEUPDATEEND,
+      [baffleNode](EventKey key, EventData & data, EventSender * sender) -> void {
+        using namespace slt::NodeUpdateBegin;
+        b2Vec2 pos = baffleNode->GetPosation();
+        auto pixel_pos = Graphic::getInstance()->worldToPixel(sf::Vector2f(pos.x, pos.y));
+        //printf("converPos:%i, %i", pixel_pos.x, pixel_pos.y);
+        //Graphic::getInstance()->getCamera(std::string("Main")).get()->setPosition(sf::Vector2f(pixel_pos.x, pixel_pos.y));
+      },
+      baffleNode);
 
   SubscribeEventIml(
       E_NODEUPDATEBEGIN,
-      [](EventKey key, EventData &data, EventSender *sender) -> void {
+      [](EventKey key, EventData & data, EventSender *sender) -> void {
         using namespace slt::NodeUpdateBegin;
         // printf("Sub1:EventName:%s,EventType:%ld\n",
         // slt::EventNameRegistrar::GetEventName(key).c_str(),
@@ -200,7 +220,6 @@ void MainScene::init() {
   });
 
   baffleNode->pushUpdateCallBack([](SNode *node) -> void {
-    b2Vec2 pos = node->GetPosation();
     // printf("Baffle:Pos:%f, %f\n", pos.x, pos.y);
   });
 
@@ -240,6 +259,27 @@ void MainScene::init() {
   });
   Graphic::insertKeyCallBack(sf::Keyboard::Key::Escape,
                              []() -> void { Graphic::Close(); });
+
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::H, [baffleNode]() -> void {
+    // printf("Move:Left\n");
+    Graphic::getInstance()->getCamera(std::string("Main")).get()->move(-2, 0);
+  });
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::L, [baffleNode]() -> void {
+    // printf("Move:Right\n");
+    Graphic::getInstance()->getCamera(std::string("Main")).get()->move(2, 0);
+  });
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::J, [baffleNode]() -> void {
+    // printf("Move:Up\n");
+    Graphic::getInstance()->getCamera(std::string("Main")).get()->move(0, 2);
+  });
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::K, [baffleNode]() -> void {
+    // printf("Move:Down\n");
+    Graphic::getInstance()->getCamera(std::string("Main")).get()->move(0, -2);
+  });
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::P, [baffleNode]() -> void {
+    auto pos = Graphic::getInstance()->getCamera(std::string("Main")).get()->getView().getCenter();
+    printf("viewPos:%f, %f\n", pos.x, pos.y);
+  });
 
   /*
   srand((unsigned)time(NULL));
@@ -310,6 +350,20 @@ void MainScene::init() {
  */
 void MainScene::UpdateSelf(sf::Time &dt) {
   // sf::Vector2u windowSize = Graphic::getWindowSize();
+  auto text = new sf::Text();
+  text->setFont(*ResourceManager::GetFont("yudit"));
+  text->setString(std::string("hello"));
+  text->setCharacterSize(24); // in pixels, not points!
+  text->setFillColor(sf::Color::Red);
+  text->setPosition(10.f, 20.f);
+  text->setStyle(sf::Text::Bold | sf::Text::Underlined);
+  Graphic::insert(text);
+
+  auto pos = this->GetRootNode()->GetChild("Baffle")->GetPosation();
+  auto pixel_pos = Graphic::getInstance()->worldToPixel(sf::Vector2f(pos.x, pos.y));
+  //Graphic::getInstance()->getCamera(std::string("Main")).get()->setPosition(sf::Vector2f(pixel_pos.x, pixel_pos.y));
+  //Graphic::getInstance()->getCamera(std::string("Main")).get()->setPosition(sf::Vector2f(400.f, 350.f));
+  
   // Graphic::getInstance()->DrawCircle(b2Vec2(0, 0), 2, b2Color(1, 0, 0));
   // Graphic::getInstance()->DrawPolygon();
   /*

@@ -14,6 +14,7 @@ namespace slt
 {
 class PhysicalWorld;
 class View;
+class Camera;
 
 class Graphic : public b2Draw
 {
@@ -30,6 +31,9 @@ public:
 	static void insertPolygon(std::vector<sf::Vertex> polygon);
 
 	static void SetView(sf::View & view);
+public:
+  std::shared_ptr<Camera> getCamera(std::string name);
+  sf::Vector2i worldToPixel(sf::Vector2f pixel_pos, std::string name = "Main");
 public:
 	static sf::Color changeColor(b2Color color);
 public:
@@ -79,7 +83,7 @@ private:
 	Graphic(std::string tile, int width, int height);
 	~Graphic();
 private:
-	std::vector<View *> m_views;
+  std::map<std::string, std::shared_ptr<Camera>> m_cameras;
 	std::shared_ptr<sf::RenderWindow> m_window;
 
 	std::vector<std::shared_ptr<sf::Sprite>> m_sprites;

@@ -11,6 +11,7 @@
 #include "Event/EventHandlerIml.h"
 
 #include "Engine/Engine.h"
+#include "Graphic/Camera.h"
 #include "Graphic/Graphic.h"
 #include "ResourceManager/ResourceManager.h"
 
