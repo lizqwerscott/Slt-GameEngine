@@ -10,9 +10,6 @@ using namespace slt;
 Graphic::Graphic(std::string tile, int width, int height) : m_window(nullptr) {
   this->m_window = std::shared_ptr<sf::RenderWindow>(
       new sf::RenderWindow(sf::VideoMode(width, height), tile.c_str()));
-  auto camera = new Camera(std::string("Main"), sf::FloatRect(0.f, 0.f, 800.f, 700.f));
-  this->m_cameras[std::string("Main")] = std::shared_ptr<Camera>(camera);
-  this->m_window->setView(camera->getView());
 }
 
 Graphic::~Graphic() {}
@@ -58,14 +55,6 @@ void Graphic::insertPolygon(std::vector<sf::Vertex> polygon) {
 }
 
 void Graphic::SetView(sf::View &view) { graphic->m_window->setView(view); }
-
-std::shared_ptr<Camera> Graphic::getCamera(std::string name) {
-  return this->m_cameras[name];
-}
-
-sf::Vector2i Graphic::worldToPixel(sf::Vector2f pixel_pos, std::string name) {
-  return this->m_window->mapCoordsToPixel(pixel_pos, this->m_cameras[name].get()->getView());
-}
 
 sf::Color Graphic::changeColor(b2Color color) {
   return sf::Color((int)(color.r * 255), (int)color.g * 255, (int)color.b * 255,

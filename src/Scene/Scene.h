@@ -19,6 +19,7 @@ namespace slt
 class View;
 class SNode;
 class PhysicalWorld;
+class Camera;
 
 class Scene : public Tree<SNode>, public Object
 {
@@ -43,10 +44,13 @@ public:
 	void pushDrawCallBack(std::function<void(Scene *)> drawCallBack);
 	void popUpdateCallBack();
 	void popDrawCallBack();
+public:
+  inline std::shared_ptr<Camera> getCamera(std::string name = "Main") {return this->m_cameras[name];}
 private:
 	std::vector<std::function<void(Scene *)>> m_UpdateCallBacks;
 	std::vector<std::function<void(Scene *)>> m_DrawCallBacks;
 private:
+  std::map<std::string, std::shared_ptr<Camera>> m_cameras; 
 	sf::FloatRect m_loadRange;
 	std::shared_ptr<PhysicalWorld> m_physicalWorld;
 };

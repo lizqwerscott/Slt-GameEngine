@@ -177,20 +177,17 @@ void MainScene::init() {
         // 0, 125));
         node->InsertShape("MainRectangle", shape);
       });
-  auto camera = Graphic::getInstance()->getCamera(std::string("Main"));
-  auto camera_pos = camera->getView().getCenter();
-  printf("ViewPos:%f, %f", camera_pos.x, camera_pos.y);
-  auto worview_pos = Graphic::getInstance()->worldToPixel(sf::Vector2f(0.f, 0.f));
-  printf("converPos:%i, %i", worview_pos.x, worview_pos.y);
+  auto camera_pos = this->getCamera().get()->getView().getCenter();
+  printf("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
+  printf("baffleNodePos:%f, %f", baffleNode->GetPosation().x, baffleNode->GetPosation().y);
+  auto size_view = this->getCamera().get()->getView().getSize();
+  printf("Size:%f, %f\n", size_view.x, size_view.y);
 
   SubscribeEventIml(
       E_NODEUPDATEEND,
       [baffleNode](EventKey key, EventData & data, EventSender * sender) -> void {
         using namespace slt::NodeUpdateBegin;
         b2Vec2 pos = baffleNode->GetPosation();
-        auto pixel_pos = Graphic::getInstance()->worldToPixel(sf::Vector2f(pos.x, pos.y));
-        //printf("converPos:%i, %i", pixel_pos.x, pixel_pos.y);
-        //Graphic::getInstance()->getCamera(std::string("Main")).get()->setPosition(sf::Vector2f(pixel_pos.x, pixel_pos.y));
       },
       baffleNode);
 
@@ -222,6 +219,8 @@ void MainScene::init() {
   baffleNode->pushUpdateCallBack([](SNode *node) -> void {
     // printf("Baffle:Pos:%f, %f\n", pos.x, pos.y);
   });
+
+  this->getCamera().get()->setTrack(baffleNode, true);
 
   physicalWorld->onBeginContact([](b2Contact *contact) -> void {
     void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData();
@@ -260,25 +259,28 @@ void MainScene::init() {
   Graphic::insertKeyCallBack(sf::Keyboard::Key::Escape,
                              []() -> void { Graphic::Close(); });
 
-  Graphic::insertKeyCallBack(sf::Keyboard::Key::H, [baffleNode]() -> void {
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::H, [this, baffleNode]() -> void {
     // printf("Move:Left\n");
-    Graphic::getInstance()->getCamera(std::string("Main")).get()->move(-2, 0);
+    this->getCamera().get()->move(-2, 0);
   });
-  Graphic::insertKeyCallBack(sf::Keyboard::Key::L, [baffleNode]() -> void {
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::L, [this, baffleNode]() -> void {
     // printf("Move:Right\n");
-    Graphic::getInstance()->getCamera(std::string("Main")).get()->move(2, 0);
+    this->getCamera().get()->move(2, 0);
   });
-  Graphic::insertKeyCallBack(sf::Keyboard::Key::J, [baffleNode]() -> void {
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::J, [this, baffleNode]() -> void {
     // printf("Move:Up\n");
-    Graphic::getInstance()->getCamera(std::string("Main")).get()->move(0, 2);
+    this->getCamera().get()->move(0, 2);
   });
-  Graphic::insertKeyCallBack(sf::Keyboard::Key::K, [baffleNode]() -> void {
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::K, [this, baffleNode]() -> void {
     // printf("Move:Down\n");
-    Graphic::getInstance()->getCamera(std::string("Main")).get()->move(0, -2);
+    this->getCamera().get()->move(0, -2);
   });
-  Graphic::insertKeyCallBack(sf::Keyboard::Key::P, [baffleNode]() -> void {
-    auto pos = Graphic::getInstance()->getCamera(std::string("Main")).get()->getView().getCenter();
-    printf("viewPos:%f, %f\n", pos.x, pos.y);
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::P, [this, baffleNode]() -> void {
+    auto pos_view = this->getCamera().get()->getView().getCenter();
+    auto size_view = this->getCamera().get()->getView().getSize();
+    printf("viewPos:%f, %f;Size:%f, %f\n", pos_view.x, pos_view.y, size_view.x, size_view.y);
+    auto pos_baffle = baffleNode->GetPosation();
+    printf("bafflePos:%f, %f\n", pos_baffle.x, pos_baffle.y);
   });
 
   /*
@@ -350,19 +352,21 @@ void MainScene::init() {
  */
 void MainScene::UpdateSelf(sf::Time &dt) {
   // sf::Vector2u windowSize = Graphic::getWindowSize();
+  auto pos = this->GetRootNode()->GetChild("Baffle")->GetPosation();
+  //auto pixel_pos = Graphic::getInstance()->worldToPixel(sf::Vector2f(pos.x, pos.y));
+  //auto pixel_pos = Math::WorldCoordSToDrawCoordS(pos);
+  //Graphic::getInstance()->getCamera(std::string("Main")).get()->setPosition(sf::Vector2f(pixel_pos.x, pixel_pos.y));
+  //Graphic::getInstance()->getCamera(std::string("Main")).get()->setSize(sf::Vector2f(800.f, 700.f));
+
   auto text = new sf::Text();
   text->setFont(*ResourceManager::GetFont("yudit"));
-  text->setString(std::string("hello"));
+  text->setString(std::string("BafflePos:") + std::to_string(pos.x) + ", " + std::to_string(pos.y));
   text->setCharacterSize(24); // in pixels, not points!
   text->setFillColor(sf::Color::Red);
   text->setPosition(10.f, 20.f);
   text->setStyle(sf::Text::Bold | sf::Text::Underlined);
   Graphic::insert(text);
 
-  auto pos = this->GetRootNode()->GetChild("Baffle")->GetPosation();
-  auto pixel_pos = Graphic::getInstance()->worldToPixel(sf::Vector2f(pos.x, pos.y));
-  //Graphic::getInstance()->getCamera(std::string("Main")).get()->setPosition(sf::Vector2f(pixel_pos.x, pixel_pos.y));
-  //Graphic::getInstance()->getCamera(std::string("Main")).get()->setPosition(sf::Vector2f(400.f, 350.f));
   
   // Graphic::getInstance()->DrawCircle(b2Vec2(0, 0), 2, b2Color(1, 0, 0));
   // Graphic::getInstance()->DrawPolygon();
