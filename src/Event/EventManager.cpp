@@ -4,6 +4,7 @@
 #include "EventSender.h"
 #include "EventReciver.h"
 #include "../Math/Math.h"
+#include <memory>
 #include <functional>
 
 using namespace slt;

@@ -122,10 +122,8 @@ void MainScene::init() {
         auto physicalBody =
             node->CreatePhysicalBody(std::string("BallBody"), localWorldPos,
                                      bodyDef, physicalWorld.get());
-        physicalBody->GetBody()->ApplyLinearImpulse(
-            b2Vec2(random(1, 10) * random(1, 5), random(1, 10) * random(1, 5)),
-            b2Vec2(0, 0), true);
-
+        //ERROR
+        //physicalBody->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(2, 10), true);
         b2CircleShape circleShape;
         // circleShape.m_p = Math::WorldCoordSToPhysicalCoordS(nodePos +
         // localWorldPos); //position, relative to body position
@@ -133,7 +131,7 @@ void MainScene::init() {
         circleShape.m_radius = 1; // radius
         b2FixtureDef fixtureDef;
         fixtureDef.density = 0.1;
-        fixtureDef.friction = 0;
+        fixtureDef.friction = 0.1;
         fixtureDef.shape = &circleShape;
         fixtureDef.restitution = 1;
         auto fixture =
@@ -179,13 +177,14 @@ void MainScene::init() {
       });
   auto camera_pos = this->getCamera().get()->getView().getCenter();
   printf("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
-  printf("baffleNodePos:%f, %f", baffleNode->GetPosation().x, baffleNode->GetPosation().y);
+  printf("baffleNodePos:%f, %f", baffleNode->GetPosation().x,
+         baffleNode->GetPosation().y);
   auto size_view = this->getCamera().get()->getView().getSize();
   printf("Size:%f, %f\n", size_view.x, size_view.y);
 
   SubscribeEventIml(
       E_NODEUPDATEEND,
-      [baffleNode](EventKey key, EventData & data, EventSender * sender) -> void {
+      [baffleNode](EventKey key, EventData &data, EventSender *sender) -> void {
         using namespace slt::NodeUpdateBegin;
         b2Vec2 pos = baffleNode->GetPosation();
       },
@@ -193,7 +192,7 @@ void MainScene::init() {
 
   SubscribeEventIml(
       E_NODEUPDATEBEGIN,
-      [](EventKey key, EventData & data, EventSender *sender) -> void {
+      [](EventKey key, EventData &data, EventSender *sender) -> void {
         using namespace slt::NodeUpdateBegin;
         // printf("Sub1:EventName:%s,EventType:%ld\n",
         // slt::EventNameRegistrar::GetEventName(key).c_str(),
@@ -213,6 +212,9 @@ void MainScene::init() {
 
   ballNode->pushUpdateCallBack([this, windowSize](SNode *node) -> void {
     b2Vec2 pos = node->GetPosation();
+    // node->GetPhysicalBody()->GetBody()->SetAwake(true);
+    // node->GetPhysicalBody()->GetBody()->ApplyForceToCenter(b2Vec2(0, 1),
+    // true);
     // printf("Ball:Pos:%f, %f\n", pos.x, pos.y);
   });
 
@@ -259,28 +261,38 @@ void MainScene::init() {
   Graphic::insertKeyCallBack(sf::Keyboard::Key::Escape,
                              []() -> void { Graphic::Close(); });
 
-  Graphic::insertKeyCallBack(sf::Keyboard::Key::H, [this, baffleNode]() -> void {
-    // printf("Move:Left\n");
-    this->getCamera().get()->move(-2, 0);
-  });
-  Graphic::insertKeyCallBack(sf::Keyboard::Key::L, [this, baffleNode]() -> void {
-    // printf("Move:Right\n");
-    this->getCamera().get()->move(2, 0);
-  });
-  Graphic::insertKeyCallBack(sf::Keyboard::Key::J, [this, baffleNode]() -> void {
-    // printf("Move:Up\n");
-    this->getCamera().get()->move(0, 2);
-  });
-  Graphic::insertKeyCallBack(sf::Keyboard::Key::K, [this, baffleNode]() -> void {
-    // printf("Move:Down\n");
-    this->getCamera().get()->move(0, -2);
-  });
-  Graphic::insertKeyCallBack(sf::Keyboard::Key::P, [this, baffleNode]() -> void {
-    auto pos_view = this->getCamera().get()->getView().getCenter();
-    auto size_view = this->getCamera().get()->getView().getSize();
-    printf("viewPos:%f, %f;Size:%f, %f\n", pos_view.x, pos_view.y, size_view.x, size_view.y);
-    auto pos_baffle = baffleNode->GetPosation();
-    printf("bafflePos:%f, %f\n", pos_baffle.x, pos_baffle.y);
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::H,
+                             [this, baffleNode]() -> void {
+                               // printf("Move:Left\n");
+                               this->getCamera().get()->move(-2, 0);
+                             });
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::L,
+                             [this, baffleNode]() -> void {
+                               // printf("Move:Right\n");
+                               this->getCamera().get()->move(2, 0);
+                             });
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::J,
+                             [this, baffleNode]() -> void {
+                               // printf("Move:Up\n");
+                               this->getCamera().get()->move(0, 2);
+                             });
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::K,
+                             [this, baffleNode]() -> void {
+                               // printf("Move:Down\n");
+                               this->getCamera().get()->move(0, -2);
+                             });
+  Graphic::insertKeyCallBack(
+      sf::Keyboard::Key::P, [this, baffleNode]() -> void {
+        auto pos_view = this->getCamera().get()->getView().getCenter();
+        auto size_view = this->getCamera().get()->getView().getSize();
+        printf("viewPos:%f, %f;Size:%f, %f\n", pos_view.x, pos_view.y,
+               size_view.x, size_view.y);
+        auto pos_baffle = baffleNode->GetPosation();
+        printf("bafflePos:%f, %f\n", pos_baffle.x, pos_baffle.y);
+      });
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::A, [this, ballNode]() -> void {
+    ballNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
+        b2Vec2(0, -1), true);
   });
 
   /*
@@ -353,21 +365,26 @@ void MainScene::init() {
 void MainScene::UpdateSelf(sf::Time &dt) {
   // sf::Vector2u windowSize = Graphic::getWindowSize();
   auto pos = this->GetRootNode()->GetChild("Baffle")->GetPosation();
-  //auto pixel_pos = Graphic::getInstance()->worldToPixel(sf::Vector2f(pos.x, pos.y));
-  //auto pixel_pos = Math::WorldCoordSToDrawCoordS(pos);
-  //Graphic::getInstance()->getCamera(std::string("Main")).get()->setPosition(sf::Vector2f(pixel_pos.x, pixel_pos.y));
-  //Graphic::getInstance()->getCamera(std::string("Main")).get()->setSize(sf::Vector2f(800.f, 700.f));
-
+  // auto pixel_pos = Graphic::getInstance()->worldToPixel(sf::Vector2f(pos.x,
+  // pos.y)); auto pixel_pos = Math::WorldCoordSToDrawCoordS(pos);
+  // Graphic::getInstance()->getCamera(std::string("Main")).get()->setPosition(sf::Vector2f(pixel_pos.x,
+  // pixel_pos.y));
+  // Graphic::getInstance()->getCamera(std::string("Main")).get()->setSize(sf::Vector2f(800.f,
+  // 700.f));
+  auto g = this->GetPhysicalWorld().get()->GetGravity();
   auto text = new sf::Text();
   text->setFont(*ResourceManager::GetFont("yudit"));
-  text->setString(std::string("BafflePos:") + std::to_string(pos.x) + ", " + std::to_string(pos.y));
+  text->setString(std::string("BafflePos:") + std::to_string(pos.x) + ", " +
+                  std::to_string(pos.y) +
+                  "\n"
+                  "G:" +
+                  std::to_string(g.x) + "," + std::to_string(g.y));
   text->setCharacterSize(24); // in pixels, not points!
   text->setFillColor(sf::Color::Red);
   text->setPosition(10.f, 20.f);
   text->setStyle(sf::Text::Bold | sf::Text::Underlined);
   Graphic::insert(text);
 
-  
   // Graphic::getInstance()->DrawCircle(b2Vec2(0, 0), 2, b2Color(1, 0, 0));
   // Graphic::getInstance()->DrawPolygon();
   /*

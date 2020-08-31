@@ -1,7 +1,7 @@
 #ifndef PHYSICALWORLD_H
 #define PHYSICALWORLD_H
 
-#include <Box2D/Box2D.h>
+#include <box2d/box2d.h>
 #include <SFML/System.hpp>
 #include "../Object.h"
 #include <functional>
@@ -34,7 +34,7 @@ struct Settings
         singleStep = false;
     }
 
-    float32 hz;
+    float_t hz;
     int32 velocityIterations;
     int32 positionIterations;
     bool drawShapes;

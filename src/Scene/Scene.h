@@ -9,7 +9,7 @@
 #define SCENE_H
 
 #include <functional>
-#include <Box2D/Box2D.h>
+#include <box2d/box2d.h>
 #include <memory>
 #include "../Math/Tree.h"
 #include "../Object.h"

@@ -1,7 +1,7 @@
 #ifndef PHYSICALFIXTURE_H
 #define PHYSICALFIXTURE_H
 
-#include <Box2D/Box2D.h>
+#include <box2d/box2d.h>
 #include "../Object.h"
 
 namespace slt

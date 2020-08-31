@@ -152,7 +152,7 @@ void Graphic::DrawSolidPolygon(const b2Vec2 *vertices, int32 vertexCount,
   graphic->insert(convex);
 }
 
-void Graphic::DrawCircle(const b2Vec2 &center, float32 radius,
+void Graphic::DrawCircle(const b2Vec2 &center, float_t radius,
                          const b2Color &color) {
   std::vector<sf::Vertex> v;
   const float drawRadius = Math::MeterToPixel(radius);
@@ -172,7 +172,7 @@ void Graphic::DrawCircle(const b2Vec2 &center, float32 radius,
   graphic->m_polygons.push_back(v);
 }
 
-void Graphic::DrawSolidCircle(const b2Vec2 &center, float32 radius,
+void Graphic::DrawSolidCircle(const b2Vec2 &center, float_t radius,
                               const b2Vec2 &axis, const b2Color &color) {
   sf::CircleShape *circle = new sf::CircleShape(Math::MeterToPixel(radius));
   circle->setFillColor(Graphic::changeColor(color));
@@ -189,7 +189,7 @@ void Graphic::DrawSegment(const b2Vec2 &p1, const b2Vec2 &p2,
 
 void Graphic::DrawTransform(const b2Transform &xf) {}
 
-void Graphic::DrawPoint(const b2Vec2 &p, float32 size, const b2Color &color) {
+void Graphic::DrawPoint(const b2Vec2 &p, float_t size, const b2Color &color) {
   sf::CircleShape *circle = new sf::CircleShape(size);
   circle->setFillColor(Graphic::changeColor(color));
   circle->setPosition(Math::PhysicalCoordSToDrawCoordS(p));
@@ -209,12 +209,12 @@ void Graphic::DrawAABB(b2AABB *aabb, const b2Color &color) {
 sf::ConvexShape *Graphic::GetShape(b2PolygonShape *polygonShape, b2Vec2 pos,
                                    sf::Color color) {
   sf::ConvexShape *convex = new sf::ConvexShape();
-  convex->setPointCount(polygonShape->GetVertexCount());
-  for (int i = 0; i < polygonShape->GetVertexCount(); i++) {
+  convex->setPointCount(polygonShape->m_count);
+  for (int i = 0; i < polygonShape->m_count; i++) {
     // printf("PolygonShape:Point:%d:%f, %f\n", i, polygonShape->GetVertex(i).x,
     // polygonShape->GetVertex(i).y);
     convex->setPoint(
-        i, Math::PhysicalCoordSToDrawCoordS(polygonShape->GetVertex(i) + pos));
+        i, Math::PhysicalCoordSToDrawCoordS(polygonShape->m_vertices[i] + pos));
     // printf("Convex:Point:%d:%f, %f\n", i, convex->getPoint(i).x,
     // convex->getPoint(i).y);
   }
@@ -260,15 +260,15 @@ sf::Shape *Graphic::GetShape(b2Fixture *fixture, sf::Color color) {
   case b2Shape::e_polygon: {
     b2PolygonShape *polygonP = static_cast<b2PolygonShape *>(shape);
     sf::ConvexShape *convexS = new sf::ConvexShape();
-    convexS->setPointCount(polygonP->GetVertexCount());
-    for (int i = 0; i < polygonP->GetVertexCount(); i++) {
+    convexS->setPointCount(polygonP->m_count);
+    for (int i = 0; i < polygonP->m_count; i++) {
       // printf("PolygonShape:Point:%d:%f, %f\n", i, polygonP->GetVertex(i).x,
       // polygonP->GetVertex(i).y);
       convexS->setPoint(
           i, sf::Vector2f(Math::MeterToPixel(
-                              body->GetWorldPoint(polygonP->GetVertex(i)).x),
+                              body->GetWorldPoint(polygonP->m_vertices[i]).x),
                           Math::MeterToPixel(
-                              body->GetWorldPoint(polygonP->GetVertex(i)).y)));
+                              body->GetWorldPoint(polygonP->m_vertices[i]).y)));
       // printf("Convex:Point:%d:%f, %f\n", i, convexS->getPoint(i).x,
       // convexS->getPoint(i).y);
     }
