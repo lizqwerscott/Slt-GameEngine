@@ -29,7 +29,7 @@ MainScene *MainScene::create() {
  */
 void MainScene::init() {
   auto physicalWorld =
-      this->CreatePhysicalWorld(std::string("World"), true, b2Vec2(0, 0));
+      this->CreatePhysicalWorld(std::string("World"), true, b2Vec2(0.0f, 0.0f));
   sf::Vector2u windowSize = Graphic::getWindowSize();
   printf("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
   ResourceManager::LoadFontFromFile(
@@ -128,18 +128,17 @@ void MainScene::init() {
         // circleShape.m_p = Math::WorldCoordSToPhysicalCoordS(nodePos +
         // localWorldPos); //position, relative to body position
         circleShape.m_p = b2Vec2(0, 0);
-        circleShape.m_radius = 1; // radius
+        circleShape.m_radius = 0.1; // radius
         b2FixtureDef fixtureDef;
         fixtureDef.density = 0.1;
-        fixtureDef.friction = 0.1;
+        fixtureDef.friction = 0.3;
         fixtureDef.shape = &circleShape;
         fixtureDef.restitution = 1;
         auto fixture =
             physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
 
-        auto shape =
-            Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 200, 35));
-        node->InsertShape("MainCircle", shape);
+        //auto shape = Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 200, 35));
+        //node->InsertShape("MainCircle", shape);
       });
 
   // Baffle node
@@ -173,7 +172,7 @@ void MainScene::init() {
             Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 0, 125));
         // auto shape = Graphic::GetShape(&polygonShape, bodyDef., sf::Color(0,
         // 0, 125));
-        node->InsertShape("MainRectangle", shape);
+        //node->InsertShape("MainRectangle", shape);
       });
   auto camera_pos = this->getCamera().get()->getView().getCenter();
   printf("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
@@ -215,18 +214,18 @@ void MainScene::init() {
     // node->GetPhysicalBody()->GetBody()->SetAwake(true);
     // node->GetPhysicalBody()->GetBody()->ApplyForceToCenter(b2Vec2(0, 1),
     // true);
-    // printf("Ball:Pos:%f, %f\n", pos.x, pos.y);
+    //printf("Ball:Pos:%f, %f\n", pos.x, pos.y);
   });
 
   baffleNode->pushUpdateCallBack([](SNode *node) -> void {
     // printf("Baffle:Pos:%f, %f\n", pos.x, pos.y);
   });
 
-  this->getCamera().get()->setTrack(baffleNode, true);
+  //this->getCamera().get()->setTrack(baffleNode, true);
 
   physicalWorld->onBeginContact([](b2Contact *contact) -> void {
-    void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData();
-    void *userDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+    void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().data;
+    void *userDataB = contact->GetFixtureB()->GetBody()->GetUserData().data;
     if (userDataA && userDataB) {
       PhysicalBody *bodyA = static_cast<PhysicalBody *>(userDataA);
       PhysicalBody *bodyB = static_cast<PhysicalBody *>(userDataB);
@@ -282,18 +281,29 @@ void MainScene::init() {
                                this->getCamera().get()->move(0, -2);
                              });
   Graphic::insertKeyCallBack(
-      sf::Keyboard::Key::P, [this, baffleNode]() -> void {
+      sf::Keyboard::Key::P, [this, baffleNode, ballNode]() -> void {
         auto pos_view = this->getCamera().get()->getView().getCenter();
         auto size_view = this->getCamera().get()->getView().getSize();
         printf("viewPos:%f, %f;Size:%f, %f\n", pos_view.x, pos_view.y,
                size_view.x, size_view.y);
         auto pos_baffle = baffleNode->GetPosation();
         printf("bafflePos:%f, %f\n", pos_baffle.x, pos_baffle.y);
+        auto linearVelocity = ballNode->GetPhysicalBody().get()->GetBody()->GetLinearVelocity();
+        printf("ballNodeSpedd:%f\n", linearVelocity.Length());
       });
   Graphic::insertKeyCallBack(sf::Keyboard::Key::A, [this, ballNode]() -> void {
     ballNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
-        b2Vec2(0, -1), true);
+        b2Vec2(0, -10), true);
   });
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::N, [this]() -> void {
+      this->getCamera()->zoom(1.1f);
+      });
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::B, [this]() -> void {
+      this->getCamera()->zoom(1.0f);
+      });
+  Graphic::insertKeyCallBack(sf::Keyboard::Key::M, [this]() -> void {
+      this->getCamera()->zoom(0.9f);
+      });
 
   /*
   srand((unsigned)time(NULL));

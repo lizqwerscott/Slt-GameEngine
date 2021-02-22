@@ -37,7 +37,7 @@ MyBreakoutScene::create()
  */
 void MyBreakoutScene::init()
 {
-  auto physicalWorld = this->CreatePhysicalWorld(std::string("World"), false, b2Vec2(0, 0));
+  auto physicalWorld = this->CreatePhysicalWorld(std::string("World"), true, b2Vec2(0.0f, -10.0f));
   //Graphic::SetDebugDraw(physicalWorld.get());
   sf::Vector2u windowSize = Graphic::getWindowSize();
   printf("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
@@ -175,8 +175,8 @@ void MyBreakoutScene::init()
       //printf("Baffle:Pos:%f, %f\n", pos.x, pos.y);
   });
   physicalWorld->onBeginContact([](b2Contact * contact)->void {
-    void * userDataA = contact->GetFixtureA()->GetBody()->GetUserData();
-    void * userDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+    void * userDataA = contact->GetFixtureA()->GetBody()->GetUserData().data;
+    void * userDataB = contact->GetFixtureB()->GetBody()->GetUserData().data;
     if (userDataA && userDataB)
     {
       PhysicalBody * bodyA = static_cast<PhysicalBody *>(userDataA);

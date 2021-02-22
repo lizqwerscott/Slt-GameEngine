@@ -14,7 +14,7 @@ PhysicalBody::PhysicalBody(std::string name, b2Vec2 localWorldPos, b2BodyDef bod
 {
 	//Create Body
 	this->m_body = world->CreateBody(&bodyDef);
-	m_body->SetUserData(this);
+  m_body->GetUserData().data = this;
 }
 
 PhysicalBody::~PhysicalBody()
