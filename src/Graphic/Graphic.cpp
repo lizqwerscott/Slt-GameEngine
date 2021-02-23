@@ -10,6 +10,7 @@ using namespace slt;
 Graphic::Graphic(std::string tile, int width, int height) : m_window(nullptr) {
   this->m_window = std::shared_ptr<sf::RenderWindow>(
       new sf::RenderWindow(sf::VideoMode(width, height), tile.c_str()));
+  this->m_mouseWhellCallBack = nullptr;
 }
 
 Graphic::~Graphic() {}
@@ -74,6 +75,42 @@ void Graphic::insertKeyCallBack(sf::Keyboard::Key key,
 
 void Graphic::deleteKeyCallBack(sf::Keyboard::Key key) {
   graphic->m_keyCallBacks.erase(key);
+}
+
+void Graphic::insertMouseWheelCallBack(
+    std::function<void(sf::Event::MouseWheelScrollEvent)> mouseCallBack) {
+  graphic->m_mouseWhellCallBack = mouseCallBack;
+}
+
+void Graphic::deleteMouseWhellCallBack() {
+  graphic->m_mouseWhellCallBack = nullptr;
+}
+
+void Graphic::mouseWhellCallBackRun(sf::Event::MouseWheelScrollEvent event) {
+  if (graphic->m_mouseWhellCallBack != nullptr) {
+    graphic->m_mouseWhellCallBack(event);
+  }
+}
+
+void Graphic::insertMouseClickCallBack(
+    sf::Mouse::Button button, std::function<void(sf::Vector2i)> callBack) {
+  graphic->m_mouseClickCallBack[button] = callBack;
+}
+
+void Graphic::deleteMouseClickCallBack(sf::Mouse::Button button) {
+  graphic->m_mouseClickCallBack.erase(button);
+}
+
+void Graphic::mouseClick(sf::Mouse::Button button, sf::Vector2i pos) {
+  graphic->m_mouseClickCallBack[button](pos);
+}
+
+sf::Vector2i Graphic::getMousePosition() {
+  return sf::Mouse::getPosition(*graphic->getWindow().get());
+}
+
+std::shared_ptr<sf::RenderWindow> Graphic::getWindow() {
+  return this->m_window;
 }
 
 void Graphic::Close() { graphic->m_window->close(); }

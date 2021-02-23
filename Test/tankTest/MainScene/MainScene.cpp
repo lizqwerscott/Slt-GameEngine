@@ -122,8 +122,9 @@ void MainScene::init() {
         auto physicalBody =
             node->CreatePhysicalBody(std::string("BallBody"), localWorldPos,
                                      bodyDef, physicalWorld.get());
-        //ERROR
-        //physicalBody->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(2, 10), true);
+        // ERROR
+        // physicalBody->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(2, 10),
+        // true);
         b2CircleShape circleShape;
         // circleShape.m_p = Math::WorldCoordSToPhysicalCoordS(nodePos +
         // localWorldPos); //position, relative to body position
@@ -137,8 +138,8 @@ void MainScene::init() {
         auto fixture =
             physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
 
-        //auto shape = Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 200, 35));
-        //node->InsertShape("MainCircle", shape);
+        // auto shape = Graphic::GetShape(fixture->GetFixture(), sf::Color(0,
+        // 200, 35)); node->InsertShape("MainCircle", shape);
       });
 
   // Baffle node
@@ -168,11 +169,11 @@ void MainScene::init() {
         fixtureDef.shape = &polygonShape;
         auto fixture =
             physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
-        auto shape =
-            Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 0, 125));
+        // auto shape =
+        //   Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 0, 125));
         // auto shape = Graphic::GetShape(&polygonShape, bodyDef., sf::Color(0,
         // 0, 125));
-        //node->InsertShape("MainRectangle", shape);
+        // node->InsertShape("MainRectangle", shape);
       });
   auto camera_pos = this->getCamera().get()->getView().getCenter();
   printf("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
@@ -214,14 +215,14 @@ void MainScene::init() {
     // node->GetPhysicalBody()->GetBody()->SetAwake(true);
     // node->GetPhysicalBody()->GetBody()->ApplyForceToCenter(b2Vec2(0, 1),
     // true);
-    //printf("Ball:Pos:%f, %f\n", pos.x, pos.y);
+    // printf("Ball:Pos:%f, %f\n", pos.x, pos.y);
   });
 
   baffleNode->pushUpdateCallBack([](SNode *node) -> void {
     // printf("Baffle:Pos:%f, %f\n", pos.x, pos.y);
   });
 
-  //this->getCamera().get()->setTrack(baffleNode, true);
+  // this->getCamera().get()->setTrack(baffleNode, true);
 
   physicalWorld->onBeginContact([](b2Contact *contact) -> void {
     void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().data;
@@ -288,7 +289,8 @@ void MainScene::init() {
                size_view.x, size_view.y);
         auto pos_baffle = baffleNode->GetPosation();
         printf("bafflePos:%f, %f\n", pos_baffle.x, pos_baffle.y);
-        auto linearVelocity = ballNode->GetPhysicalBody().get()->GetBody()->GetLinearVelocity();
+        auto linearVelocity =
+            ballNode->GetPhysicalBody().get()->GetBody()->GetLinearVelocity();
         printf("ballNodeSpedd:%f\n", linearVelocity.Length());
       });
   Graphic::insertKeyCallBack(sf::Keyboard::Key::A, [this, ballNode]() -> void {
@@ -296,13 +298,30 @@ void MainScene::init() {
         b2Vec2(0, -10), true);
   });
   Graphic::insertKeyCallBack(sf::Keyboard::Key::N, [this]() -> void {
-      this->getCamera()->zoom(1.1f);
-      });
+    this->getCamera()->zoom(1.1f);
+  });
   Graphic::insertKeyCallBack(sf::Keyboard::Key::B, [this]() -> void {
-      this->getCamera()->zoom(1.0f);
-      });
+    this->getCamera()->zoom(1.0f);
+  });
   Graphic::insertKeyCallBack(sf::Keyboard::Key::M, [this]() -> void {
-      this->getCamera()->zoom(0.9f);
+    this->getCamera()->zoom(0.9f);
+  });
+  Graphic::insertMouseWheelCallBack(
+      [this](sf::Event::MouseWheelScrollEvent event) -> void {
+        int delta = event.delta;
+        if (delta > 0) {
+          this->getCamera()->zoom(0.9);
+        } else {
+          this->getCamera()->zoom(1.1);
+        }
+      });
+  Graphic::insertMouseClickCallBack(
+      sf::Mouse::Left, [this](sf::Vector2i pos) -> void {
+        printf("Left:MousePos:%d, %d\n", pos.x, pos.y);
+      });
+  Graphic::insertMouseClickCallBack(
+      sf::Mouse::Right, [this](sf::Vector2i pos) -> void {
+        printf("Right:MousePos:%d, %d\n", pos.x, pos.y);
       });
 
   /*
