@@ -10,7 +10,7 @@ It is a test gameEngine and is very terrible.
 Require SFML box2d
 
 ```bash
-mkdir build
+mkdir build && cd build
 cmake ..
 make
 ```
