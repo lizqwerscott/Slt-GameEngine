@@ -5,6 +5,7 @@
 #include "MyApplication.h"
 #include "../../src/AllSub.h"
 #include "MainScene/MainScene.h"
+#include "StartScene/StartScene.h"
 
 MyApplication::MyApplication()
 {
@@ -20,9 +21,10 @@ void MyApplication::init()
 {
 	Graphic::init();
 	Math::init(Graphic::getWindowSize());
-	auto MainScene = MainScene::create();
+    auto StartScene = StartScene::create();
+	//auto MainScene = MainScene::create();
 
-    SceneManager::SetRunScene(MainScene);
+    SceneManager::SetRunScene(StartScene);
 }
 
 void MyApplication::end()

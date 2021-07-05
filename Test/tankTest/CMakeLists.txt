@@ -1,5 +1,5 @@
 include_directories(${PROJECT_SOURCE_DIR}/src)
-set(MAIN_SRC_LIST MainScene/MainScene.cpp MyApplication.cpp mainTest.cpp)
+set(MAIN_SRC_LIST Body/GameObject.cpp Body/Bullet/Bullet.cpp Body/Gun/Gun.cpp MainScene/MainScene.cpp StartScene/StartScene.cpp MyApplication.cpp mainTest.cpp)
 
 add_compile_options(-g -Wall)
 

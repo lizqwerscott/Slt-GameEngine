@@ -95,8 +95,8 @@ void EventManager::DispatchEvent(EventKey key, EventData &data, EventSender * se
 	auto it = m_events.find(key);
 	if (it == m_events.end())
 	{
-		printf("[Error]:EventManager::DispatchEvent()::It is the end, DispatchEvent can't find this<%u>event Handler\n", key);
-		printf("End\n");
+		//printf("[Error]:EventManager::DispatchEvent()::It is the end, DispatchEvent can't find this<%u>event Handler\n", key);
+		//printf("End\n");
 		return;
 	}
 

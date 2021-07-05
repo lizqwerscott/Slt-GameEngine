@@ -62,7 +62,7 @@ SNode *Camera::stopTrack() {
 
 void Camera::UpdateSelf(sf::Time &dt) {
   if (this->isTrack) {
-    auto pos = this->trackNode->GetPosation();
+    auto pos = this->trackNode->GetPosition();
     auto pixel_pos = Math::WorldCoordSToDrawCoordS(pos);
     this->view.setCenter(sf::Vector2f(pixel_pos.x, pixel_pos.y));
     if (!this->isAutoSize) {

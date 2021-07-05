@@ -1,6 +1,7 @@
 #ifndef SNODE_H
 #define SNODE_H
 
+#include <iostream>
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include <box2d/box2d.h>
@@ -35,24 +36,25 @@ public:
 	virtual void UpdateSelf(sf::Time &dt) override {}
 	virtual void Draw() override;
 	virtual void DrawSelf() override {}
-	b2Vec2 GetPosation();
+	b2Vec2 GetPosition();
 public:
-	void SetPosation(b2Vec2 pos);
+	void SetPosition(b2Vec2 pos);
 	void move(b2Vec2 posOffset);
 public:
 	std::shared_ptr<sf::Sprite> CreateSprite(std::string name);
 	void InsertShape(std::string name, sf::Shape * shape);
-	std::shared_ptr<PhysicalBody> CreatePhysicalBody(std::string name, b2Vec2 localWorldPos, b2BodyDef bodyDef, b2World * world);
+	PhysicalBody * CreatePhysicalBody(std::string name, b2Vec2 localWorldPos, b2BodyDef bodyDef, b2World * world);
 
 	std::shared_ptr<sf::Sprite> GetSprite(std::string name);
 	std::shared_ptr<sf::Shape> GetShape(std::string name);
-	std::shared_ptr<PhysicalBody> GetPhysicalBody();
+	PhysicalBody * GetPhysicalBody();
 
 	void deleteSprite(std::string name);
 	void deleteShape(std::string name);
 	void deletePhysicalBody();
 public:
 	SNode * CreateChild(std::string name, std::function<void(SNode *)> initFunction = [](SNode * node)->void {});
+    void AddChild(SNode * node);
 	void DeleteChild(std::string name);
 public:
 	//CallBack
@@ -67,9 +69,9 @@ private:
 public:
     std::map<std::string, std::shared_ptr<sf::Sprite>> m_sprites;
     std::map<std::string, std::shared_ptr<sf::Shape>> m_shapes;
-    std::shared_ptr<PhysicalBody> m_physicalBody;
+    PhysicalBody * m_physicalBody;
 private:
-	b2Vec2 m_posation;
+	b2Vec2 m_position;
 };
 
 //Events

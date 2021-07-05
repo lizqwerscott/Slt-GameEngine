@@ -36,7 +36,7 @@ void MyBreakoutScene::init() {
   // Wall node
   this->GetRootNode()->CreateChild(
       std::string("Wall"), [windowSize, physicalWorld](SNode *node) -> void {
-        node->SetPosation(b2Vec2(0, 0));
+        node->SetPosition(b2Vec2(0, 0));
         // Create Body
         b2BodyDef bodyDef;
         bodyDef.type = b2BodyType::b2_staticBody;
@@ -104,7 +104,7 @@ void MyBreakoutScene::init() {
       std::string("Ball"), [windowSize, physicalWorld](SNode *node) -> void {
         b2Vec2 nodePos =
             Math::DrawCoordSToWorldCoordS(sf::Vector2f(windowSize.x / 2, 0));
-        node->SetPosation(nodePos);
+        node->SetPosition(nodePos);
         b2Vec2 localWorldPos(0, 0);
         b2BodyDef bodyDef;
         bodyDef.type = b2BodyType::b2_dynamicBody;
@@ -139,7 +139,7 @@ void MyBreakoutScene::init() {
       std::string("Baffle"), [windowSize, physicalWorld](SNode *node) -> void {
         b2Vec2 nodePos = Math::DrawCoordSToWorldCoordS(
             sf::Vector2f(windowSize.x / 2, windowSize.y / 2));
-        node->SetPosation(nodePos);
+        node->SetPosition(nodePos);
         b2Vec2 localWorldPos(0, 0);
         b2BodyDef bodyDef;
         bodyDef.type = b2BodyType::b2_kinematicBody;
@@ -214,8 +214,8 @@ void MyBreakoutScene::init() {
     // printf("Baffle:Pos:%f, %f\n", pos.x, pos.y);
   });
   physicalWorld->onBeginContact([](b2Contact *contact) -> void {
-    void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().data;
-    void *userDataB = contact->GetFixtureB()->GetBody()->GetUserData().data;
+    void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().data[0];
+    void *userDataB = contact->GetFixtureB()->GetBody()->GetUserData().data[0];
     if (userDataA && userDataB) {
       PhysicalBody *bodyA = static_cast<PhysicalBody *>(userDataA);
       PhysicalBody *bodyB = static_cast<PhysicalBody *>(userDataB);

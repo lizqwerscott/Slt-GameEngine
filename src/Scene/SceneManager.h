@@ -28,6 +28,7 @@ public:
 	static void SetRunScene(Scene * scene);
 	static void push_(Scene * scene);
 	static void pop_();
+    static void next(Scene * scene);
 private:
 	static Scene * GetSceneBack();
 private:

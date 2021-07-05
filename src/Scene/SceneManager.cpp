@@ -45,4 +45,9 @@ void SceneManager::pop_() {
   sceneManager->m_Scenes.pop_back();
 }
 
+void SceneManager::next(Scene *scene) {
+    sceneManager->pop_();
+    sceneManager->SetRunScene(scene);
+}
+
 Scene *SceneManager::GetSceneBack() { return sceneManager->m_Scenes.back(); }
