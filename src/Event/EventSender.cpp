@@ -5,5 +5,5 @@ using namespace slt;
 
 void EventSender::SendEvent(EventKey key, EventData &data)
 {
-	EventManager::Instance()->DispatchEvent(key, data, this);
+    EventManager::Instance()->DispatchEvent(key, data, this);
 }

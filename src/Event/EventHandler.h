@@ -18,6 +18,7 @@ public:
 	EventKey m_eventType;
 	EventSender * m_sender;
 	EventReciver * m_reciver;
+    bool m_lifep;
 };
 }
 

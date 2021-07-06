@@ -31,7 +31,7 @@ public:
     {
         return this->m_next[name];
     }
-    void * PrintChild()
+    void PrintChild()
     {
         for (auto nextNode : this->m_next) {
             printf("key:%s\n", nextNode.first.c_str());

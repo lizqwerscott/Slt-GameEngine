@@ -197,9 +197,9 @@ void MainScene::init()
         E_NODEUPDATEEND,
     [baffleNode](EventKey key, EventData &data, EventSender *sender) -> void {
         using namespace slt::NodeUpdateBegin;
-        b2Vec2 pos = baffleNode->GetPosition();
+        //b2Vec2 pos = baffleNode->GetPosition();
     },
-    baffleNode);
+    baffleNode, baffleNode->GetName());
 
     SubscribeEventIml(
         E_NODEUPDATEBEGIN,
@@ -209,7 +209,7 @@ void MainScene::init()
         // slt::EventNameRegistrar::GetEventName(key).c_str(),
         // (long)data[P_TYPE]);
     },
-    ballNode);
+    ballNode, ballNode->GetName());
 
     SubscribeEventIml(
         E_NODEUPDATEEND,
@@ -219,10 +219,10 @@ void MainScene::init()
         // slt::EventNameRegistrar::GetEventName(key).c_str(),
         // (long)data[P_TYPE]);
     },
-    ballNode);
+    ballNode, ballNode->GetName());
 
     ballNode->pushUpdateCallBack([this, windowSize](SNode *node) -> void {
-        b2Vec2 pos = node->GetPosition();
+        //b2Vec2 pos = node->GetPosition();
         // node->GetPhysicalBody()->GetBody()->SetAwake(true);
         // node->GetPhysicalBody()->GetBody()->ApplyForceToCenter(b2Vec2(0, 1),
         // true);

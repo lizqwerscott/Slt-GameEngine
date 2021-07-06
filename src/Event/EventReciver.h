@@ -9,7 +9,7 @@ class EventSender;
 class EventReciver
 {
 public:
-	virtual void OnEvent(EventKey key, EventData &data, EventSender * sender);
+    virtual void OnEvent(EventKey key, EventData &data, EventSender * sender);
 };
 }
 

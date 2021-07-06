@@ -8,7 +8,7 @@ namespace slt
 class EventSender
 {
 public:
-	virtual void SendEvent(EventKey key, EventData &data);
+    virtual void SendEvent(EventKey key, EventData &data);
 };
 }
 

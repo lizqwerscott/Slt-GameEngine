@@ -175,7 +175,7 @@ void MyBreakoutScene::init() {
         // slt::EventNameRegistrar::GetEventName(key).c_str(),
         // (long)data[P_TYPE]);
       },
-      ballNode);
+      ballNode, ballNode->GetName());
   // SubscribeEvent(E_NODEUPDATEBEGIN, ballNode, this);
   /*
   SubscribeEventIml(SNode::EventSNodeType::ES_UpdateBegin, [](Event * evt,
@@ -193,7 +193,7 @@ void MyBreakoutScene::init() {
         // slt::EventNameRegistrar::GetEventName(key).c_str(),
         // (long)data[P_TYPE]);
       },
-      ballNode);
+      ballNode, ballNode->GetName());
 
   /*
   EventHandlerIml * eventHandler = new

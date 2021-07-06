@@ -30,7 +30,7 @@ void Gun::fire(SNode * parent, PhysicalWorld * world)
 {
     std::string bulletName = std::string("bullet") + std::to_string(m_bulletN);
     b2Vec2 bulletPos = GetPosition() + b2Vec2(0, 10.5);
-    Bullet * bullet = new Bullet(bulletName, static_cast<GameObject *>(parent), world, bulletPos, b2Vec2(0, 30));
+    new Bullet(bulletName, static_cast<GameObject *>(parent), world, bulletPos, b2Vec2(0, 30));
     printf("[CreateBullet]:%s, pos:%f,%f\n", bulletName.c_str(), bulletPos.x, bulletPos.y);
     m_bulletN++;
 }

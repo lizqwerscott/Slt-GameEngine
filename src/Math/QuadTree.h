@@ -11,12 +11,13 @@ class SNode;
 class QuadTree : public Tree<QuadNode>
 {
 public:
-	QuadTree(sf::FloatRect range);
-	~QuadTree();
+    QuadTree(sf::FloatRect range);
+    ~QuadTree();
+
 public:
-	void init(SNode * tree);
-	void insert(SNode * snode, QuadNode * parent);
+    void init(SNode *tree);
+    void insert(SNode *snode, QuadNode *parent);
 };
-}
+} // namespace slt
 
 #endif

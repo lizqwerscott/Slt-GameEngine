@@ -5,7 +5,7 @@
 using namespace slt;
 
 EventHandler::EventHandler(EventKey eventType, EventSender * sender/*=nullptr*/, EventReciver * reciver/*=nullptr*/) : 
-	m_eventType(eventType), m_sender(sender), m_reciver(reciver)
+	m_eventType(eventType), m_sender(sender), m_reciver(reciver), m_lifep(true)
 {
 
 }

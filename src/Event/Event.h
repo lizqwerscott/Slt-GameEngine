@@ -1,12 +1,13 @@
 #ifndef EVENT_H
 #define EVENT_H
 
-#include <ext/hash_map>
+#include <map>
+#include <string>
 
 namespace slt
 {
 typedef unsigned int EventKey;
-typedef __gnu_cxx::hash_map<unsigned int, void *> EventData;
+typedef std::map<unsigned int, void *> EventData;
 }
 
 #endif
