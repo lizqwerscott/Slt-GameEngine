@@ -11,6 +11,10 @@
 #include "Event/EventHandlerIml.h"
 
 #include "Engine/Engine.h"
+
+#include "Graphic/UI/imgui.h"
+#include "Graphic/UI/imgui-SFML.h"
+
 #include "Graphic/Camera.h"
 #include "Graphic/Graphic.h"
 #include "ResourceManager/ResourceManager.h"

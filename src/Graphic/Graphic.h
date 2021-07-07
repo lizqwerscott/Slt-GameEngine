@@ -56,6 +56,7 @@ public:
   static void Close();
 
   static void Clear();
+  static void Update(sf::Time &dt);
   static void Render();
   static void Display();
 

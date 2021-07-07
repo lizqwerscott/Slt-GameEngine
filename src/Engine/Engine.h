@@ -15,14 +15,14 @@ class view;
 class Engine : public Ref
 {
 public:
-	Engine();
-	~Engine();
+    Engine();
+    ~Engine();
 public:
-	int Run(sf::Time &dt);
+    int Run(sf::Time &dt);
 public:
-	bool isClose();
+    bool isClose();
 private:
-	
+
 };
 }
 #endif

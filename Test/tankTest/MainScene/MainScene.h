@@ -11,14 +11,15 @@ using namespace slt;
 class MainScene : public Scene
 {
 public:
-	MainScene();
-	~MainScene();
+    MainScene();
+    ~MainScene();
 public:
-	static MainScene * create();
-	virtual void init() override;
-	virtual void UpdateSelf(sf::Time &dt) override;
+    static MainScene * create();
+    virtual void init() override;
+    virtual void UpdateSelf(sf::Time &dt) override;
+    virtual void DrawUi() override;
 private:
-	b2Vec2 speed;
+    b2Vec2 speed;
 };
 
 #endif

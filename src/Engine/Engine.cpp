@@ -12,34 +12,36 @@ using namespace slt;
 
 Engine::Engine()
 {
-	ResourceManager::init();
-	SceneManager::init();
+    ResourceManager::init();
+    SceneManager::init();
 }
 
 Engine::~Engine()
 {
-	SceneManager::Destory();
-	Graphic::Destory();
-	ResourceManager::Destory();
-	PoolManager::destroyInstance();
-	Math::Destory();
+    SceneManager::Destory();
+    Graphic::Destory();
+    ResourceManager::Destory();
+    PoolManager::destroyInstance();
+    Math::Destory();
 }
 
 int Engine::Run(sf::Time &dt)
 {
-	SceneManager::GetRunScene()->Update(dt);
+    SceneManager::GetRunScene()->Update(dt);
 
-	Graphic::Clear();
-	SceneManager::GetRunScene()->Draw();
-	Graphic::Render();
-	Graphic::Display();
+    Graphic::Update(dt);
+    SceneManager::GetRunScene()->DrawUi();
+    Graphic::Clear();
+    SceneManager::GetRunScene()->Draw();
+    Graphic::Render();
+    Graphic::Display();
 
-	PoolManager::getInstance()->getCurrentPool()->clear();
-  //printf("The Engine dalate time:%f\n", dt.asSeconds()); 
-	return 0;
+    PoolManager::getInstance()->getCurrentPool()->clear();
+    //printf("The Engine dalate time:%f\n", dt.asSeconds());
+    return 0;
 }
 
 bool Engine::isClose()
 {
-	return Graphic::isOpen();
+    return Graphic::isOpen();
 }

@@ -385,7 +385,7 @@ void MainScene::init()
     });
     Graphic::insertMouseClickCallBack(
     sf::Mouse::Left, [this](sf::Vector2i pos) -> void {
-        printf("Left:MousePos:%d, %d\n", pos.x, pos.y);
+        //printf("Left:MousePos:%d, %d\n", pos.x, pos.y);
     });
     Graphic::insertMouseClickCallBack(
     sf::Mouse::Right, [this](sf::Vector2i pos) -> void {
@@ -452,6 +452,10 @@ void MainScene::init()
         node->SetPosation(movePos);
     });
     */
+}
+
+void MainScene::DrawUi()
+{
 }
 
 /**

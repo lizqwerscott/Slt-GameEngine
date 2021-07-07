@@ -14,7 +14,14 @@ set(Tool_SRC_LIST 	${Memory_SRC_LIST}
 				  	Physical/PhysicalFixture.cpp
 				  	Physical/PhysicalBody.cpp
 				  	Physical/PhysicalWorld.cpp
-            Graphic/Camera.cpp
+
+                    Graphic/UI/imgui.cpp
+                    Graphic/UI/imgui_draw.cpp
+                    Graphic/UI/imgui_widgets.cpp
+                    Graphic/UI/imgui-SFML.cpp
+                    Graphic/UI/imgui_tables.cpp
+
+                    Graphic/Camera.cpp
 				  	Graphic/Graphic.cpp 
 				  	Math/Tree.h
 				  	Scene/SNode.cpp 
@@ -29,4 +36,4 @@ add_compile_options(-g -Wall -std=c++11)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 add_library(slt ${Header_SRC_LIST} ${Tool_SRC_LIST})
 set_target_properties(slt PROPERTIES OUTPUT_NAME "slt")
-target_link_libraries(slt -lsfml-graphics -lsfml-window -lsfml-system dl box2d)
+target_link_libraries(slt -lsfml-graphics -lsfml-window -lsfml-system -lGL dl box2d)
