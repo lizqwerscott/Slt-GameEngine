@@ -37,6 +37,7 @@ public:
 
 public:
   static void findKeyCallBack(sf::Keyboard::Key key);
+  static void checkKeyCallBack();
   static void insertKeyCallBack(sf::Keyboard::Key key,
                                 std::function<void(void)> keyCallBack);
   static void deleteKeyCallBack(sf::Keyboard::Key key);

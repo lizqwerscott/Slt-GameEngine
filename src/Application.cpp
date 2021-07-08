@@ -32,8 +32,6 @@ int Application::run()
         while (Graphic::PollWindowEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 Graphic::Close();
-            } else if (event.type == sf::Event::KeyPressed) {
-                Graphic::findKeyCallBack(event.key.code);
             } else if (event.type == sf::Event::MouseWheelScrolled) {
                 printf("the mouse is moved, the delta is %f\n",
                        event.mouseWheelScroll.delta);
@@ -41,6 +39,7 @@ int Application::run()
             } else {
                 ImGui::SFML::ProcessEvent(event);
             }
+            Graphic::checkKeyCallBack();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 sf::Vector2i pos = Graphic::getMousePosition();
                 Graphic::mouseClick(sf::Mouse::Left, pos);

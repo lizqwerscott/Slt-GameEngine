@@ -89,6 +89,13 @@ void Graphic::findKeyCallBack(sf::Keyboard::Key key)
     }
 }
 
+void Graphic::checkKeyCallBack() {
+    for (auto it : graphic->m_keyCallBacks) {
+        if (sf::Keyboard::isKeyPressed(it.first)) {
+            it.second();
+        }
+    }
+}
 void Graphic::insertKeyCallBack(sf::Keyboard::Key key,
                                 std::function<void(void)> keyCallBack)
 {
