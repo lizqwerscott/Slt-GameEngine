@@ -33,10 +33,10 @@ void Ref::release()
     }
 }
 
-Ref * Ref::autorelease()
+Ref * Ref::autorelease(std::string &name)
 {
     // 将节点加入自动释放池
-    PoolManager::getInstance()->getCurrentPool()->addObject(this);
+    PoolManager::getInstance()->getPool(name)->addObject(this);
     return this;
 }
 

@@ -11,6 +11,7 @@ EventHandlerIml::EventHandlerIml(EventKey eventType, std::function<void(EventKey
 
 EventHandlerIml::~EventHandlerIml()
 {
+    printf("[EventHandlerIml]:%s is dead\n", this->m_name.c_str());
 }
 
 void EventHandlerIml::DispatchEvent(EventKey key, EventData &data, EventSender * sender)

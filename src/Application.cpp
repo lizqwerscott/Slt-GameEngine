@@ -26,6 +26,8 @@ int Application::run()
     sf::Clock clockL;
     int runEngine = 0;
     while (engine->isClose() && runEngine == 0) {
+        sf::Time elapsed = clockL.restart();
+        runEngine = engine->Run(elapsed);
         sf::Event event;
         while (Graphic::PollWindowEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -47,8 +49,6 @@ int Application::run()
                 sf::Vector2i pos = Graphic::getMousePosition();
                 Graphic::mouseClick(sf::Mouse::Right, pos);
             }
-        sf::Time elapsed = clockL.restart();
-        runEngine = engine->Run(elapsed);
         }
     }
     printf("EngineEnd\n");

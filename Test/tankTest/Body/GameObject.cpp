@@ -12,7 +12,7 @@ GameObject::GameObject(std::string name, GameObject * parent, b2Vec2 nodePos, do
     }
     this->SetPosition(nodePos);
 
-    /*
+
     this->pushUpdateCallBack([](SNode * node) -> void {
         auto gameObject = static_cast<GameObject *>(node);
         if (gameObject->m_hp <= 0)
@@ -21,16 +21,6 @@ GameObject::GameObject(std::string name, GameObject * parent, b2Vec2 nodePos, do
             gameObject->GetParent()->DeleteChild(gameObject->GetName());
         }
     });
-
-    */
-    SubscribeEventIml(E_NODEUPDATEEND, [](EventKey key, EventData &data, EventSender * sender) -> void {
-            auto gameObject = static_cast<GameObject *>(sender);
-            if (gameObject->m_hp <= 0) {
-                printf("[Dead]:%s hp is zero", gameObject->GetName().c_str());
-                gameObject->GetParent()->DeleteChild(gameObject->GetName());
-                UnSubscribleEventIml(E_NODEUPDATEEND, "self" + gameObject->GetName());
-            }
-    }, this, "self" + this->GetName());
 }
 
 GameObject::~GameObject()

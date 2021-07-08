@@ -9,22 +9,17 @@
 
 using namespace slt;
 
-AutoreleasePool::AutoreleasePool() : _name("")
-{
-	PoolManager::getInstance()->push(this);
-}
-
 AutoreleasePool::AutoreleasePool(std::string name) : _name(name)
 {
-	PoolManager::getInstance()->push(this);
+    PoolManager::getInstance()->add(this);
 }
 
 AutoreleasePool::~AutoreleasePool()
 {
-	clear();
-    
+    clear();
+
     // 要析构的AutoreleasePool对象不再由PoolManager管理
-    PoolManager::getInstance()->pop();
+    PoolManager::getInstance()->remove(this);
 }
 
 // 只是单纯调用vector::push_back加入所管理的对象
@@ -37,8 +32,10 @@ void AutoreleasePool::addObject(Ref* object)
 void AutoreleasePool::clear()
 {
     // 调用每个在AutoreleasePool的对象指针的release方法
-    for (const auto &obj : _managedObjectArray)
-    {
+    for (const auto &obj : _managedObjectArray) {
+        if (this->_name == std::string("event")) {
+            printf("obj release\n");
+        }
         obj->release();
     }
     // 清空存放管理对象的vector
@@ -48,10 +45,15 @@ void AutoreleasePool::clear()
 // 线性搜索所管理的对象指针的vector，查看所指定的Ref指针是否存在
 bool AutoreleasePool::contains(Ref* object) const
 {
-    for (const auto& obj : _managedObjectArray)
-    {
+    for (const auto& obj : _managedObjectArray) {
         if (obj == object)
             return true;
     }
     return false;
 }
+
+std::string AutoreleasePool::getName()
+{
+    return _name;
+}
+

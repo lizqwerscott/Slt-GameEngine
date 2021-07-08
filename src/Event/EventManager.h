@@ -3,6 +3,7 @@
 
 #include <list>
 #include "Event.h"
+#include "../MemoryManager/AutoreleasePool.h"
 
 namespace slt
 {
@@ -26,13 +27,15 @@ public:
     EventData &GetEventData(EventKey id);
 
 private:
-    EventManager() {}
+    EventManager() : m_pool (new AutoreleasePool("event")) {}
     EventManager(const EventManager *) {}
     ~EventManager();
 private:
     //int m_nowEventKeyNumber; //Rember now best key.we can create a new key when we registered a new Event
     IdHandlerMap m_events;
     EventDataMap m_dataMaps;
+private:
+    AutoreleasePool *m_pool;
 };
 
 struct EventNameRegistrar {

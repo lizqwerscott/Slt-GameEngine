@@ -66,8 +66,8 @@ void EventManager::RemoveEventHandler(EventKey id, EventHandler * handler)
         return;
     for (auto listIt : it->second) {
         if (handler == listIt) {
-            delete handler;
-            listIt = nullptr;
+            m_pool->addObject(listIt);
+            break;
         }
     }
 }
@@ -86,7 +86,8 @@ void EventManager::RemoveEventHandlerIml(EventKey id, const std::string &name)
             }
             if (handler != nullptr) {
                 if (handler->m_name == name) {
-                    listIt->m_lifep = false;
+                    printf("[Remove:]%s, ref:%d\n", handler->m_name.c_str(), handler->getReferenceCount());
+                    m_pool->addObject(handler);
                     break;
                 }
             }
@@ -111,15 +112,14 @@ void EventManager::DispatchEvent(EventKey key, EventData &data, EventSender * se
 
     auto & handlerList = it->second;
     for (auto listIt : handlerList) {
-        if (listIt->m_lifep) {
-            if (listIt->m_sender == sender) {
-                listIt->DispatchEvent(key, data, sender);
-            }
+        if (listIt->m_sender == sender) {
+            listIt->DispatchEvent(key, data, sender);
         }
     }
 
-    it->second.remove_if([](EventHandler * handler) {
-        return !handler->m_lifep;
+    m_pool->clear();
+    it->second.remove_if([this](EventHandler * handler) {
+        return m_pool->contains(handler);
     });
     //printf("End\n");
 }

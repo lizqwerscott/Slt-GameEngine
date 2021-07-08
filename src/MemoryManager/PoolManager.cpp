@@ -11,11 +11,10 @@ PoolManager* PoolManager::s_singleInstance = nullptr;
 
 PoolManager* PoolManager::getInstance()
 {
-    if (s_singleInstance == nullptr)
-    {
+    if (s_singleInstance == nullptr) {
         s_singleInstance = new PoolManager();
         // Add the first auto release pool
-        new AutoreleasePool("cocos2d autorelease pool");
+        new AutoreleasePool("main");
     }
     return s_singleInstance;
 }
@@ -26,47 +25,42 @@ void PoolManager::destroyInstance()
     s_singleInstance = nullptr;
 }
 
-PoolManager::PoolManager()
-{
-    _releasePoolStack.reserve(10);
-}
-
 PoolManager::~PoolManager()
-{   
-    // 逐个析构所管理的AutoreleasePool对象
-    while (!_releasePoolStack.empty())
-    {
-        AutoreleasePool* pool = _releasePoolStack.back();
-        
-        delete pool;
+{
+    for (auto pool : _releasePoolMap) {
+        delete pool.second;
     }
 }
 
-// 加入AutoreleasePool对象指针时用的是stl::vector的push_back函数，
-// 于是调用back函数就可以得到最新被加入的AutoreleasePool对象指针
-AutoreleasePool* PoolManager::getCurrentPool() const
+AutoreleasePool* PoolManager::getPool(const std::string &name) const
 {
-    return _releasePoolStack.back();
+    auto it = _releasePoolMap.find(name);
+    if (it != _releasePoolMap.end()) {
+        return it->second;
+    } else {
+        return nullptr;
+    }
 }
 
 // 线性搜索每个被管理的AutoreleasePool，
 // 每个AutoreleasePool对象再用contains函数线性搜索一遍
 bool PoolManager::isObjectInPools(Ref* obj) const
 {
-    for (const auto& pool : _releasePoolStack)
-    {
-        if (pool->contains(obj))
+    for (auto pool : _releasePoolMap) {
+        if (pool.second->contains(obj))
             return true;
     }
     return false;
 }
 
-void PoolManager::push(AutoreleasePool *pool)
-{
-    _releasePoolStack.push_back(pool);
+void PoolManager::add(AutoreleasePool *pool) {
+    _releasePoolMap[pool->getName()] = pool;
 }
 
-void PoolManager::pop()
-{
-    _releasePoolStack.pop_back();
+void PoolManager::remove(AutoreleasePool *pool) {
+    auto it = _releasePoolMap.find(pool->getName());
+    if (it != _releasePoolMap.end()) {
+        _releasePoolMap.erase(it);
+    }
 }
+

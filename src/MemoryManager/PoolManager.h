@@ -1,7 +1,8 @@
 #ifndef POOLMANAGER_H
 #define POOLMANAGER_H
 
-#include <vector>
+#include <map>
+#include <string>
 
 namespace slt
 {
@@ -11,28 +12,34 @@ class AutoreleasePool;
 class PoolManager
 {
 public:
-	static PoolManager* sharedPoolManager() { return getInstance(); }
+    static PoolManager* sharedPoolManager()
+    {
+        return getInstance();
+    }
     static PoolManager* getInstance();
 
-	static void purgePoolManager() { destroyInstance(); }
+    static void purgePoolManager()
+    {
+        destroyInstance();
+    }
     static void destroyInstance();
-    
-    AutoreleasePool *getCurrentPool() const;
+
+    AutoreleasePool *getPool(const std::string &name) const;
 
     bool isObjectInPools(Ref* obj) const;
 
-	friend class AutoreleasePool;
+    friend class AutoreleasePool;
 private:
-	PoolManager();
-	~PoolManager();
-	
-	void push(AutoreleasePool *pool);
-    void pop();
-    
+    PoolManager() {};
+    ~PoolManager();
+
+    void add(AutoreleasePool *pool);
+    void remove(AutoreleasePool *pool);
+
     static PoolManager* s_singleInstance;
-    
+
     // 同样用vector来存放所管理AutoreleasePool对象指针的列表
-    std::vector<AutoreleasePool*> _releasePoolStack;
+    std::map<std::string, AutoreleasePool*> _releasePoolMap;
 };
 }
 

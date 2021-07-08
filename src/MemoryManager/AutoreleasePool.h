@@ -11,16 +11,17 @@ class Ref;
 class AutoreleasePool
 {
 public:
-	AutoreleasePool();
-	AutoreleasePool(std::string name);
-	~AutoreleasePool();
+    AutoreleasePool(std::string name);
+    ~AutoreleasePool();
 public:
-	void addObject(Ref *object);
-	void clear();
-	bool contains(Ref* object) const;
+    void addObject(Ref *object);
+    void clear();
+    bool contains(Ref* object) const;
+public:
+    std::string getName();
 private:
-	std::vector<Ref*> _managedObjectArray;
-    std::string _name;		
+    std::vector<Ref*> _managedObjectArray;
+    std::string _name;
 };
 }
 

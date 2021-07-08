@@ -36,7 +36,7 @@ int Engine::Run(sf::Time &dt)
     Graphic::Render();
     Graphic::Display();
 
-    PoolManager::getInstance()->getCurrentPool()->clear();
+    PoolManager::getInstance()->getPool("main")->clear();
     //printf("The Engine dalate time:%f\n", dt.asSeconds());
     return 0;
 }
