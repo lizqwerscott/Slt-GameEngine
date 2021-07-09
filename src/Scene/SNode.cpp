@@ -12,6 +12,8 @@ SNode::SNode(std::string name, SNode * parent)
 
 SNode::~SNode()
 {
+    this->m_UpdateCallBacks.clear();
+    this->m_DrawCallBacks.clear();
     printf("[SNode:release]");
     std::cout << this->GetName();
     this->m_sprites.clear();
@@ -45,8 +47,19 @@ void SNode::Update(sf::Time &dt, b2Vec2 parentsWorldPos)
             eventData[P_TYPE] = (void *)1;
             this->SendEvent(E_NODEUPDATEEND, eventData);
         }
-        for (auto next : this->m_next) {
-            next.second->Update(dt, this->m_position + parentsWorldPos);
+        //delete child
+        for (auto node : m_deleteChild) {
+            node->m_isActive = false;
+            node->release();
+            this->m_next.remove(node);
+        }
+        m_deleteChild.clear();
+        if (this->m_isActive) {
+            if (!this->m_next.empty()) {
+                for (auto next : this->m_next) {
+                    next->Update(dt, this->m_position + parentsWorldPos);
+                }
+            }
         }
     }
 }
@@ -54,7 +67,7 @@ void SNode::Update(sf::Time &dt, b2Vec2 parentsWorldPos)
 void SNode::Draw()
 {
     for (auto next : this->m_next) {
-        next.second->Draw();
+        next->Draw();
     }
     if (this->m_isDraw) {
         this->DrawSelf();
@@ -99,6 +112,18 @@ void SNode::SetPosition(b2Vec2 pos)
 void SNode::move(b2Vec2 posOffset)
 {
     this->SetPosition(this->m_position + posOffset);
+}
+
+SNode * SNode::GetChild(std::string name)
+{
+    auto iter = find_if(m_next.begin(), m_next.end(), [name](SNode * node) {
+        return name == node->GetName();
+    });
+    if (iter != this->m_next.end()) {
+        return *iter;
+    } else {
+        return nullptr;
+    }
 }
 
 std::shared_ptr<sf::Sprite>
@@ -177,19 +202,22 @@ SNode::CreateChild(std::string name, std::function<void(SNode *)> initFunction)
     SNode * node = new SNode(name, this);
     initFunction(node);
     node->init();
-    this->m_next[name] = node;
+    this->m_next.push_back(node);
     return node;
 }
 
-void SNode::AddChild(SNode * node) {
+void SNode::AddChild(SNode * node)
+{
     node->init();
-    this->m_next[node->GetName()] = node;
+    this->m_next.push_back(node);
 }
 
 void SNode::DeleteChild(std::string name)
 {
-    this->m_next[name]->release();
-    this->m_next.erase(name);
+    SNode * node = this->GetChild(name);
+    if (node != nullptr) {
+        this->m_deleteChild.push_back(node);
+    }
 }
 
 void SNode::pushUpdateCallBack(std::function<void(SNode *)> updateCallBack)

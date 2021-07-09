@@ -15,26 +15,26 @@ namespace slt
 class Object : public Ref, public EventSender, public EventReciver
 {
 public:
-	Object(std::string name);
-	virtual ~Object();
+    Object(std::string name);
+    virtual ~Object();
 public:
-	virtual void init() = 0;
-	virtual void Update(sf::Time &dt, b2Vec2 parentsWorldPos) {};
-	virtual void UpdateSelf(sf::Time &dt) {};
-	virtual void Draw() {};
-	virtual void DrawSelf() {};
+    virtual void init() = 0;
+    virtual void Update(sf::Time &dt, b2Vec2 parentsWorldPos) {};
+    virtual void UpdateSelf(sf::Time &dt) {};
+    virtual void Draw() {};
+    virtual void DrawSelf() {};
 public:
-	std::string GetName();
-	bool GetActive();
-	bool GetDraw();
+    std::string GetName();
+    bool GetActive();
+    bool GetDraw();
 public:
-	void SetActive(bool isActive);
-	void SetDraw(bool isDraw);
+    void SetActive(bool isActive);
+    void SetDraw(bool isDraw);
 protected:
-	bool m_isActive = true;
-	bool m_isDraw = true;
+    bool m_isActive = true;
+    bool m_isDraw = true;
 private:
-	std::string m_name;
+    std::string m_name;
 };
 }
 

@@ -38,8 +38,7 @@ private:
 
     static PoolManager* s_singleInstance;
 
-    // 同样用vector来存放所管理AutoreleasePool对象指针的列表
-    std::map<std::string, AutoreleasePool*> _releasePoolMap;
+    std::map<std::string, AutoreleasePool *> _releasePoolMap;
 };
 }
 

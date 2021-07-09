@@ -21,70 +21,72 @@ class PhysicalBody;
 
 class SNode : public Node<SNode>, public Object
 {
-public:		
-enum EventSNodeType
-{
-	ES_UpdateBegin = 1,
-	ES_UpdateEnd
-};
+public:
+    enum EventSNodeType {
+        ES_UpdateBegin = 1,
+        ES_UpdateEnd
+    };
 public:
     SNode(std::string name, SNode * parent);
     virtual ~SNode();
 public:
-	virtual void init() override;
-	virtual void Update(sf::Time &dt, b2Vec2 parentsWorldPos) override;
-	virtual void UpdateSelf(sf::Time &dt) override {}
-	virtual void Draw() override;
-	virtual void DrawSelf() override {}
-	b2Vec2 GetPosition();
+    virtual void init() override;
+    virtual void Update(sf::Time &dt, b2Vec2 parentsWorldPos) override;
+    virtual void UpdateSelf(sf::Time &dt) override {}
+    virtual void Draw() override;
+    virtual void DrawSelf() override {}
+    b2Vec2 GetPosition();
 public:
-	void SetPosition(b2Vec2 pos);
-	void move(b2Vec2 posOffset);
+    void SetPosition(b2Vec2 pos);
+    void move(b2Vec2 posOffset);
 public:
-	std::shared_ptr<sf::Sprite> CreateSprite(std::string name);
-	void InsertShape(std::string name, sf::Shape * shape);
-	PhysicalBody * CreatePhysicalBody(std::string name, b2Vec2 localWorldPos, b2BodyDef bodyDef, b2World * world);
+    std::shared_ptr<sf::Sprite> CreateSprite(std::string name);
+    void InsertShape(std::string name, sf::Shape * shape);
+    PhysicalBody * CreatePhysicalBody(std::string name, b2Vec2 localWorldPos, b2BodyDef bodyDef, b2World * world);
 
-	std::shared_ptr<sf::Sprite> GetSprite(std::string name);
-	std::shared_ptr<sf::Shape> GetShape(std::string name);
-	PhysicalBody * GetPhysicalBody();
+    std::shared_ptr<sf::Sprite> GetSprite(std::string name);
+    std::shared_ptr<sf::Shape> GetShape(std::string name);
+    PhysicalBody * GetPhysicalBody();
 
-	void deleteSprite(std::string name);
-	void deleteShape(std::string name);
-	void deletePhysicalBody();
+    void deleteSprite(std::string name);
+    void deleteShape(std::string name);
+    void deletePhysicalBody();
 public:
-	SNode * CreateChild(std::string name, std::function<void(SNode *)> initFunction = [](SNode * node)->void {});
+    SNode * GetChild(std::string name);
+    SNode * CreateChild(std::string name, std::function<void(SNode *)> initFunction = [](SNode * node)->void {});
     void AddChild(SNode * node);
-	void DeleteChild(std::string name);
+    void DeleteChild(std::string name);
 public:
-	//CallBack
+    //CallBack
 
-	void pushUpdateCallBack(std::function<void(SNode *)> updateCallBack);
-	void pushDrawCallBack(std::function<void(SNode *)> drawCallBack);
-	void popUpdateCallBack();
-	void popDrawCallBack();
+    void pushUpdateCallBack(std::function<void(SNode *)> updateCallBack);
+    void pushDrawCallBack(std::function<void(SNode *)> drawCallBack);
+    void popUpdateCallBack();
+    void popDrawCallBack();
 private:
-	std::vector<std::function<void(SNode *)>> m_UpdateCallBacks;
-	std::vector<std::function<void(SNode *)>> m_DrawCallBacks;
+    std::vector<std::function<void(SNode *)>> m_UpdateCallBacks;
+    std::vector<std::function<void(SNode *)>> m_DrawCallBacks;
 public:
     std::map<std::string, std::shared_ptr<sf::Sprite>> m_sprites;
     std::map<std::string, std::shared_ptr<sf::Shape>> m_shapes;
     PhysicalBody * m_physicalBody;
 private:
-	b2Vec2 m_position;
+    b2Vec2 m_position;
+private:
+    std::list<SNode *> m_deleteChild;
 };
 
 //Events
 //Node Update Begin
 SLT_EVENT(E_NODEUPDATEBEGIN, NodeUpdateBegin)
 {
-	SLT_PARAM(P_TYPE, type);
+    SLT_PARAM(P_TYPE, type);
 }
 
 //Node Update End
 SLT_EVENT(E_NODEUPDATEEND, NodeUpdateEnd)
 {
-	SLT_PARAM(P_TYPE, type);
+    SLT_PARAM(P_TYPE, type);
 }
 
 }

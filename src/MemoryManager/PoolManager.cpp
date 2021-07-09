@@ -27,9 +27,10 @@ void PoolManager::destroyInstance()
 
 PoolManager::~PoolManager()
 {
-    for (auto pool : _releasePoolMap) {
-        delete pool.second;
+    for (auto iter = _releasePoolMap.begin(); iter != _releasePoolMap.end(); iter++) {
+        delete iter->second;
     }
+    _releasePoolMap.clear();
 }
 
 AutoreleasePool* PoolManager::getPool(const std::string &name) const

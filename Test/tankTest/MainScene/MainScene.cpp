@@ -370,7 +370,6 @@ void MainScene::init()
     Graphic::insertKeyCallBack(sf::Keyboard::Key::G, [this, gunNode]() -> void {
         auto pos = this->GetRootNode()->GetChild(std::string("Gun"))->GetPosition();
         printf("gunNode:%f %f\n", pos.x, pos.y);
-        this->GetRootNode()->PrintChild();
     });
     Graphic::insertMouseWheelCallBack(
     [this](sf::Event::MouseWheelScrollEvent event) -> void {
