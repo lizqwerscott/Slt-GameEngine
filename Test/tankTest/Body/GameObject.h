@@ -9,7 +9,7 @@ using namespace slt;
 class GameObject : public SNode
 {
 public:
-    GameObject(std::string name, GameObject * parent, b2Vec2 nodePos = b2Vec2(0, 0), double hp = 1);
+    GameObject(std::string name, GameObject * parent, double hp = 1);
     ~GameObject();
 public:
     double getHp() {return this->m_hp;}

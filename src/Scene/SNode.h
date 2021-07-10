@@ -56,6 +56,7 @@ public:
     SNode * CreateChild(std::string name, std::function<void(SNode *)> initFunction = [](SNode * node)->void {});
     void AddChild(SNode * node);
     void DeleteChild(std::string name);
+    SNode * popChild(std::string name);
 public:
     //CallBack
 

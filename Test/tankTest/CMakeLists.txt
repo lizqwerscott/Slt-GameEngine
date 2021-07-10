@@ -1,5 +1,18 @@
 include_directories(${PROJECT_SOURCE_DIR}/src)
-set(MAIN_SRC_LIST Body/GameObject.cpp Body/Bullet/Bullet.cpp Body/Gun/Gun.cpp MainScene/MainScene.cpp StartScene/StartScene.cpp MyApplication.cpp mainTest.cpp)
+set(MAIN_SRC_LIST 
+    Body/GameObject.cpp 
+
+    Body/Entity/Entity.cpp
+    Body/Entity/Bullet/Bullet.cpp 
+    Body/Entity/Gun/Gun.cpp 
+    Body/Entity/Biological/Biological.cpp
+    Body/Entity/Biological/Person.cpp
+
+    Body/Item/Item.cpp
+    MainScene/MainScene.cpp 
+    StartScene/StartScene.cpp 
+    MyApplication.cpp 
+    mainTest.cpp)
 
 add_compile_options(-g -Wall)
 

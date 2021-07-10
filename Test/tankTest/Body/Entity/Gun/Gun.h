@@ -1,9 +1,9 @@
 #ifndef GUN_H
 #define GUN_H
 
-#include "../GameObject.h"
+#include "../Entity.h"
 
-class Gun : public GameObject
+class Gun : public Entity
 {
 public:
     Gun(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos);

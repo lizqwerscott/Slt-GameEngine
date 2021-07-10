@@ -2,7 +2,7 @@
 #include "../Bullet/Bullet.h"
 
 Gun::Gun(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos) :
-    GameObject(name, parent, nodePos, 10000),
+    Entity(name, parent, nodePos, 10000),
     m_bulletN(0)
 {
     b2Vec2 localWorldPos(0, 0);

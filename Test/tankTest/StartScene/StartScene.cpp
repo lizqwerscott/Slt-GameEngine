@@ -18,21 +18,27 @@ StartScene * StartScene::create()
 void StartScene::init()
 {
     ResourceManager::LoadFontFromFile(std::string("/home/lizqwer/project/Slt-GameEngine/resource/font/yudit.ttf"), std::string("yudit"));
+    ImGui::GetIO().Fonts->Clear();
+    ImGui::GetIO().Fonts->AddFontFromFileTTF("/home/lizqwer/project/Slt-GameEngine/resource/font/yudit.ttf", 30.f);
+    ImGui::SFML::UpdateFontTexture();
 }
 
 void StartScene::DrawUi()
 {
+    auto windowSize = Graphic::getWindowSize();
     ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-    ImGui::SetNextWindowSize(ImVec2(Graphic::getWindowSize().x, Graphic::getWindowSize().y));
-    ImGui::Begin("MainPage", nullptr, ImGuiWindowFlags_NoTitleBar);
-    if (ImGui::Button("Start")) {
+    ImGui::SetNextWindowSize(ImVec2(windowSize.x, windowSize.y));
+    ImGui::Begin("MainPage", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[0]);
+    if (ImGui::Button("Start", ImVec2(windowSize.x, windowSize.y / 2))) {
         auto MainScene = MainScene::create();
         SceneManager::pop_();
         SceneManager::SetRunScene(MainScene);
     }
-    if (ImGui::Button("End")) {
+    if (ImGui::Button("End", ImVec2(windowSize.x, windowSize.y / 2))) {
         Graphic::Close();
     }
+    ImGui::PopFont();
     ImGui::End();
 }
 

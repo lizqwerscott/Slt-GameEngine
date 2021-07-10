@@ -1,6 +1,7 @@
 #include "Bullet.h"
 
-Bullet::Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos, b2Vec2 initSpeed) : GameObject(name, parent, nodePos, 1)
+Bullet::Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos, b2Vec2 initSpeed) :
+    Entity(name, parent, nodePos, 1)
 {
     b2Vec2 localWorldPos(0, 0);
 

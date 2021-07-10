@@ -1,8 +1,8 @@
 #include "MainScene.h"
 #include <cstdlib>
 #include <ctime>
-#include "../Body/Bullet/Bullet.h"
-#include "../Body/Gun/Gun.h"
+#include "../Body/Entity/Bullet/Bullet.h"
+#include "../Body/Entity/Gun/Gun.h"
 #define random(a, b) (rand() % (b - a + 1) + a)
 
 /**
@@ -195,7 +195,7 @@ void MainScene::init()
 
     SubscribeEventIml(
         E_NODEUPDATEEND,
-    [baffleNode](EventKey key, EventData &data, EventSender *sender) -> void {
+    [](EventKey key, EventData &data, EventSender *sender) -> void {
         using namespace slt::NodeUpdateBegin;
         //b2Vec2 pos = baffleNode->GetPosition();
     },

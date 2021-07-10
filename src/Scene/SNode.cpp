@@ -220,6 +220,13 @@ void SNode::DeleteChild(std::string name)
     }
 }
 
+SNode * SNode::popChild(std::string name)
+{
+    SNode * node = this->GetChild(name);
+    this->m_next.remove(node);
+    return node;
+}
+
 void SNode::pushUpdateCallBack(std::function<void(SNode *)> updateCallBack)
 {
     this->m_UpdateCallBacks.push_back(updateCallBack);
