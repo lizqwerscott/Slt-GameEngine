@@ -76,6 +76,11 @@ void Graphic::SetView(sf::View &view)
     graphic->m_window->setView(view);
 }
 
+sf::Vector2f Graphic::PixelToCoords(sf::Vector2i pixelPos)
+{
+    return graphic->m_window->mapPixelToCoords(pixelPos);
+}
+
 sf::Color Graphic::changeColor(b2Color color)
 {
     return sf::Color((int)(color.r * 255), (int)color.g * 255, (int)color.b * 255,

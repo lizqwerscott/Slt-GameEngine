@@ -2,13 +2,20 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 set(MAIN_SRC_LIST 
     Body/GameObject.cpp 
 
+    Body/Item/Item.cpp
+
+    Body/BoxBase.cpp
+
+    Body/Entity/Box/Box.cpp
     Body/Entity/Entity.cpp
     Body/Entity/Bullet/Bullet.cpp 
-    Body/Entity/Gun/Gun.cpp 
     Body/Entity/Biological/Biological.cpp
     Body/Entity/Biological/Person.cpp
 
-    Body/Item/Item.cpp
+    Body/Item/Bag/Bag.cpp
+    Body/Item/Gun/BulletI.cpp
+    Body/Item/Gun/Gun.cpp
+
     MainScene/MainScene.cpp 
     StartScene/StartScene.cpp 
     MyApplication.cpp 

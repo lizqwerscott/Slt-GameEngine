@@ -3,41 +3,49 @@
 
 #include "Biological.h"
 
+class Item;
+//class Clothes;
+//class Hat;
+//class Gloves;
+//class Coat;
+//class Pants;
+//class Shoes;
+class Bag;
+
 class Person : public Biological
 {
 public:
-    Person(std::string name, GameObject * parent, b2Vec2 nodePos = b2Vec2(0, 0));
+    Person(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos = b2Vec2(0, 0));
     ~Person();
 public:
-    void useLeftHand();
-    void useRightHand();
+    void useHand(PhysicalWorld * world, b2Vec2 mouseClick);
+    bool handP() {return m_tHand != nullptr;}
+    Item * getHand();
 public:
     void move();
-    void drink(GameObject * drink);
-    void eat(GameObject * food);
-    void wear(GameObject * clothes);
+    void drink(Item * drink);
+    void eat(Item * food);
+    void wear(Item * clothes);
+    bool equip(Item * tool);
 private:
     //self item tools
-    //left hand
-    GameObject * m_tLeftHand = nullptr;
-    //right hand
-    GameObject * m_tRightHand = nullptr;
+    //hand
+    Item * m_tHand = nullptr;
+    //Backpack
+    Bag * m_tBackPack = nullptr;
     //clothes
-    GameObject * m_cHead = nullptr;
+    //Hat * m_cHead = nullptr;
 
-    GameObject * m_cLeftArm = nullptr;
-    GameObject * m_cLeftHand = nullptr; //only put clothes
+    //Gloves * m_cLeftHand = nullptr; //only put clothes
+    //Gloves * m_cRightHand = nullptr; //only pub clothes
 
-    GameObject * m_cRightArm = nullptr;
-    GameObject * m_cRightHand = nullptr; //only pub clothes
+    // Coat * m_cBody = nullptr;
+    //
+    // Pants * m_cLeg;
+    //
+    // Shoes * m_cLeftFoot = nullptr;
+    // Shoes * m_cRightFoot = nullptr;
 
-    GameObject * m_cBody = nullptr;
-
-    GameObject * m_cLeftLeg = nullptr;
-    GameObject * m_cRightLeg = nullptr;
-
-    GameObject * m_cLeftFoot = nullptr;
-    GameObject * m_cRightFoot = nullptr;
     //Attributes 
     double m_water;
     double m_food;

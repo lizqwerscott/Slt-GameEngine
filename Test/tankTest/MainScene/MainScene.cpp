@@ -2,7 +2,9 @@
 #include <cstdlib>
 #include <ctime>
 #include "../Body/Entity/Bullet/Bullet.h"
-#include "../Body/Entity/Gun/Gun.h"
+#include "../Body/Item/Gun/Gun.h"
+#include "../Body/Item/Gun/BulletI.h"
+#include "../Body/Entity/Biological/Person.h"
 #define random(a, b) (rand() % (b - a + 1) + a)
 
 /**
@@ -182,14 +184,17 @@ void MainScene::init()
 
     // Gun node
     b2Vec2 nodePos = Math::DrawCoordSToPhysicalCoords(sf::Vector2f(windowSize.x / 2, windowSize.y / 2));
-    Gun * gunNode = new Gun(std::string("Gun"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
+    //Gun * gunNode = new Gun(std::string("Gun"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
+    Person * personNode = new Person(std::string("person"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
+    Gun * gun = new Gun(std::string("gun"), 10, 5, 10);
+    personNode->equip(gun);
 
 
     auto camera_pos = this->getCamera().get()->getView().getCenter();
     printf("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
     printf("baffleNodePos:%f, %f\n", baffleNode->GetPosition().x,
            baffleNode->GetPosition().y);
-    printf("gunPos:%f, %f\n", gunNode->GetPosition().x, gunNode->GetPosition().y);
+    printf("gunPos:%f, %f\n", personNode->GetPosition().x, personNode->GetPosition().y);
     auto size_view = this->getCamera().get()->getView().getSize();
     printf("Size:%f, %f\n", size_view.x, size_view.y);
 
@@ -283,40 +288,55 @@ void MainScene::init()
 
     });
 
-    float force = 50;
+    float force = 5;
 
     // bind key callBack
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::A, [gunNode, force]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::A, [personNode, force]() -> void {
         // printf("Move:Left\n");
         // baffleNode->move(b2Vec2(-2, 0));
-        gunNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
+        personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
             b2Vec2(-force, 0), true);
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::D, [gunNode, force]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::D, [personNode, force]() -> void {
         // printf("Move:Right\n");
-        gunNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
+        personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
             b2Vec2(force, 0), true);
         // baffleNode->move(b2Vec2(2, 0));
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::W, [gunNode, force]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::W, [personNode, force]() -> void {
         // printf("Move:Up\n");
         // baffleNode->move(b2Vec2(0, 2));
-        gunNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
+        personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
             b2Vec2(0, force), true);
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::S, [gunNode, force]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::S, [personNode, force]() -> void {
         // printf("Move:Down\n");
         // baffleNode->move(b2Vec2(0, -2));
-        gunNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
+        personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
             b2Vec2(0, -force), true);
+    });
+    Graphic::insertKeyCallBack(sf::Keyboard::R, [personNode]() -> void {
+            if (personNode->handP()) {
+                auto gun = static_cast<Gun*>(personNode->getHand());
+                for (int i = 0; i < 10; i++) {
+                    BulletI * bullet = new BulletI(std::string("bullet") + std::to_string(i), 1, 0.1);
+                    gun->loadBullet(bullet);
+                }
+            }
+    });
+    Graphic::insertMouseClickCallBack(
+    sf::Mouse::Left, [personNode, physicalWorld](sf::Vector2i pos) -> void {
+        printf("Left:MousePos:%d, %d\n", pos.x, pos.y);
+        sf::Vector2f coordPos = Graphic::PixelToCoords(pos);
+        personNode->useHand(physicalWorld.get(), Math::DrawCoordSToPhysicalCoords(coordPos));
     });
 
     // Shoot bullet
-    Graphic::insertKeyCallBack(
-        sf::Keyboard::Key::Space,
-    [gunNode, windowSize, physicalWorld, this]() -> void {
-        gunNode->fire(GetRootNode(), physicalWorld.get());
-    });
+    // Graphic::insertKeyCallBack(
+    //     sf::Keyboard::Key::Space,
+    // [gunNode, windowSize, physicalWorld, this]() -> void {
+    //     gunNode->fire(GetRootNode(), physicalWorld.get());
+    // });
 
     Graphic::insertKeyCallBack(sf::Keyboard::Key::Escape,
 
@@ -367,10 +387,10 @@ void MainScene::init()
     Graphic::insertKeyCallBack(sf::Keyboard::Key::M, [this]() -> void {
         this->getCamera()->zoom(0.9f);
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::G, [this, gunNode]() -> void {
-        auto pos = this->GetRootNode()->GetChild(std::string("Gun"))->GetPosition();
-        printf("gunNode:%f %f\n", pos.x, pos.y);
-    });
+    // Graphic::insertKeyCallBack(sf::Keyboard::Key::G, [this, gunNode]() -> void {
+    //     auto pos = this->GetRootNode()->GetChild(std::string("Gun"))->GetPosition();
+    //     printf("gunNode:%f %f\n", pos.x, pos.y);
+    // });
     Graphic::insertMouseWheelCallBack(
     [this](sf::Event::MouseWheelScrollEvent event) -> void {
         int delta = event.delta;
@@ -381,10 +401,6 @@ void MainScene::init()
         {
             this->getCamera()->zoom(1.1);
         }
-    });
-    Graphic::insertMouseClickCallBack(
-    sf::Mouse::Left, [this](sf::Vector2i pos) -> void {
-        //printf("Left:MousePos:%d, %d\n", pos.x, pos.y);
     });
     Graphic::insertMouseClickCallBack(
     sf::Mouse::Right, [this](sf::Vector2i pos) -> void {

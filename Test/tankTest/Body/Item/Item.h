@@ -1,21 +1,23 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "../GameObject.h"
+#include "../../../../src/AllSub.h"
 
 using namespace slt;
 
-class Item : public GameObject
+class Item
 {
 public:
-    Item(std::string name, GameObject * parent, double volume, double quality, double hp = 1);
+    Item(std::string name, double volume, double quality);
     ~Item();
 public:
     double getVolume() {return m_volume;}
     double getQuality() {return m_quality;}
+    std::string getName() {return m_name;}
 private:
     double m_volume;
     double m_quality;
+    std::string m_name;
 };
 
 #endif /* ITEM_H */

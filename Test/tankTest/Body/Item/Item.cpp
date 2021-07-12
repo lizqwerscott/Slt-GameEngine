@@ -1,10 +1,9 @@
 #include "Item.h"
 
-
-Item::Item(std::string name, GameObject * parent, double volume, double quality, double hp) : 
-    GameObject(name, parent, hp),
+Item::Item(std::string name, double volume, double quality) : 
     m_volume(volume),
-    m_quality(quality)
+    m_quality(quality),
+    m_name(name)
 {
 }
 

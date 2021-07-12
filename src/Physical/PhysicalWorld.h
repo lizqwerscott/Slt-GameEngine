@@ -9,8 +9,7 @@
 namespace slt
 {
 /// Test settings. Some can be controlled in the GUI.
-struct Settings
-{
+struct Settings {
     Settings()
     {
         hz = 60.0f;
@@ -54,33 +53,33 @@ struct Settings
     bool pause;
     bool singleStep;
 };
-	
+
 class PhysicalWorld : public b2World, public Object, public b2ContactListener
 {
 public:
-	PhysicalWorld(std::string name, bool isOpenDebugDraw, int32 vI, int32 pI, b2Vec2 gravity);
-	~PhysicalWorld();
+    PhysicalWorld(std::string name, bool isOpenDebugDraw, int32 vI, int32 pI, b2Vec2 gravity);
+    ~PhysicalWorld();
 public:
-	void setDebugDraw(bool isOpen);
+    void setDebugDraw(bool isOpen);
 public:
-	virtual void init() override;
-	virtual void Update(sf::Time &dt, b2Vec2 parentsWorldPos = b2Vec2(0, 0)) override;
+    virtual void init() override;
+    virtual void Update(sf::Time &dt, b2Vec2 parentsWorldPos = b2Vec2(0, 0)) override;
 public:
-	void onBeginContact(std::function<void(b2Contact* contact)> beginContact);
-	void onEndContact(std::function<void(b2Contact* contact)> endContact);
-	void onBeginContact();
-	void onEndContact();
+    void onBeginContact(std::function<void(b2Contact* contact)> beginContact);
+    void onEndContact(std::function<void(b2Contact* contact)> endContact);
+    void onBeginContact();
+    void onEndContact();
 public:
-	//Contatct
-	void BeginContact(b2Contact* contact) override;
+    //Contatct
+    void BeginContact(b2Contact* contact) override;
     void EndContact(b2Contact* contact) override;
 private:
-	bool m_isOpenDebugDraw;
+    bool m_isOpenDebugDraw;
 private:
-	std::vector<std::function<void(b2Contact * contact)>> m_beginContact;
-	std::vector<std::function<void(b2Contact * contact)>> m_endContact;
+    std::vector<std::function<void(b2Contact * contact)>> m_beginContact;
+    std::vector<std::function<void(b2Contact * contact)>> m_endContact;
 public:
-	Settings * settings;
+    Settings * settings;
 };
 }
 

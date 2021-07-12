@@ -32,6 +32,8 @@ public:
 
   static void SetView(sf::View &view);
 
+  static sf::Vector2f PixelToCoords(sf::Vector2i pixelPos);
+
 public:
   static sf::Color changeColor(b2Color color);
 
