@@ -28,5 +28,6 @@ Bullet::Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2V
                    fixtureDef);
     physicalBody->GetBody()->ApplyLinearImpulseToCenter(initSpeed, true);
     this->GetPhysicalBody()->GetBody()->GetUserData().data.push_back(static_cast<void *>(this));
+    fixture->m_fixture->GetUserData().data.push_back(static_cast<void*>(this));
 }
 

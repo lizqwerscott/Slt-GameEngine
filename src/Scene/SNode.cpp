@@ -96,6 +96,16 @@ void SNode::Draw()
     }
 }
 
+void SNode::DrawUi()
+{
+    if (m_isDrawUi) {
+        this->DrawUiSelf();
+        for (auto next : this->m_next) {
+            next->DrawUi();
+        }
+    }
+}
+
 b2Vec2
 SNode::GetPosition()
 {

@@ -5,6 +5,7 @@
 #include "../Body/Item/Gun/Gun.h"
 #include "../Body/Item/Gun/BulletI.h"
 #include "../Body/Entity/Biological/Person.h"
+#include "../Body/Entity/Box/Box.h"
 #define random(a, b) (rand() % (b - a + 1) + a)
 
 /**
@@ -82,7 +83,7 @@ void MainScene::init()
             Math::PixelToMeter(windowSize.x / 2), 1,
             Math::WorldCoordSToPhysicalCoordS(downLocalWorldPos), 0);
         downfixtureDef.shape = &downPolygonShape;
-        physicalBody->CreateFixture(std::string("UpWall"), downfixtureDef);
+        physicalBody->CreateFixture(std::string("DwonWall"), downfixtureDef);
         // Left Wall
         b2FixtureDef leftfixtureDef;
         leftfixtureDef.density = 1;
@@ -95,7 +96,7 @@ void MainScene::init()
             1, Math::PixelToMeter(windowSize.y / 2),
             Math::WorldCoordSToPhysicalCoordS(leftLocalWorldPos), 0);
         leftfixtureDef.shape = &leftPolygonShape;
-        physicalBody->CreateFixture(std::string("UpWall"), leftfixtureDef);
+        physicalBody->CreateFixture(std::string("LeftWall"), leftfixtureDef);
         // Right Wall
         b2FixtureDef rightfixtureDef;
         rightfixtureDef.density = 1;
@@ -108,7 +109,7 @@ void MainScene::init()
             1, Math::PixelToMeter(windowSize.y / 2),
             Math::WorldCoordSToPhysicalCoordS(rightLocalWorldPos), 0);
         rightfixtureDef.shape = &rightPolygonShape;
-        physicalBody->CreateFixture(std::string("UpWall"), rightfixtureDef);
+        physicalBody->CreateFixture(std::string("RightWall"), rightfixtureDef);
     });
 
     // Ball node
@@ -142,7 +143,7 @@ void MainScene::init()
         fixtureDef.shape = &circleShape;
         fixtureDef.restitution = 1;
         auto fixture =
-        physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
+        physicalBody->CreateFixture(std::string("fixtureBall"), fixtureDef);
 
         // auto shape = Graphic::GetShape(fixture->GetFixture(), sf::Color(0,
         // 200, 35)); node->InsertShape("MainCircle", shape);
@@ -174,7 +175,7 @@ void MainScene::init()
         fixtureDef.restitution = 1;
         fixtureDef.shape = &polygonShape;
         auto fixture =
-        physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
+        physicalBody->CreateFixture(std::string("fixtureBaffle"), fixtureDef);
         // auto shape =
         //   Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 0, 125));
         // auto shape = Graphic::GetShape(&polygonShape, bodyDef., sf::Color(0,
@@ -189,6 +190,12 @@ void MainScene::init()
     Gun * gun = new Gun(std::string("gun"), 10, 5, 10);
     personNode->equip(gun);
 
+    Box * boxNode = new Box(std::string("box"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), 100, 100, b2Vec2(0, 10), 100);
+    BulletI * bulletI = new BulletI(std::string("bullet1"), 2, 1);
+    BulletI * bulletI2 = new BulletI(std::string("bullet1"), 2, 1);
+    boxNode->addItem(bulletI);
+    boxNode->addItem(bulletI2);
+    boxNode->addItem(new Gun(std::string("gun1"), 20, 20, 20));
 
     auto camera_pos = this->getCamera().get()->getView().getCenter();
     printf("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
@@ -323,6 +330,9 @@ void MainScene::init()
                     gun->loadBullet(bullet);
                 }
             }
+    });
+    Graphic::insertKeyCallBack(sf::Keyboard::E, [personNode, physicalWorld]() -> void {
+            personNode->useFace(physicalWorld.get());
     });
     Graphic::insertMouseClickCallBack(
     sf::Mouse::Left, [personNode, physicalWorld](sf::Vector2i pos) -> void {
@@ -469,8 +479,9 @@ void MainScene::init()
     */
 }
 
-void MainScene::DrawUi()
+void MainScene::DrawUiSelf()
 {
+    ImGui::ShowDemoWindow();
 }
 
 /**
@@ -480,7 +491,7 @@ void MainScene::DrawUi()
  */
 void MainScene::UpdateSelf(sf::Time &dt)
 {
-    // sf::Vector2u windowSize = Graphic::getWindowSize();
+
     //printf("RunUpdae\n");
     //auto pos = this->GetRootNode()->GetChild("Gun")->GetPosition();
     b2Vec2 pos(0, 0);

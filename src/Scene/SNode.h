@@ -35,6 +35,8 @@ public:
     virtual void UpdateSelf(sf::Time &dt) override {}
     virtual void Draw() override;
     virtual void DrawSelf() override {}
+    virtual void DrawUi() override;
+    virtual void DrawUiSelf() override {};
     b2Vec2 GetPosition();
 public:
     void SetPosition(b2Vec2 pos);

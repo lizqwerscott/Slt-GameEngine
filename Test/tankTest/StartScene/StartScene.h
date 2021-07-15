@@ -13,8 +13,8 @@ public:
 public:
     static StartScene * create();
     virtual void init() override;
-    virtual void DrawUi() override;
     virtual void UpdateSelf(sf::Time &dt) override;
+    virtual void DrawUiSelf() override;
 private:
 };
 

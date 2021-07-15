@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 class Item;
 
@@ -15,7 +16,7 @@ public:
     bool addItem(Item * item);
     Item * getItem(std::string name);
     Item * getItem(int index);
-    bool transferItem(std::string name, BoxBase * target);
+    bool transferItem(std::string name, BoxBase * target, int number);
 public:
     double getNowVolume();
     double getNowQuality();
@@ -28,8 +29,8 @@ private:
     double m_maxQuality;
     double m_nowVolume = 0;
     double m_nowQuality = 0;
-    
-    std::vector<Item *> m_container;
+protected:
+    std::map<std::string, std::vector<Item *>> m_container;
 };
 
 #endif /* BOXBASE_H */

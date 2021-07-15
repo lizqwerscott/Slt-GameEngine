@@ -3,6 +3,7 @@
 
 Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos) :
     Biological(name, parent, nodePos, 100),
+    m_face(b2Vec2(0, 0)),
     m_water(100),
     m_food(100)
 {
@@ -28,6 +29,8 @@ Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     fixtureDef.restitution = 1;
     auto fixture = physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
     this->GetPhysicalBody()->GetBody()->GetUserData().data.push_back(static_cast<void *>(this));
+    fixture->m_fixture->GetUserData().data.push_back(static_cast<void *>(this));
+    m_findRayCastCallBack = new FindRayCastCallback(this);
 }
 
 Person::~Person() 
@@ -35,6 +38,10 @@ Person::~Person()
     if (m_tHand != nullptr) {
         delete m_tHand;
         m_tHand = nullptr;
+    }
+    if (m_findRayCastCallBack != nullptr) {
+        delete m_findRayCastCallBack;
+        m_findRayCastCallBack = nullptr;
     }
     // if (m_tBackPack != nullptr) {
     //     delete m_tBackPack;
@@ -45,6 +52,7 @@ Person::~Person()
 void Person::useHand(PhysicalWorld * world, b2Vec2 mouseClick)
 {
     b2Vec2 selfPos = GetPosition();
+    printf("face: %f, %f\n", m_face.x, m_face.y);
     printf("click P: %f, %f\n", mouseClick.x, mouseClick.y);
     printf("Pos: %f, %f\n", selfPos.x, selfPos.y);
     Gun * gun = static_cast<Gun *>(m_tHand);
@@ -54,6 +62,18 @@ void Person::useHand(PhysicalWorld * world, b2Vec2 mouseClick)
     b2Vec2 targetPos = b2Vec2(cosAngle * 1.3, sinAngel * 1.3) + GetPosition();
     printf("bullet generate: %f, %f\n", targetPos.x, targetPos.y);
     gun->fire(this, world, targetPos);
+}
+
+Item * Person::getHand()
+{
+    return m_tHand;
+}
+
+void Person::useFace(PhysicalWorld * world)
+{
+    //find face entity;
+    printf("face: %f, %f\n", m_face.x, m_face.y);
+    world->RayCast(m_findRayCastCallBack, GetPosition(), m_face);
 }
 
 void Person::move()
@@ -82,7 +102,8 @@ bool Person::equip(Item *tool)
     }
 }
 
-Item * Person::getHand()
+void Person::UpdateSelf(sf::Time &dt)
 {
-    return m_tHand;
+    m_face = Math::DrawCoordSToPhysicalCoords(Graphic::PixelToCoords(sf::Mouse::getPosition()));
 }
+

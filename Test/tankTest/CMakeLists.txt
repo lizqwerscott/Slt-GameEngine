@@ -2,8 +2,6 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 set(MAIN_SRC_LIST 
     Body/GameObject.cpp 
 
-    Body/Item/Item.cpp
-
     Body/BoxBase.cpp
 
     Body/Entity/Box/Box.cpp

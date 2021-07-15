@@ -23,7 +23,7 @@ void StartScene::init()
     ImGui::SFML::UpdateFontTexture();
 }
 
-void StartScene::DrawUi()
+void StartScene::DrawUiSelf()
 {
     auto windowSize = Graphic::getWindowSize();
     ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));

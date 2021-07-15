@@ -35,7 +35,8 @@ public:
     virtual void UpdateSelf(sf::Time &dt) override {}
     virtual void Draw() override;
     virtual void DrawSelf() override {}
-    virtual void DrawUi() {}
+    virtual void DrawUi() override;
+    virtual void DrawUiSelf() override {}
 public:
     std::shared_ptr<PhysicalWorld> CreatePhysicalWorld(std::string name, bool isOpenDebugDraw = false, b2Vec2 gravity = b2Vec2(0, 0), int32 vI = 8, int32 pI = 3);
     void DeletePhysicalWorld();

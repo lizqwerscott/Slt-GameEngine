@@ -17,7 +17,7 @@ public:
     static MainScene * create();
     virtual void init() override;
     virtual void UpdateSelf(sf::Time &dt) override;
-    virtual void DrawUi() override;
+    virtual void DrawUiSelf() override;
 private:
     b2Vec2 speed;
 };

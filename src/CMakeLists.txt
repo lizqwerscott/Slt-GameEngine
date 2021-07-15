@@ -20,6 +20,7 @@ set(Tool_SRC_LIST 	${Memory_SRC_LIST}
                     Graphic/UI/imgui_widgets.cpp
                     Graphic/UI/imgui-SFML.cpp
                     Graphic/UI/imgui_tables.cpp
+                    Graphic/UI/imgui_demo.cpp
 
                     Graphic/Camera.cpp
 				  	Graphic/Graphic.cpp 

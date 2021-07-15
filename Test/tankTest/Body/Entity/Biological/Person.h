@@ -12,6 +12,29 @@ class Item;
 //class Shoes;
 class Bag;
 
+class Person;
+
+class FindRayCastCallback : public b2RayCastCallback
+{
+public:
+    FindRayCastCallback(Person * person) : m_person(person) {}
+    ~FindRayCastCallback() {}
+public:
+    float ReportFixture(b2Fixture * fixture, const b2Vec2& point, const b2Vec2& normal, float fraction)
+    {
+        Entity * entity = static_cast<Entity *>(fixture->GetUserData().data[1]);
+        PhysicalFixture * pFixture = static_cast<PhysicalFixture *>(fixture->GetUserData().data[0]);
+        printf("fraction:%f\n", fraction);
+        printf("name:%s\n", pFixture->GetName().c_str());
+        if (fraction <= 0.309) {
+            entity->onFace(m_person);
+        }
+        return 0;
+    }
+public:
+    Person * m_person;
+};
+
 class Person : public Biological
 {
 public:
@@ -22,11 +45,18 @@ public:
     bool handP() {return m_tHand != nullptr;}
     Item * getHand();
 public:
+    void useFace(PhysicalWorld * world);
+public:
     void move();
     void drink(Item * drink);
     void eat(Item * food);
     void wear(Item * clothes);
     bool equip(Item * tool);
+public:
+    virtual void UpdateSelf(sf::Time &dt) override;
+private:
+    FindRayCastCallback * m_findRayCastCallBack;
+    b2Vec2 m_face; //mouse place
 private:
     //self item tools
     //hand

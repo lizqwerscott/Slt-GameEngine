@@ -4,7 +4,7 @@
 #include "../Item.h"
 #include "../../BoxBase.h"
 
-class Bag : public Item, BoxBase
+class Bag : public Item, public BoxBase
 {
 public:
     Bag(std::string name, double volume, double quality, double maxVolume, double maxQuality);

@@ -9,6 +9,14 @@ BoxBase::BoxBase(double volume, double quality) :
 
 BoxBase::~BoxBase()
 {
+    for (auto items : m_container) {
+        for (auto item : items.second) {
+            delete item;
+            item = nullptr;
+        }
+        items.second.clear();
+    }
+    m_container.clear();
 }
 
 bool BoxBase::addItem(Item * item)
@@ -17,7 +25,8 @@ bool BoxBase::addItem(Item * item)
     bool volumeP = item->getVolume() <= this->m_maxVolume - this->m_nowVolume;
     bool addP = qualityP && volumeP;
     if (addP) {
-        this->m_container.push_back(item);
+        //this->m_container.push_back(item);
+        this->m_container[item->getName()].push_back(item);
         this->m_nowQuality -= item->getQuality();
         this->m_nowVolume -= item->getVolume();
     }
@@ -26,36 +35,54 @@ bool BoxBase::addItem(Item * item)
 
 Item * BoxBase::getItem(std::string name)
 {
-    auto iter = find_if(m_container.begin(), m_container.end(), [name](Item * item) {
-        return name == item->getName();
-    });
-
-    if (iter != this->m_container.end()) {
-        return *iter;
-    } else {
-        return nullptr;
+    auto iter = m_container.find(name);
+    if (iter != m_container.end()) {
+        //return m_container[name];
     }
+    // auto iter = find_if(m_container.begin(), m_container.end(), [name](Item * item) {
+    //     return name == item->getName();
+    // });
+    //
+    // if (iter != this->m_container.end()) {
+    //     return *iter;
+    // } else {
+    //     return nullptr;
+    // }
 }
 
 Item * BoxBase::getItem(int index)
 {
-    return m_container[index];
+    //return m_container[index];
 }
 
-bool BoxBase::transferItem(std::string name, BoxBase * target)
+bool BoxBase::transferItem(std::string name, BoxBase * target, int number)
 {
-    auto iter = find_if(m_container.begin(), m_container.end(), [name](Item * item) {
-        return name == item->getName();
-    });
-    bool addP = false;
-    if (iter != this->m_container.end()) {
-        Item * item = *iter;
-        m_container.erase(iter);
-        this->m_nowQuality += item->getQuality();
-        this->m_maxVolume += item->getVolume();
-        addP = target->addItem(item);
+    auto iter = m_container.find(name);
+    if (iter != m_container.end()) {
+        if (iter->second.size() >= number) {
+            for (int i = 0; i < number; i++) {
+                target->addItem(iter->second[i]);
+                iter->second.erase(iter->second.begin() + i);
+            }
+            return true;
+        } else {
+            printf("number bigger than have\n");
+            return false;
+        }
     }
-    return addP;
+    return false;
+    // auto iter = find_if(m_container.begin(), m_container.end(), [name](Item * item) {
+    //     return name == item->getName();
+    // });
+    // bool addP = false;
+    // if (iter != this->m_container.end()) {
+    //     Item * item = *iter;
+    //     m_container.erase(iter);
+    //     this->m_nowQuality += item->getQuality();
+    //     this->m_maxVolume += item->getVolume();
+    //     addP = target->addItem(item);
+    // }
+    // return addP;
 }
 
 double BoxBase::getNowVolume()

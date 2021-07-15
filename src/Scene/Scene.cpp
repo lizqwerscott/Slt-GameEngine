@@ -79,6 +79,16 @@ void Scene::Draw()
     }
 }
 
+void Scene::DrawUi()
+{
+    this->DrawUiSelf();
+    if (this->m_isDrawUi) {
+        if (m_RootTree != nullptr) {
+            this->m_RootTree->DrawUi();
+        }
+    }
+}
+
 std::shared_ptr<PhysicalWorld> Scene::CreatePhysicalWorld(std::string name,
         bool isOpenDebugDraw,
         b2Vec2 gravity,

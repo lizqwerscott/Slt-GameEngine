@@ -23,16 +23,21 @@ public:
     virtual void UpdateSelf(sf::Time &dt) {};
     virtual void Draw() {};
     virtual void DrawSelf() {};
+    virtual void DrawUi() {}
+    virtual void DrawUiSelf() {}
 public:
     std::string GetName();
     bool GetActive();
     bool GetDraw();
+    bool GetDrawUi();
 public:
     void SetActive(bool isActive);
     void SetDraw(bool isDraw);
+    void SetDrawUi(bool isDrawUi);
 protected:
     bool m_isActive = true;
     bool m_isDraw = true;
+    bool m_isDrawUi = true;
 private:
     std::string m_name;
 };
