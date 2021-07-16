@@ -1,19 +1,33 @@
 #include "Gun.h"
-#include "../../Entity/Bullet/Bullet.h"
-#include "../../GameObject.h"
-#include "BulletI.h"
+#include "../../../Entity/Bullet/Bullet.h"
+#include "../../../Entity/Biological/Person.h"
+#include "../../Consume/BulletI/BulletI.h"
 
 #include <cstdio>
 
 Gun::Gun(std::string name, double volume, double quality, int maxBulletN) :
-    Item(name, volume, quality),
+    Weapon(name, volume, quality),
     m_nowBulletN(0),
     m_maxBulletN(maxBulletN),
     m_bulletN(-1000)
 {
 }
 
-void Gun::fire(GameObject * person, PhysicalWorld * world, b2Vec2 position)
+Gun::~Gun()
+{
+}
+
+void Gun::attack(Person *person, PhysicalWorld * world)
+{
+    b2Vec2 selfPos = person->GetPosition();
+    b2Vec2 jiPos = person->getFace() - selfPos;
+    double cosAngle = jiPos.x / jiPos.Length();
+    double sinAngel = jiPos.y / jiPos.Length();
+    b2Vec2 targetPos = b2Vec2(cosAngle * 1.3, sinAngel * 1.3) + selfPos;
+    fire(person, world, targetPos);
+}
+
+void Gun::fire(Person * person, PhysicalWorld * world, b2Vec2 position)
 {
     if (m_nowBulletN == 0) {
         printf("need load bullet\n");
@@ -34,7 +48,7 @@ void Gun::loadBullet(BulletI *bullet)
     }
     delete bullet;
     m_nowBulletN++;
-    printf("[LoadBuller]: %d\n", m_nowBulletN);
+    printf("[LoadBullet]: %d\n", m_nowBulletN);
 }
 
 

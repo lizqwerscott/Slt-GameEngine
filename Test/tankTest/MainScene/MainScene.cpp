@@ -2,8 +2,9 @@
 #include <cstdlib>
 #include <ctime>
 #include "../Body/Entity/Bullet/Bullet.h"
-#include "../Body/Item/Gun/Gun.h"
-#include "../Body/Item/Gun/BulletI.h"
+#include "../Body/Item/Weapon/Gun/Gun.h"
+#include "../Body/Item/Consume/BulletI/BulletI.h"
+#include "../Body/Item/Bag/Bag.h"
 #include "../Body/Entity/Biological/Person.h"
 #include "../Body/Entity/Box/Box.h"
 #define random(a, b) (rand() % (b - a + 1) + a)
@@ -190,12 +191,17 @@ void MainScene::init()
     Gun * gun = new Gun(std::string("gun"), 10, 5, 10);
     personNode->equip(gun);
 
+    Bag * bag = new Bag(std::string("bag"), 10, 10, 1000, 1000);
+    for (int i = 0; i < 100; i++) {
+        bag->addItem(new BulletI(std::string("bulletG"), 1, 2));
+    }
+    personNode->wearBag(bag);
+
     Box * boxNode = new Box(std::string("box"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), 100, 100, b2Vec2(0, 10), 100);
-    BulletI * bulletI = new BulletI(std::string("bullet1"), 2, 1);
-    BulletI * bulletI2 = new BulletI(std::string("bullet1"), 2, 1);
-    boxNode->addItem(bulletI);
-    boxNode->addItem(bulletI2);
+    boxNode->addItem(new BulletI(std::string("bullet1"), 2, 1));
+    boxNode->addItem(new BulletI(std::string("bullet1"), 2, 1));
     boxNode->addItem(new Gun(std::string("gun1"), 20, 20, 20));
+
 
     auto camera_pos = this->getCamera().get()->getView().getCenter();
     printf("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
@@ -323,16 +329,26 @@ void MainScene::init()
             b2Vec2(0, -force), true);
     });
     Graphic::insertKeyCallBack(sf::Keyboard::R, [personNode]() -> void {
-            if (personNode->handP()) {
-                auto gun = static_cast<Gun*>(personNode->getHand());
-                for (int i = 0; i < 10; i++) {
-                    BulletI * bullet = new BulletI(std::string("bullet") + std::to_string(i), 1, 0.1);
-                    gun->loadBullet(bullet);
+        if (personNode->handP())
+        {
+            if (personNode->getHand()->getTypeName() == std::string("Weapon")) {
+                Gun * gun = static_cast<Gun*>(personNode->getHand());
+                if (!gun->isLoadFull()) {
+                    Bag * bag = personNode->getBag();
+                    std::vector<Item *> bullets = bag->getItem(std::string("bulletG"), 10);
+                    for (int i = 0; i < (int)bullets.size(); i++) {
+                        gun->loadBullet(static_cast<BulletI *>(bullets[i]));
+                    }
                 }
             }
+        }
     });
     Graphic::insertKeyCallBack(sf::Keyboard::E, [personNode, physicalWorld]() -> void {
-            personNode->useFace(physicalWorld.get());
+        personNode->useFace(physicalWorld.get());
+    });
+    Graphic::insertKeyCallBack(sf::Keyboard::Tab, [personNode, physicalWorld]() -> void {
+        personNode->SetDrawUi(true);
+        printf("tab\n");
     });
     Graphic::insertMouseClickCallBack(
     sf::Mouse::Left, [personNode, physicalWorld](sf::Vector2i pos) -> void {

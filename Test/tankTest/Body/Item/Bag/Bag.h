@@ -6,6 +6,7 @@
 
 class Bag : public Item, public BoxBase
 {
+friend class Person;
 public:
     Bag(std::string name, double volume, double quality, double maxVolume, double maxQuality);
     ~Bag();

@@ -14,8 +14,7 @@ public:
     ~BoxBase();
 public:
     bool addItem(Item * item);
-    Item * getItem(std::string name);
-    Item * getItem(int index);
+    std::vector<Item *> getItem(std::string name, int number);
     bool transferItem(std::string name, BoxBase * target, int number);
 public:
     double getNowVolume();

@@ -42,7 +42,10 @@ void Box::DrawUiSelf()
 {
     if (this->m_isDrawUi) {
         ImGui::Begin("Container");
-        if (ImGui::BeginTable("Container", 3, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings)) {
+        if (ImGui::Button("quit")) {
+            this->m_isDrawUi = false;
+        }
+        if (ImGui::BeginTable("Container", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings)) {
             int i = 0;
             for (auto iter : m_container) {
                 auto item = std::string(iter.first);

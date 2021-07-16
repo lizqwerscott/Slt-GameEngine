@@ -33,33 +33,27 @@ bool BoxBase::addItem(Item * item)
     return addP;
 }
 
-Item * BoxBase::getItem(std::string name)
+std::vector<Item *>
+BoxBase::getItem(std::string name, int number)
 {
+    std::vector<Item *> m_result;
     auto iter = m_container.find(name);
     if (iter != m_container.end()) {
-        //return m_container[name];
+        if (static_cast<int>(iter->second.size()) >= number) {
+            for (int i = 0; i < number; i++) {
+                m_result.push_back(iter->second[i]);
+                iter->second.erase(iter->second.begin() + i);
+            }
+        }
     }
-    // auto iter = find_if(m_container.begin(), m_container.end(), [name](Item * item) {
-    //     return name == item->getName();
-    // });
-    //
-    // if (iter != this->m_container.end()) {
-    //     return *iter;
-    // } else {
-    //     return nullptr;
-    // }
-}
-
-Item * BoxBase::getItem(int index)
-{
-    //return m_container[index];
+    return m_result;
 }
 
 bool BoxBase::transferItem(std::string name, BoxBase * target, int number)
 {
     auto iter = m_container.find(name);
     if (iter != m_container.end()) {
-        if (iter->second.size() >= number) {
+        if (static_cast<int>(iter->second.size()) >= number) {
             for (int i = 0; i < number; i++) {
                 target->addItem(iter->second[i]);
                 iter->second.erase(iter->second.begin() + i);

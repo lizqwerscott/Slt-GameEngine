@@ -11,8 +11,8 @@ set(MAIN_SRC_LIST
     Body/Entity/Biological/Person.cpp
 
     Body/Item/Bag/Bag.cpp
-    Body/Item/Gun/BulletI.cpp
-    Body/Item/Gun/Gun.cpp
+    Body/Item/Consume/BulletI/BulletI.cpp
+    Body/Item/Weapon/Gun/Gun.cpp
 
     MainScene/MainScene.cpp 
     StartScene/StartScene.cpp 
