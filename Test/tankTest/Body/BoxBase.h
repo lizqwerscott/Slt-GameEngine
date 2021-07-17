@@ -11,7 +11,7 @@ class BoxBase
 {
 public:
     BoxBase(double volume, double quality);
-    ~BoxBase();
+    virtual ~BoxBase();
 public:
     bool addItem(Item * item);
     std::vector<Item *> getItem(std::string name, int number);

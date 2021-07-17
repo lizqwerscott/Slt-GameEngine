@@ -10,7 +10,7 @@ class EventHandlerIml : public EventHandler
 {
 public:
     EventHandlerIml(EventKey eventType, std::function<void(EventKey key, EventData &data, EventSender *)> onEvent, const std::string &name, EventSender * sender = nullptr);
-    ~EventHandlerIml();
+    virtual ~EventHandlerIml();
 public:
     virtual void DispatchEvent(EventKey key, EventData &data, EventSender * sender) override;
 public:

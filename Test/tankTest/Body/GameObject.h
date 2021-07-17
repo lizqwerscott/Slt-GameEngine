@@ -10,7 +10,7 @@ class GameObject : public SNode
 {
 public:
     GameObject(std::string name, GameObject * parent, double hp = 1);
-    ~GameObject();
+    virtual ~GameObject();
 public:
     double getHp() {return this->m_hp;}
     void increaseHp(double setp) {m_hp = m_hp + setp;}

@@ -14,7 +14,7 @@ public:
         m_name(name),
         m_typeName(typeName)
     {}
-    ~Item() {}
+    virtual ~Item() {}
 public:
     double getVolume() {return m_volume;}
     double getQuality() {return m_quality;}

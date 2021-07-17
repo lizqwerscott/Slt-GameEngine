@@ -10,7 +10,7 @@ class Weapon : public Item
 public:
     Weapon(std::string name, double volume, double quality) : 
         Item(name, std::string("Weapon"), volume, quality) {}
-    ~Weapon() {}
+    virtual ~Weapon() {}
 public:
     virtual void attack(Person * person, PhysicalWorld * world) = 0;
 };
