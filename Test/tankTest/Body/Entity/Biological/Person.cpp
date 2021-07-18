@@ -5,6 +5,7 @@
 Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos) :
     Biological(name, parent, nodePos, 100),
     m_face(b2Vec2(0, 0)),
+    m_SpeedAdjust(true),
     m_water(100),
     m_food(100),
     m_world(world)
@@ -97,8 +98,29 @@ void Person::wearBag(Bag *bag)
     this->m_tBackPack = bag;
 }
 
-void Person::move()
+//direction -> 0 or 1
+//0 forward
+//1 back
+//2 left
+//3 right
+void Person::move(int direction, float force)
 {
+    b2Vec2 directionA;
+    if (direction == 0) {
+        directionA = m_face;
+    } else if (direction == 1) {
+        directionA = Math::InverseVector(m_face);
+    } else {
+        b2Vec3 face(m_face.x, m_face.y, 0);
+        b2Vec3 k(0, 0, 1);
+        b2Vec3 result = b2Cross(k, face);
+        if (direction == 2) {
+            directionA = b2Vec2(result.x, result.y);
+        } else if (direction == 3) {
+            directionA = Math::InverseVector(b2Vec2(result.x, result.y));
+        }
+    }
+    m_physicalBody->GetBody()->ApplyLinearImpulseToCenter(Math::NumberProduct(directionA, force), true);
 }
 
 void Person::drink(Item * drink)
@@ -197,6 +219,13 @@ void Person::DrawUiSelf()
 
 void Person::UpdateSelf(sf::Time &dt)
 {
-    m_face = Math::DrawCoordSToPhysicalCoords(Graphic::PixelToCoords(sf::Mouse::getPosition()));
-    m_world->RayCast(m_findRayCastCallBack, GetPosition(), m_face);
+    b2Vec2 mousePos = Math::DrawCoordSToPhysicalCoords(Graphic::PixelToCoords(sf::Mouse::getPosition()));
+    m_MousePos = mousePos;
+    m_face = Math::UnitVector(mousePos - GetPosition());
+    printf("m_face, %f, %f\n", m_face.x, m_face.y);
+    m_world->RayCast(m_findRayCastCallBack, GetPosition(), m_MousePos);
+    if (m_SpeedAdjust) {
+        b2Vec2 lineSpeed = this->m_physicalBody->GetBody()->GetLinearVelocity();
+        m_physicalBody->GetBody()->ApplyForceToCenter(Math::NumberProduct(lineSpeed, -6), true);
+    }
 }

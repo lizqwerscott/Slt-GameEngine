@@ -30,7 +30,7 @@ public:
     void wearBag(Bag *bag);
     Bag * getBag() {return m_tBackPack;}
 public:
-    void move();
+    void move(int direction/*0 or 1*/, float force);
     void drink(Item * drink);
     void eat(Item * food);
     void wear(Item * clothes);
@@ -41,9 +41,12 @@ public:
     virtual void UpdateSelf(sf::Time &dt) override;
 private:
     FindRayCastCallback * m_findRayCastCallBack;
+    b2Vec2 m_MousePos;
     b2Vec2 m_face; //mouse place
     Entity * m_faceEntity = nullptr;
     float m_faceFraction = 0;
+public:
+    bool m_SpeedAdjust;
 public:
     bool m_tHandSelected = false;
 private:

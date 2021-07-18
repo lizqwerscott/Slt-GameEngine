@@ -125,6 +125,36 @@ Math::PixelToMeter(float pixel)
     return Math::SLTToMeter(Math::PixelToSLT(pixel));
 }
 
+const b2Vec2
+Math::UnitVector(b2Vec2 vector)
+{
+    return b2Vec2(vector.x / vector.Length(), vector.y / vector.Length());
+}
+
+const b2Vec2
+Math::InverseVector(b2Vec2 vector)
+{
+    return b2Vec2(-vector.x, -vector.y);
+}
+
+const b2Vec2
+Math::NumberProduct(b2Vec2 vector, double t)
+{
+    return b2Vec2(vector.x * t, vector.y * t);
+}
+
+const b2Vec2
+Math::NumberProduct(b2Vec2 vector, float t)
+{
+    return b2Vec2(vector.x * t, vector.y * t);
+}
+
+const b2Vec2
+Math::NumberProduct(b2Vec2 vector, int t)
+{
+    return b2Vec2(vector.x * t, vector.y * t);
+}
+
 const unsigned int
 Math::bkdrHash(std::string str)
 {

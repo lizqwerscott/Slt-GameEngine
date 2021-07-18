@@ -301,32 +301,32 @@ void MainScene::init()
 
     });
 
-    float force = 5;
+    float force = 1.1;
 
     // bind key callBack
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::A, [personNode, force]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::W, [personNode, force]() -> void {
         // printf("Move:Left\n");
         // baffleNode->move(b2Vec2(-2, 0));
-        personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
-            b2Vec2(-force, 0), true);
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::D, [personNode, force]() -> void {
-        // printf("Move:Right\n");
-        personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
-            b2Vec2(force, 0), true);
-        // baffleNode->move(b2Vec2(2, 0));
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::W, [personNode, force]() -> void {
-        // printf("Move:Up\n");
-        // baffleNode->move(b2Vec2(0, 2));
-        personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
-            b2Vec2(0, force), true);
+        //personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-force, 0), true);
+        personNode->move(0, force);
     });
     Graphic::insertKeyCallBack(sf::Keyboard::Key::S, [personNode, force]() -> void {
+        // printf("Move:Right\n");
+        //personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(force, 0), true);
+        // baffleNode->move(b2Vec2(2, 0));
+        personNode->move(1, force);
+    });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::A, [personNode, force]() -> void {
+        // printf("Move:Up\n");
+        // baffleNode->move(b2Vec2(0, 2));
+        //personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0, force), true);
+        personNode->move(2, force);
+    });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::D, [personNode, force]() -> void {
         // printf("Move:Down\n");
         // baffleNode->move(b2Vec2(0, -2));
-        personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
-            b2Vec2(0, -force), true);
+        //personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0, -force), true);
+        personNode->move(3, force);
     });
     Graphic::insertKeyCallBack(sf::Keyboard::R, [personNode]() -> void {
         if (personNode->handP())
