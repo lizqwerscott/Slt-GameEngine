@@ -31,6 +31,7 @@ public:
     Bag * getBag() {return m_tBackPack;}
 public:
     void move(int direction/*0 or 1*/, float force);
+    void rotate(float angle);
     void drink(Item * drink);
     void eat(Item * food);
     void wear(Item * clothes);

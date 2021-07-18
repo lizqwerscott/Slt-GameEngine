@@ -20,16 +20,19 @@ Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2V
 
     auto physicalBody = this->CreatePhysicalBody(std::string("PersonBody"), localWorldPos, bodyDef, world);
 
-    b2CircleShape circleShape;
+    //b2CircleShape circleShape;
+    b2PolygonShape polygonShape;
     // circleShape.m_p = Math::WorldCoordSToPhysicalCoordS(nodePos +
     // localWorldPos); //position, relative to body position
-    circleShape.m_p = b2Vec2(0, 0);
-    circleShape.m_radius = 1; // radius
+
+    //circleShape.m_p = b2Vec2(0, 0);
+    //circleShape.m_radius = 1; // radius
+    polygonShape.SetAsBox(1, 3, b2Vec2(0, 0), 0);
     b2FixtureDef fixtureDef;
     fixtureDef.density = 1;
     fixtureDef.friction = 0.3;
-    fixtureDef.shape = &circleShape;
     fixtureDef.restitution = 1;
+    fixtureDef.shape = &polygonShape;
     auto fixture = physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
     this->GetPhysicalBody()->GetBody()->GetUserData().data.push_back(static_cast<void *>(this));
     fixture->m_fixture->GetUserData().data.push_back(static_cast<void *>(this));
@@ -63,17 +66,6 @@ void Person::useHand(PhysicalWorld * world, b2Vec2 mouseClick)
         Weapon * weapon = static_cast<Weapon *>(m_tHand);
         weapon->attack(this, world);
     }
-    // b2Vec2 selfPos = GetPosition();
-    // printf("face: %f, %f\n", m_face.x, m_face.y);
-    // printf("click P: %f, %f\n", mouseClick.x, mouseClick.y);
-    // printf("Pos: %f, %f\n", selfPos.x, selfPos.y);
-    // Gun * gun = static_cast<Gun *>(m_tHand);
-    // b2Vec2 jiPos = mouseClick - this->GetPosition();
-    // double cosAngle = jiPos.x / jiPos.Length();
-    // double sinAngel = jiPos.y / jiPos.Length();
-    // b2Vec2 targetPos = b2Vec2(cosAngle * 1.3, sinAngel * 1.3) + GetPosition();
-    // printf("bullet generate: %f, %f\n", targetPos.x, targetPos.y);
-    // gun->fire(this, world, targetPos);
 }
 
 Item * Person::getHand()
@@ -121,6 +113,25 @@ void Person::move(int direction, float force)
         }
     }
     m_physicalBody->GetBody()->ApplyLinearImpulseToCenter(Math::NumberProduct(directionA, force), true);
+}
+
+void Person::rotate(float angle)
+{
+    //rotate physical body
+    float DEGTORAD = PI / 180;
+
+    b2Body * body = m_physicalBody->GetBody();
+
+    float bodyAngle = body->GetAngle();
+    float nextAngle = bodyAngle + body->GetAngularVelocity() / 60.0;
+    float totalRotation = angle - nextAngle;
+    while ( totalRotation < -180 * DEGTORAD ) totalRotation += 360 * DEGTORAD;
+    while ( totalRotation >  180 * DEGTORAD ) totalRotation -= 360 * DEGTORAD;
+    float desiredAngularVelocity = totalRotation * 60;
+    float torque = body->GetInertia() * desiredAngularVelocity / (1/60.0);
+    body->ApplyTorque(torque, true);
+    //rotate sprite
+
 }
 
 void Person::drink(Item * drink)
@@ -221,9 +232,14 @@ void Person::UpdateSelf(sf::Time &dt)
 {
     b2Vec2 mousePos = Math::DrawCoordSToPhysicalCoords(Graphic::PixelToCoords(sf::Mouse::getPosition()));
     m_MousePos = mousePos;
-    m_face = Math::UnitVector(mousePos - GetPosition());
-    printf("m_face, %f, %f\n", m_face.x, m_face.y);
+    b2Vec2 nowFace = Math::UnitVector(mousePos - GetPosition());
+    float targetAngle = atan2f(-nowFace.x, nowFace.y);
+    rotate(targetAngle);
+    m_face = nowFace;
+    //printf("m_face, %f, %f\n", m_face.x, m_face.y);
+    //
     m_world->RayCast(m_findRayCastCallBack, GetPosition(), m_MousePos);
+
     if (m_SpeedAdjust) {
         b2Vec2 lineSpeed = this->m_physicalBody->GetBody()->GetLinearVelocity();
         m_physicalBody->GetBody()->ApplyForceToCenter(Math::NumberProduct(lineSpeed, -6), true);
