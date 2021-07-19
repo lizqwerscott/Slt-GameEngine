@@ -20,19 +20,17 @@ Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2V
 
     auto physicalBody = this->CreatePhysicalBody(std::string("PersonBody"), localWorldPos, bodyDef, world);
 
-    //b2CircleShape circleShape;
-    b2PolygonShape polygonShape;
-    // circleShape.m_p = Math::WorldCoordSToPhysicalCoordS(nodePos +
-    // localWorldPos); //position, relative to body position
+    b2CircleShape circleShape;
+    //b2PolygonShape polygonShape;
 
-    //circleShape.m_p = b2Vec2(0, 0);
-    //circleShape.m_radius = 1; // radius
-    polygonShape.SetAsBox(1, 3, b2Vec2(0, 0), 0);
+    circleShape.m_p = b2Vec2(0, 0);
+    circleShape.m_radius = 1; // radius
     b2FixtureDef fixtureDef;
     fixtureDef.density = 1;
     fixtureDef.friction = 0.3;
     fixtureDef.restitution = 1;
-    fixtureDef.shape = &polygonShape;
+    //fixtureDef.shape = &polygonShape;
+    fixtureDef.shape = &circleShape;
     auto fixture = physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
     this->GetPhysicalBody()->GetBody()->GetUserData().data.push_back(static_cast<void *>(this));
     fixture->m_fixture->GetUserData().data.push_back(static_cast<void *>(this));

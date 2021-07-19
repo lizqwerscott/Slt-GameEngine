@@ -19,11 +19,7 @@ Gun::~Gun()
 
 void Gun::attack(Person *person, PhysicalWorld * world)
 {
-    b2Vec2 selfPos = person->GetPosition();
-    b2Vec2 jiPos = person->getFace() - selfPos;
-    double cosAngle = jiPos.x / jiPos.Length();
-    double sinAngel = jiPos.y / jiPos.Length();
-    b2Vec2 targetPos = b2Vec2(cosAngle * 1.3, sinAngel * 1.3) + selfPos;
+    b2Vec2 targetPos = Math::NumberProduct(person->getFace(), 1.3);
     fire(person, world, targetPos);
 }
 
@@ -35,7 +31,7 @@ void Gun::fire(Person * person, PhysicalWorld * world, b2Vec2 position)
     }
     std::string bulletName = std::string("bullet") + std::to_string(m_bulletN);
     //b2Vec2 bulletPos = person-> + b2Vec2(0, 10.5);
-    new Bullet(bulletName, person, world, position, b2Vec2(position.x * 30, position.y * 30));
+    new Bullet(bulletName, person, world, position + person->GetPosition(), b2Vec2(position.x * 30, position.y * 30));
     printf("[CreateBullet]:%s, pos:%f,%f\n", bulletName.c_str(), position.x, position.y);
     m_bulletN++;
     m_nowBulletN--;

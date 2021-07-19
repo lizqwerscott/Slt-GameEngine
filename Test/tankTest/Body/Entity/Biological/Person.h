@@ -40,6 +40,8 @@ public:
     virtual void DrawUiSelf() override;
 public:
     virtual void UpdateSelf(sf::Time &dt) override;
+public:
+    b2Vec2 getMousePos() {return m_MousePos;}
 private:
     FindRayCastCallback * m_findRayCastCallBack;
     b2Vec2 m_MousePos;
