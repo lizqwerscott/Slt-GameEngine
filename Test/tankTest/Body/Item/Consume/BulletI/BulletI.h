@@ -8,7 +8,7 @@ class BulletI : public Consume
 public:
     BulletI(std::string name, double volume, double quality);
     ~BulletI() {
-        printf("%s dead\n", this->getName().c_str());
+        //printf("%s dead\n", this->getName().c_str());
     }
 };
 

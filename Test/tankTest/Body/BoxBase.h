@@ -13,9 +13,14 @@ public:
     BoxBase(double volume, double quality);
     virtual ~BoxBase();
 public:
+    void DrawBoxUi(std::string name, int column = 3);
+public:
     bool addItem(Item * item);
     std::vector<Item *> getItem(std::string name, int number);
+    Item * getItem(); //for only one
     bool transferItem(std::string name, BoxBase * target, int number);
+public:
+    void releaseEmptyItems();
 public:
     double getNowVolume();
     double getNowQuality();

@@ -45,20 +45,9 @@ void Box::DrawUiSelf()
         if (ImGui::Button("quit")) {
             this->m_isDrawUi = false;
         }
-        if (ImGui::BeginTable("Container", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings)) {
-            int i = 0;
-            for (auto iter : m_container) {
-                auto item = std::string(iter.first);
-                ImGui::TableNextRow();
-                ImGui::TableNextColumn();
-                ImGui::Selectable(item.c_str(), &m_selectItem[i], ImGuiSelectableFlags_SpanAllColumns);
-                auto number = std::to_string(iter.second.size());
-                ImGui::TableNextColumn();
-                ImGui::Text(number.c_str());
-                i++;
-            }
-            ImGui::EndTable();
-        }
+        this->DrawBoxUi(std::string("Box"));
         ImGui::End();
+    } else {
+        this->releaseEmptyItems();
     }
 }

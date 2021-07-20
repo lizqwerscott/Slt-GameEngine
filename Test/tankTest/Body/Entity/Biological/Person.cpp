@@ -6,6 +6,7 @@ Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     Biological(name, parent, nodePos, 100),
     m_face(b2Vec2(0, 0)),
     m_SpeedAdjust(true),
+    m_tHand(new BoxBase(50, 50)),
     m_water(100),
     m_food(100),
     m_world(world)
@@ -60,15 +61,17 @@ Person::~Person()
 
 void Person::useHand(PhysicalWorld * world, b2Vec2 mouseClick)
 {
-    if (m_tHand->getTypeName() == std::string("Weapon")) {
-        Weapon * weapon = static_cast<Weapon *>(m_tHand);
+    auto hand = getHand();
+    if (hand->getTypeName() == std::string("Weapon")) {
+        Weapon * weapon = static_cast<Weapon *>(hand);
         weapon->attack(this, world);
     }
 }
 
 Item * Person::getHand()
 {
-    return m_tHand;
+    //return m_tHand;
+    return m_tHand->getItem();
 }
 
 void Person::useFace(PhysicalWorld * world)
@@ -146,8 +149,9 @@ void Person::wear(Item * clothes)
 
 bool Person::equip(Item *tool)
 {
-    if (m_tHand == nullptr) {
-        m_tHand = tool;
+    if (m_tHand != nullptr) {
+        //m_tHand = tool;
+        m_tHand->addItem(tool);
         return true;
     } else {
         return false;
@@ -156,6 +160,11 @@ bool Person::equip(Item *tool)
 
 void Person::DrawUiSelf()
 {
+    if (!m_isDrawUi) {
+        if (m_tBackPack != nullptr) {
+            m_tBackPack->releaseEmptyItems();
+        }
+    }
     auto flags = ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings;
     ImGui::Begin("Self");
     //ImGui::BulletText("sdsa");
@@ -184,42 +193,31 @@ void Person::DrawUiSelf()
         ImGui::Text(std::to_string(m_water).c_str());
         ImGui::EndTable();
     }
-    ImGui::Text("Hand");
-    if (m_tHand != nullptr)  {
-        if (m_tHand->getName() == std::string("gun")) {
-            if (ImGui::BeginTable("Hand", 2, flags)) {
-                ImGui::TableNextRow();
-                ImGui::TableNextColumn();
-                //ImGui::Text("gun");
-                ImGui::Selectable("gun", &m_tHandSelected, ImGuiSelectableFlags_SpanAllColumns);
-                ImGui::TableNextColumn();
-                char bulletN[20];
-                Gun * gun = static_cast<Gun *>(m_tHand);
-                sprintf(bulletN, "%d/%d bullet", gun->getBulletN(), gun->getMaxBulletN());
-                ImGui::Text(bulletN);
-
-                ImGui::EndTable();
-            }
-        }
-    } else {
-        ImGui::Text("Null");
-    }
-    ImGui::Text("Bag");
+    //ImGui::Text("Hand");
+    m_tHand->DrawBoxUi(std::string("Hand"));
+    // auto hand = getHand();
+    // if (hand != nullptr)  {
+    //     if (hand->getName() == std::string("gun")) {
+    //         if (ImGui::BeginTable("Hand", 3, flags)) {
+    //             //ImGui::TableNextRow();
+    //             ImGui::TableNextColumn();
+    //             //ImGui::Text("gun");
+    //             char bulletN[20];
+    //             Gun * gun = static_cast<Gun *>(hand);
+    //             sprintf(bulletN, "gun %d/%d bullet", gun->getBulletN(), gun->getMaxBulletN());
+    //             ImGui::Selectable(bulletN, &m_tHandSelected);
+    //             //ImGui::TableNextColumn();
+    //             //ImGui::Text(bulletN);
+    //
+    //             ImGui::EndTable();
+    //         }
+    //     }
+    // } else {
+    //     ImGui::Text("Null");
+    // }
+    //ImGui::Text("Bag");
     if (m_tBackPack != nullptr) {
-        if (ImGui::BeginTable("Bag", 2, flags)) {
-            int i = 0;
-            for (auto iter : this->m_tBackPack->m_container) {
-                auto item = std::string(iter.first);
-                ImGui::TableNextRow();
-                ImGui::TableNextColumn();
-                ImGui::Selectable(item.c_str(), &m_BagSelected[i], ImGuiSelectableFlags_SpanAllColumns);
-                auto number = std::to_string(iter.second.size());
-                ImGui::TableNextColumn();
-                ImGui::Text(number.c_str());
-                i++;
-            }
-            ImGui::EndTable();
-        }
+        m_tBackPack->DrawBoxUi(std::string("Bag"));
     } else {
         ImGui::Text("Null");
     }

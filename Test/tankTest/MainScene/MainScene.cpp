@@ -7,6 +7,8 @@
 #include "../Body/Item/Bag/Bag.h"
 #include "../Body/Entity/Biological/Person.h"
 #include "../Body/Entity/Box/Box.h"
+#include "../Body/ItemTManager.h"
+
 #define random(a, b) (rand() % (b - a + 1) + a)
 
 /**
@@ -17,7 +19,9 @@ MainScene::MainScene() : Scene(std::string("MainScene")) {}
 /**
  * @brief      Destroys the object.
  */
-MainScene::~MainScene() {}
+MainScene::~MainScene() {
+    ItemTManager::Destory();
+}
 
 /**
  * @brief      { Create the object }
@@ -36,6 +40,7 @@ MainScene *MainScene::create()
  */
 void MainScene::init()
 {
+    ItemTManager::Create();
     auto physicalWorld =
         this->CreatePhysicalWorld(std::string("World"), true, b2Vec2(0.0f, 0.0f));
     sf::Vector2u windowSize = Graphic::getWindowSize();
@@ -352,9 +357,9 @@ void MainScene::init()
     });
     Graphic::insertMouseClickCallBack(
     sf::Mouse::Left, [personNode, physicalWorld](sf::Vector2i pos) -> void {
-        printf("Left:MousePos:%d, %d\n", pos.x, pos.y);
-        sf::Vector2f coordPos = Graphic::PixelToCoords(pos);
-        personNode->useHand(physicalWorld.get(), Math::DrawCoordSToPhysicalCoords(coordPos));
+        //printf("Left:MousePos:%d, %d\n", pos.x, pos.y);
+        //sf::Vector2f coordPos = Graphic::PixelToCoords(pos);
+        //personNode->useHand(physicalWorld.get(), Math::DrawCoordSToPhysicalCoords(coordPos));
     });
 
     // Shoot bullet

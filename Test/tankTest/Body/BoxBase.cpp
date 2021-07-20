@@ -1,5 +1,6 @@
 #include "BoxBase.h"
 #include "Item/Item.h"
+#include "ItemTManager.h"
 
 BoxBase::BoxBase(double volume, double quality) :
     m_maxVolume(volume),
@@ -17,6 +18,41 @@ BoxBase::~BoxBase()
         items.second.clear();
     }
     m_container.clear();
+}
+
+void BoxBase::DrawBoxUi(std::string name, int column)
+{
+    if (ImGui::BeginTable(name.c_str(), column, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings)) {
+        ImGui::TableSetupColumn(name.c_str());
+        ImGui::TableHeadersRow();
+        int i = 0;
+        for (auto iter : m_container) {
+            if (!iter.second.empty()) {
+                auto item = std::string(iter.first);
+                auto number = std::to_string(iter.second.size());
+                ImGui::TableNextColumn();
+                ImGui::Button(std::string(item + ": " + number).c_str());
+                if (ImGui::IsItemActive()) {
+                    ItemTManager::drag(this, item);
+                } else {
+                    if (ItemTManager::isDrag()) {
+                        ItemTManager::disDrag();
+                    }
+                }
+                i++;
+            }
+        }
+        ImGui::EndTable();
+    }
+    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem)) {
+        if (ItemTManager::isDrag()) {
+            ItemTManager::hoveredBox(this);
+        }
+    } else {
+        if (ItemTManager::isDrag()) {
+            ItemTManager::disHoveredBox(this);
+        }
+    }
 }
 
 bool BoxBase::addItem(Item * item)
@@ -49,6 +85,14 @@ BoxBase::getItem(std::string name, int number)
     return m_result;
 }
 
+Item *
+BoxBase::getItem() {
+    for (auto iter : m_container) {
+        return iter.second[0];
+    }
+    return nullptr;
+}
+
 bool BoxBase::transferItem(std::string name, BoxBase * target, int number)
 {
     auto iter = m_container.find(name);
@@ -65,18 +109,16 @@ bool BoxBase::transferItem(std::string name, BoxBase * target, int number)
         }
     }
     return false;
-    // auto iter = find_if(m_container.begin(), m_container.end(), [name](Item * item) {
-    //     return name == item->getName();
-    // });
-    // bool addP = false;
-    // if (iter != this->m_container.end()) {
-    //     Item * item = *iter;
-    //     m_container.erase(iter);
-    //     this->m_nowQuality += item->getQuality();
-    //     this->m_maxVolume += item->getVolume();
-    //     addP = target->addItem(item);
-    // }
-    // return addP;
+}
+
+void BoxBase::releaseEmptyItems()
+{
+    for (auto iter = m_container.begin(); iter != m_container.end(); iter++) {
+        if (iter->second.empty()) {
+            printf("release %s\n", iter->first.c_str());
+            m_container.erase(iter);
+        }
+    }
 }
 
 double BoxBase::getNowVolume()
