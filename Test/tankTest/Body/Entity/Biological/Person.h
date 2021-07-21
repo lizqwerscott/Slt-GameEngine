@@ -13,6 +13,7 @@ class Item;
 class Bag;
 class FindRayCastCallback;
 class BoxBase;
+class ToolBox;
 
 
 class Person : public Biological
@@ -57,7 +58,7 @@ private:
     //self item tools
     //hand
     //Item * m_tHand = nullptr;
-    BoxBase * m_tHand = nullptr;
+    ToolBox * m_tHand = nullptr;
     //Backpack
     Bag * m_tBackPack = nullptr;
     bool m_BagSelected[100];

@@ -1,7 +1,6 @@
 #include "ItemTManager.h"
 #include "BoxBase.h"
 
-
 ItemTManager * instance = nullptr;
 
 void ItemTManager::Create()
@@ -19,7 +18,7 @@ void ItemTManager::Destory()
     }
 }
 
-void ItemTManager::drag(BoxBase *box, std::string name)
+void ItemTManager::drag(ContainerBase *box, std::string name)
 {
     //printf("drag: %s\n", name.c_str());
     instance->m_isDrag = true;
@@ -31,7 +30,7 @@ void ItemTManager::disDrag()
 {
     if (instance->m_lastHoveredBox != nullptr && !ImGui::IsMouseDragging(0)) {
         printf("transferItem\n");
-        instance->m_box->transferItem(instance->m_dragName, instance->m_lastHoveredBox, 1);
+        instance->m_box->transferItem(instance->m_lastHoveredBox, instance->m_dragName, 1);
         instance->m_isDrag = false;
         instance->m_box = nullptr;
         instance->m_dragName = "";
@@ -44,7 +43,7 @@ bool ItemTManager::isDrag()
     return instance->m_isDrag;
 }
 
-void ItemTManager::hoveredBox(BoxBase *box)
+void ItemTManager::hoveredBox(ContainerBase *box)
 {
     if (box != instance->m_lastHoveredBox && box != instance->m_box) {
         instance->m_lastHoveredBox = box;
@@ -52,7 +51,7 @@ void ItemTManager::hoveredBox(BoxBase *box)
     }
 }
 
-void ItemTManager::disHoveredBox(BoxBase *box)
+void ItemTManager::disHoveredBox(ContainerBase *box)
 {
     if (box == instance->m_lastHoveredBox) {
         instance->m_lastHoveredBox = nullptr;

@@ -3,8 +3,7 @@
 #include "ItemTManager.h"
 
 BoxBase::BoxBase(double volume, double quality) :
-    m_maxVolume(volume),
-    m_maxQuality(quality)
+    ContainerBase(volume, quality)
 {
 }
 
@@ -93,14 +92,19 @@ BoxBase::getItem() {
     return nullptr;
 }
 
-bool BoxBase::transferItem(std::string name, BoxBase * target, int number)
+bool BoxBase::transferItem(ContainerBase * target, std::string name, int number)
 {
     auto iter = m_container.find(name);
     if (iter != m_container.end()) {
         if (static_cast<int>(iter->second.size()) >= number) {
+            bool add;
             for (int i = 0; i < number; i++) {
-                target->addItem(iter->second[i]);
-                iter->second.erase(iter->second.begin() + i);
+                add = target->addItem(iter->second[i]);
+                if (add) {
+                    iter->second.erase(iter->second.begin() + i);
+                } else {
+                    return false;
+                }
             }
             return true;
         } else {
@@ -121,32 +125,3 @@ void BoxBase::releaseEmptyItems()
     }
 }
 
-double BoxBase::getNowVolume()
-{
-    return m_nowVolume;
-}
-
-double BoxBase::getNowQuality()
-{
-    return m_nowQuality;
-}
-
-double BoxBase::getMaxVolume()
-{
-    return m_maxVolume;
-}
-
-double BoxBase::getMaxQuality()
-{
-    return m_maxQuality;
-}
-
-void BoxBase::setMaxVolume(double volume)
-{
-    m_maxVolume = volume;
-}
-
-void BoxBase::setMaxQuality(double quality)
-{
-    m_maxQuality = quality;
-}

@@ -1,12 +1,13 @@
 #include "Person.h"
 #include "../../Item/Weapon/Gun/Gun.h"
 #include "../../Item/Bag/Bag.h"
+#include "../../ToolBox.h"
 
 Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos) :
     Biological(name, parent, nodePos, 100),
     m_face(b2Vec2(0, 0)),
     m_SpeedAdjust(true),
-    m_tHand(new BoxBase(50, 50)),
+    m_tHand(new ToolBox(50, 50)),
     m_water(100),
     m_food(100),
     m_world(world)
@@ -35,6 +36,7 @@ Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     auto fixture = physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
     this->GetPhysicalBody()->GetBody()->GetUserData().data.push_back(static_cast<void *>(this));
     fixture->m_fixture->GetUserData().data.push_back(static_cast<void *>(this));
+
     m_findRayCastCallBack = new FindRayCastCallback(this);
     this->m_isDrawUi = false;
 }
