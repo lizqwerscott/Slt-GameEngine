@@ -53,6 +53,7 @@ public:
   static void mouseClick(sf::Mouse::Button button, sf::Vector2i pos);
 
   static sf::Vector2i getMousePosition();
+  static b2Vec2 getMousePositionP();
 public:
   std::shared_ptr<sf::RenderWindow> getWindow();
 public:

@@ -9,11 +9,13 @@ public:
     ToolBox(double volume, double quality);
     virtual ~ToolBox();
 public:
-    virtual void DrawBoxUi(std::string name, int column = 1);
+    virtual void DrawBoxUi(std::string name, int row = 1, int column = 3);
 public:
     virtual bool addItem(Item * item);
-    virtual Item * getItem();
+    virtual Item * getItem(std::string name = "");
     virtual bool transferItem(ContainerBase * target, std::string name = "", int number = 1);
+public:
+    virtual bool isEmpty();
 protected:
     Item * m_container = nullptr;
 };

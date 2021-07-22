@@ -1,5 +1,6 @@
 #include "ItemTManager.h"
 #include "BoxBase.h"
+#include "../../../src/AllSub.h"
 
 ItemTManager * instance = nullptr;
 
@@ -29,12 +30,19 @@ void ItemTManager::drag(ContainerBase *box, std::string name)
 void ItemTManager::disDrag()
 {
     if (instance->m_lastHoveredBox != nullptr && !ImGui::IsMouseDragging(0)) {
-        printf("transferItem\n");
-        instance->m_box->transferItem(instance->m_lastHoveredBox, instance->m_dragName, 1);
+    }
+    if (!ImGui::IsMouseDragging(0)) {
+        if (instance->m_lastHoveredBox != nullptr) {
+            instance->m_box->transferItem(instance->m_lastHoveredBox, instance->m_dragName, 1);
+            instance->m_isDrag = false;
+            instance->m_box = nullptr;
+            instance->m_dragName = "";
+            instance->m_lastHoveredBox = nullptr;
+        }
         instance->m_isDrag = false;
-        instance->m_box = nullptr;
-        instance->m_dragName = "";
-        instance->m_lastHoveredBox = nullptr;
+    } else {
+        ImVec2 mousePos = ImGui::GetMousePos();
+        ImGui::GetForegroundDrawList()->AddText(ImVec2(mousePos.x + 10, mousePos.y + 10), ImGui::GetColorU32(ImGuiCol_Button), instance->m_dragName.c_str());
     }
 }
 

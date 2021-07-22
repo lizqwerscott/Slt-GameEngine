@@ -228,7 +228,7 @@ void Person::DrawUiSelf()
 
 void Person::UpdateSelf(sf::Time &dt)
 {
-    b2Vec2 mousePos = Math::DrawCoordSToPhysicalCoords(Graphic::PixelToCoords(sf::Mouse::getPosition()));
+    b2Vec2 mousePos = Graphic::getMousePositionP();
     m_MousePos = mousePos;
     b2Vec2 nowFace = Math::UnitVector(mousePos - GetPosition());
     float targetAngle = atan2f(-nowFace.x, nowFace.y);

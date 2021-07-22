@@ -19,11 +19,31 @@ BoxBase::~BoxBase()
     m_container.clear();
 }
 
-void BoxBase::DrawBoxUi(std::string name, int column)
+void BoxBase::DrawBoxUi(std::string name, int row, int column)
 {
     if (ImGui::BeginTable(name.c_str(), column, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings)) {
         ImGui::TableSetupColumn(name.c_str());
+        char now[10];
+        char max[10];
+        sprintf(now, "%.1f", m_nowVolume);
+        sprintf(max, "%.1f", m_maxVolume);
+        std::string volume = std::string(now) + " / " + std::string(max);
+        sprintf(now, "%.1f", m_nowQuality);
+        sprintf(max, "%.1f", m_maxQuality);
+        std::string quality = std::string(now) + " / " + std::string(max);
+        ImGui::TableSetupColumn(volume.c_str());
+        ImGui::TableSetupColumn(quality.c_str());
         ImGui::TableHeadersRow();
+        if (isEmpty()) {
+            for (int i = 0; i < row; i++) {
+                ImGui::TableNextColumn();
+                ImGui::Button(std::string("Null").c_str());
+                for (int j = 0; j < column - 1; j++) {
+                    ImGui::TableNextColumn();
+                    ImGui::Button(std::string("").c_str());
+                }
+            }
+        }
         int i = 0;
         for (auto iter : m_container) {
             if (!iter.second.empty()) {
@@ -62,8 +82,8 @@ bool BoxBase::addItem(Item * item)
     if (addP) {
         //this->m_container.push_back(item);
         this->m_container[item->getName()].push_back(item);
-        this->m_nowQuality -= item->getQuality();
-        this->m_nowVolume -= item->getVolume();
+        this->m_nowQuality += item->getQuality();
+        this->m_nowVolume += item->getVolume();
     }
     return addP;
 }
@@ -85,9 +105,11 @@ BoxBase::getItem(std::string name, int number)
 }
 
 Item *
-BoxBase::getItem() {
-    for (auto iter : m_container) {
-        return iter.second[0];
+BoxBase::getItem(std::string name)
+{
+    auto iter = m_container.find(name);
+    if (iter != m_container.end()) {
+        return iter->second[0];
     }
     return nullptr;
 }
@@ -102,6 +124,8 @@ bool BoxBase::transferItem(ContainerBase * target, std::string name, int number)
                 add = target->addItem(iter->second[i]);
                 if (add) {
                     iter->second.erase(iter->second.begin() + i);
+                    this->m_nowQuality -= iter->second[i]->getQuality();
+                    this->m_nowVolume -= iter->second[i]->getVolume();
                 } else {
                     return false;
                 }
@@ -115,6 +139,16 @@ bool BoxBase::transferItem(ContainerBase * target, std::string name, int number)
     return false;
 }
 
+bool BoxBase::isEmpty()
+{
+    for (auto iter : m_container) {
+        if (!iter.second.empty()) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void BoxBase::releaseEmptyItems()
 {
     for (auto iter = m_container.begin(); iter != m_container.end(); iter++) {
@@ -124,4 +158,3 @@ void BoxBase::releaseEmptyItems()
         }
     }
 }
-

@@ -11,11 +11,13 @@ public:
     ContainerBase(double volume, double quality);
     virtual ~ContainerBase() {}
 public:
-    virtual void DrawBoxUi(std::string name, int column = 3) = 0;
+    virtual void DrawBoxUi(std::string name, int row = 1, int column = 3) = 0;
 public:
     virtual bool addItem(Item * item) = 0;
-    virtual Item * getItem() = 0;
+    virtual Item * getItem(std::string name) = 0;
     virtual bool transferItem(ContainerBase * target, std::string name, int number) = 0;
+public:
+    virtual bool isEmpty() = 0;
 public:
     double getNowVolume();
     double getNowQuality();

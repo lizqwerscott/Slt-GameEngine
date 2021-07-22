@@ -153,6 +153,11 @@ sf::Vector2i Graphic::getMousePosition()
     return sf::Mouse::getPosition(*graphic->getWindow().get());
 }
 
+b2Vec2 Graphic::getMousePositionP()
+{
+    return Math::DrawCoordSToPhysicalCoords(Graphic::PixelToCoords(Graphic::getMousePosition()));
+}
+
 std::shared_ptr<sf::RenderWindow> Graphic::getWindow()
 {
     return this->m_window;
