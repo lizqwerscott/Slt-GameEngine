@@ -16,8 +16,6 @@ public:
 public:
     virtual void onFace(Person * person) override;
     virtual void DrawUiSelf() override;
-public:
-    bool m_selectItem[100];
 };
 
 #endif /* BOX_H */

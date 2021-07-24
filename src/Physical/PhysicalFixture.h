@@ -14,8 +14,7 @@ public:
 public:
     virtual void init() override;
 public:
-    b2Fixture * GetFixture();
-public:
+    b2FixtureDef m_fixtureDef;
     b2Fixture * m_fixture;
 };
 }

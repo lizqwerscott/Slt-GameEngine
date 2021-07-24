@@ -5,8 +5,13 @@
 
 using namespace slt;
 
-SNode::SNode(std::string name, SNode * parent)
-    : Node<SNode>(parent), Object(name), m_physicalBody(nullptr), m_position(b2Vec2(0.0f, 0.0f))
+SNode::SNode(std::string name, SNode * parent) :
+    Node<SNode>(parent),
+    Object(name),
+    m_physicalBody(nullptr),
+    m_physicalFixture(nullptr),
+    m_isGroup(false),
+    m_position(b2Vec2(0.0f, 0.0f))
 {
 }
 
@@ -19,7 +24,7 @@ SNode::~SNode()
     this->m_sprites.clear();
     this->m_shapes.clear();
     this->deletePhysicalBody();
-    printf("[SNode:Finish\n]");
+    printf("[SNode:Finish]\n");
 }
 
 void SNode::init()
@@ -154,6 +159,16 @@ SNode::CreatePhysicalBody(std::string name, b2Vec2 localWorldPos, b2BodyDef body
 {
     this->m_physicalBody = new PhysicalBody(name, localWorldPos, bodyDef, world);
     return this->m_physicalBody;
+}
+
+bool SNode::isInGroup()
+{
+    return (m_physicalFixture != nullptr);
+}
+
+bool SNode::isGroupRoot()
+{
+    return (!isInGroup()) && m_isGroup;
 }
 
 std::shared_ptr<sf::Sprite>

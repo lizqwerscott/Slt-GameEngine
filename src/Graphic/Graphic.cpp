@@ -158,6 +158,12 @@ b2Vec2 Graphic::getMousePositionP()
     return Math::DrawCoordSToPhysicalCoords(Graphic::PixelToCoords(Graphic::getMousePosition()));
 }
 
+bool Graphic::isMouseInWindow()
+{
+    ImGuiIO& io = ImGui::GetIO();
+    return io.WantCaptureMouse;
+}
+
 std::shared_ptr<sf::RenderWindow> Graphic::getWindow()
 {
     return this->m_window;

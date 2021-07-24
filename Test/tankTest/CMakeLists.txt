@@ -12,10 +12,13 @@ set(MAIN_SRC_LIST
     Body/Entity/Bullet/Bullet.cpp 
     Body/Entity/Biological/Biological.cpp
     Body/Entity/Biological/Person.cpp
+    Body/Entity/Cube/Cube.cpp
+    Body/Entity/EntityFactory.cpp
 
     Body/Item/Bag/Bag.cpp
     Body/Item/Consume/BulletI/BulletI.cpp
     Body/Item/Weapon/Gun/Gun.cpp
+    Body/Item/Tool/ArcWelding/ArcWelding.cpp
 
     MainScene/MainScene.cpp 
     StartScene/StartScene.cpp 

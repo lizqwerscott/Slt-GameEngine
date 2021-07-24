@@ -91,17 +91,17 @@ bool BoxBase::addItem(Item * item)
 std::vector<Item *>
 BoxBase::getItem(std::string name, int number)
 {
-    std::vector<Item *> m_result;
+    std::vector<Item *> result;
     auto iter = m_container.find(name);
     if (iter != m_container.end()) {
         if (static_cast<int>(iter->second.size()) >= number) {
             for (int i = 0; i < number; i++) {
-                m_result.push_back(iter->second[i]);
+                result.push_back(iter->second[i]);
                 iter->second.erase(iter->second.begin() + i);
             }
         }
     }
-    return m_result;
+    return result;
 }
 
 Item *

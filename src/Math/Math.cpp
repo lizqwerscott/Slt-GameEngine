@@ -172,3 +172,10 @@ Math::bkdrHash(char * str)
     }
     return (hash & 0x7FFFFFFF);
 }
+
+void Math::vectorToCharList(std::vector<std::string> vector, const char ** result)
+{
+    for (int i = 0; i < static_cast<int>(vector.size()); i++) {
+        result[i] = const_cast<char *>(vector[i].c_str());
+    }
+}

@@ -54,6 +54,8 @@ public:
 
   static sf::Vector2i getMousePosition();
   static b2Vec2 getMousePositionP();
+
+  static bool isMouseInWindow();
 public:
   std::shared_ptr<sf::RenderWindow> getWindow();
 public:

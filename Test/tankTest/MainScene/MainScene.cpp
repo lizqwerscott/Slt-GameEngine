@@ -4,10 +4,15 @@
 #include "../Body/Entity/Bullet/Bullet.h"
 #include "../Body/Item/Weapon/Gun/Gun.h"
 #include "../Body/Item/Consume/BulletI/BulletI.h"
+#include "../Body/Item/Tool/ArcWelding/ArcWelding.h"
+
 #include "../Body/Item/Bag/Bag.h"
 #include "../Body/Entity/Biological/Person.h"
 #include "../Body/Entity/Box/Box.h"
+#include "../Body/Entity/Cube/Cube.h"
+
 #include "../Body/ItemTManager.h"
+#include "../Body/Entity/EntityFactory.h"
 
 #define random(a, b) (rand() % (b - a + 1) + a)
 
@@ -19,8 +24,10 @@ MainScene::MainScene() : Scene(std::string("MainScene")) {}
 /**
  * @brief      Destroys the object.
  */
-MainScene::~MainScene() {
+MainScene::~MainScene()
+{
     ItemTManager::Destory();
+    EntityFactory::Destroy();
 }
 
 /**
@@ -41,6 +48,7 @@ MainScene *MainScene::create()
 void MainScene::init()
 {
     ItemTManager::Create();
+    EntityFactory::Create();
     auto physicalWorld =
         this->CreatePhysicalWorld(std::string("World"), true, b2Vec2(0.0f, 0.0f));
     sf::Vector2u windowSize = Graphic::getWindowSize();
@@ -189,12 +197,23 @@ void MainScene::init()
         // node->InsertShape("MainRectangle", shape);
     });
 
+    GameObject * root = static_cast<GameObject *>(GetRootNode());
+
+    EntityFactory::addEntity(std::string("box1"), [root, physicalWorld](b2Vec2 pos) -> Entity * {
+        return new Box(std::string("box1"), root, physicalWorld.get(), 100, 100, pos, 100);
+    });
+    EntityFactory::addEntity(std::string("cubeLittle"), [root, physicalWorld](b2Vec2 pos) -> Entity * {
+        return new Cube(std::string("cubeLittle"), root, physicalWorld.get(), b2Vec2(1, 1), pos, 50);
+    });
+
     // Gun node
     b2Vec2 nodePos = Math::DrawCoordSToPhysicalCoords(sf::Vector2f(windowSize.x / 2, windowSize.y / 2));
     //Gun * gunNode = new Gun(std::string("Gun"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
     Person * personNode = new Person(std::string("person"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
-    Gun * gun = new Gun(std::string("gun"), 10, 5, 10);
-    personNode->equip(gun);
+    //Gun * gun = new Gun(std::string("gun"), 10, 5, 10);
+    //personNode->equip(gun);
+    ArcWelding * weld = new ArcWelding(std::string("ArcWelding"), 1, 1);
+    personNode->equip(weld);
 
     Bag * bag = new Bag(std::string("bag"), 10, 10, 1000, 1000);
     for (int i = 0; i < 100; i++) {
@@ -202,7 +221,8 @@ void MainScene::init()
     }
     personNode->wearBag(bag);
 
-    Box * boxNode = new Box(std::string("box"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), 100, 100, b2Vec2(0, 10), 100);
+    //Box * boxNode = new Box(std::string("box1"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), 100, 100, b2Vec2(0, 10), 100);
+    Box * boxNode = static_cast<Box *>(EntityFactory::generateEntity(std::string("box1"), b2Vec2(0, 10)));
     boxNode->addItem(new BulletI(std::string("bullet1"), 2, 1));
     boxNode->addItem(new BulletI(std::string("bullet1"), 2, 1));
     boxNode->addItem(new Gun(std::string("gun1"), 20, 20, 20));
@@ -358,8 +378,11 @@ void MainScene::init()
     Graphic::insertMouseClickCallBack(
     sf::Mouse::Left, [personNode, physicalWorld](sf::Vector2i pos) -> void {
         //printf("Left:MousePos:%d, %d\n", pos.x, pos.y);
-        //sf::Vector2f coordPos = Graphic::PixelToCoords(pos);
-        //personNode->useHand(physicalWorld.get(), Math::DrawCoordSToPhysicalCoords(coordPos));
+        //Temporary
+        if (!Graphic::isMouseInWindow()) {
+            sf::Vector2f coordPos = Graphic::PixelToCoords(pos);
+            personNode->useHand(physicalWorld.get(), Math::DrawCoordSToPhysicalCoords(coordPos));
+        }
     });
 
     // Shoot bullet

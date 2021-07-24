@@ -28,6 +28,9 @@ public:
 public:
     void useFace(PhysicalWorld * world);
     b2Vec2 getFace() {return m_face;}
+    float getFaceFraction() {return m_faceFraction;}
+    bool isInHand() {return m_faceFraction <= 1.309;}
+    Entity * getFaceEntity() {return m_faceEntity;}
 public:
     void wearBag(Bag *bag);
     Bag * getBag() {return m_tBackPack;}
@@ -59,9 +62,9 @@ private:
     //hand
     //Item * m_tHand = nullptr;
     ToolBox * m_tHand = nullptr;
+    int selectI = 0;
     //Backpack
     Bag * m_tBackPack = nullptr;
-    bool m_BagSelected[100];
     //clothes
     //Hat * m_cHead = nullptr;
 

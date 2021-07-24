@@ -58,6 +58,8 @@ public:
     static const b2Vec2 NumberProduct(b2Vec2 vector, int t);
     static const b2Vec2 NumberProduct(b2Vec2 vector, float t);
     static const b2Vec2 NumberProduct(b2Vec2 vector, double t);
+
+    static void vectorToCharList(std::vector<std::string> vector, const char ** result);
 public:
     // Use BKDR Hash Function
     static const unsigned int bkdrHash(std::string str);

@@ -2,6 +2,8 @@
 #include "../../Item/Weapon/Gun/Gun.h"
 #include "../../Item/Bag/Bag.h"
 #include "../../ToolBox.h"
+#include "../../Item/Tool/ArcWelding/ArcWelding.h"
+#include "../../Entity/EntityFactory.h"
 
 Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos) :
     Biological(name, parent, nodePos, 100),
@@ -67,6 +69,9 @@ void Person::useHand(PhysicalWorld * world, b2Vec2 mouseClick)
     if (hand->getTypeName() == std::string("Weapon")) {
         Weapon * weapon = static_cast<Weapon *>(hand);
         weapon->attack(this, world);
+    } else if (hand->getTypeName() == std::string("Tool")) {
+        Tool * tool = static_cast<Tool *>(hand);
+        tool->use(this, world);
     }
 }
 
@@ -82,7 +87,7 @@ void Person::useFace(PhysicalWorld * world)
     printf("face: %f, %f\n", m_face.x, m_face.y);
     //world->RayCast(m_findRayCastCallBack, GetPosition(), m_face);
     if (m_faceEntity != nullptr) {
-        if (m_faceFraction <= 0.309) {
+        if (isInHand()) {
             m_faceEntity->onFace(this);
         }
     }
@@ -121,15 +126,15 @@ void Person::move(int direction, float force)
 void Person::rotate(float angle)
 {
     //rotate physical body
-    float DEGTORAD = PI / 180;
+    float degreeRad = PI / 180;
 
     b2Body * body = m_physicalBody->GetBody();
 
     float bodyAngle = body->GetAngle();
     float nextAngle = bodyAngle + body->GetAngularVelocity() / 60.0;
     float totalRotation = angle - nextAngle;
-    while ( totalRotation < -180 * DEGTORAD ) totalRotation += 360 * DEGTORAD;
-    while ( totalRotation >  180 * DEGTORAD ) totalRotation -= 360 * DEGTORAD;
+    while ( totalRotation < -180 * degreeRad ) totalRotation += 360 * degreeRad;
+    while ( totalRotation >  180 * degreeRad ) totalRotation -= 360 * degreeRad;
     float desiredAngularVelocity = totalRotation * 60;
     float torque = body->GetInertia() * desiredAngularVelocity / (1/60.0);
     body->ApplyTorque(torque, true);
@@ -195,29 +200,17 @@ void Person::DrawUiSelf()
         ImGui::Text(std::to_string(m_water).c_str());
         ImGui::EndTable();
     }
-    //ImGui::Text("Hand");
     m_tHand->DrawBoxUi(std::string("Hand"));
-    // auto hand = getHand();
-    // if (hand != nullptr)  {
-    //     if (hand->getName() == std::string("gun")) {
-    //         if (ImGui::BeginTable("Hand", 3, flags)) {
-    //             //ImGui::TableNextRow();
-    //             ImGui::TableNextColumn();
-    //             //ImGui::Text("gun");
-    //             char bulletN[20];
-    //             Gun * gun = static_cast<Gun *>(hand);
-    //             sprintf(bulletN, "gun %d/%d bullet", gun->getBulletN(), gun->getMaxBulletN());
-    //             ImGui::Selectable(bulletN, &m_tHandSelected);
-    //             //ImGui::TableNextColumn();
-    //             //ImGui::Text(bulletN);
-    //
-    //             ImGui::EndTable();
-    //         }
-    //     }
-    // } else {
-    //     ImGui::Text("Null");
-    // }
-    //ImGui::Text("Bag");
+    {
+        auto hand = getHand();
+        if (hand->getName() == std::string("ArcWelding")) {
+            //ImGui::Text("Create");
+            auto list = EntityFactory::getAll();
+            const char * items[list.size()];
+            Math::vectorToCharList(list, items);
+            ImGui::Combo("Create", &selectI, items, list.size());
+        }
+    }
     if (m_tBackPack != nullptr) {
         m_tBackPack->DrawBoxUi(std::string("Bag"));
     } else {
@@ -241,5 +234,11 @@ void Person::UpdateSelf(sf::Time &dt)
     if (m_SpeedAdjust) {
         b2Vec2 lineSpeed = this->m_physicalBody->GetBody()->GetLinearVelocity();
         m_physicalBody->GetBody()->ApplyForceToCenter(Math::NumberProduct(lineSpeed, -6), true);
+    }
+    auto hand = getHand();
+    if (hand->getName() == std::string("ArcWelding")) {
+        ArcWelding * arc = static_cast<ArcWelding *>(hand);
+        auto list = EntityFactory::getAll();
+        arc->m_generateEntity = list[selectI];
     }
 }

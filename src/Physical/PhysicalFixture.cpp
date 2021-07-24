@@ -15,7 +15,6 @@ PhysicalFixture::PhysicalFixture(std::string name, b2FixtureDef fixtureDef, b2Bo
 
 PhysicalFixture::~PhysicalFixture()
 {
-
 }
 
 void PhysicalFixture::init()
@@ -23,8 +22,3 @@ void PhysicalFixture::init()
 
 }
 
-b2Fixture *
-PhysicalFixture::GetFixture()
-{
-    return this->m_fixture;
-}

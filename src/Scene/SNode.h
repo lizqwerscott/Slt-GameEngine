@@ -18,6 +18,7 @@
 namespace slt
 {
 class PhysicalBody;
+class PhysicalFixture;
 
 class SNode : public Node<SNode>, public Object
 {
@@ -45,6 +46,8 @@ public:
     std::shared_ptr<sf::Sprite> CreateSprite(std::string name);
     void InsertShape(std::string name, sf::Shape * shape);
     PhysicalBody * CreatePhysicalBody(std::string name, b2Vec2 localWorldPos, b2BodyDef bodyDef, b2World * world);
+    bool isInGroup();
+    bool isGroupRoot();
 
     std::shared_ptr<sf::Sprite> GetSprite(std::string name);
     std::shared_ptr<sf::Shape> GetShape(std::string name);
@@ -73,6 +76,8 @@ public:
     std::map<std::string, std::shared_ptr<sf::Sprite>> m_sprites;
     std::map<std::string, std::shared_ptr<sf::Shape>> m_shapes;
     PhysicalBody * m_physicalBody;
+    PhysicalFixture * m_physicalFixture;
+    bool m_isGroup;
 private:
     b2Vec2 m_position;
 private:

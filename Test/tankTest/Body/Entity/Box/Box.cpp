@@ -9,12 +9,12 @@ Box::Box(std::string name, GameObject *parent, PhysicalWorld * world, double vol
     this->SetPosition(nodePos);
     b2Vec2 localWorldPos(0, 0);
     b2BodyDef bodyDef;
-    bodyDef.type = b2BodyType::b2_kinematicBody;
+    bodyDef.type = b2BodyType::b2_dynamicBody;
     bodyDef.position =
         Math::WorldCoordSToPhysicalCoordS(nodePos + localWorldPos);
     bodyDef.angle = 0;
-    bodyDef.bullet = true;
-    auto physicalBody = CreatePhysicalBody(std::string("BaffleBody"), localWorldPos, bodyDef, world);
+    bodyDef.bullet = false;
+    auto physicalBody = CreatePhysicalBody(std::string("BoxBody"), localWorldPos, bodyDef, world);
     b2PolygonShape polygonShape;
     // polygonShape.SetAsBox(3, 1, Math::WorldCoordSToPhysicalCoordS(nodePos
     // + localWorldPos), 0);
