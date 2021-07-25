@@ -13,7 +13,7 @@ public:
     virtual ~Tool() {}
 public:
     virtual void use(Person * person, PhysicalWorld * world) = 0;
-    virtual void rightClick() = 0;
+    virtual void rightClick(Person * person, b2Vec2 pos, PhysicalWorld * world) = 0;
 };
 
 #endif /* TOOL_H */

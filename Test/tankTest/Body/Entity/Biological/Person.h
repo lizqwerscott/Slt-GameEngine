@@ -22,15 +22,18 @@ public:
     Person(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos = b2Vec2(0, 0));
     ~Person();
 public:
-    void useHand(PhysicalWorld * world, b2Vec2 mouseClick);
+    void useHand(b2Vec2 mouseClick);
+    void rightClick(b2Vec2 mouseClick);
     bool handP() {return m_tHand != nullptr;}
     Item * getHand();
 public:
     void useFace(PhysicalWorld * world);
+
+    bool isInHand() {return m_faceFraction <= 1.309;}
     b2Vec2 getFace() {return m_face;}
     float getFaceFraction() {return m_faceFraction;}
-    bool isInHand() {return m_faceFraction <= 1.309;}
     Entity * getFaceEntity() {return m_faceEntity;}
+    b2Fixture * getFaceFixture() {return m_faceFixture;}
 public:
     void wearBag(Bag *bag);
     Bag * getBag() {return m_tBackPack;}
@@ -52,6 +55,7 @@ private:
     b2Vec2 m_MousePos;
     b2Vec2 m_face; //mouse place
     Entity * m_faceEntity = nullptr;
+    b2Fixture * m_faceFixture = nullptr;
     float m_faceFraction = 0;
 public:
     bool m_SpeedAdjust;
@@ -97,6 +101,7 @@ public:
     {
         Entity * entity = static_cast<Entity *>(fixture->GetUserData().data[1]);
         //PhysicalFixture * pFixture = static_cast<PhysicalFixture *>(fixture->GetUserData().data[0]);
+        m_person->m_faceFixture = fixture;
         m_person->m_faceEntity = entity;
         m_person->m_faceFraction = fraction;
         //printf("fraction:%f\n", fraction);

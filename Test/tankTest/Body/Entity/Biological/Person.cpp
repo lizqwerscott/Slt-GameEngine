@@ -63,15 +63,26 @@ Person::~Person()
     // }
 }
 
-void Person::useHand(PhysicalWorld * world, b2Vec2 mouseClick)
+void Person::useHand(b2Vec2 mouseClick)
 {
     auto hand = getHand();
     if (hand->getTypeName() == std::string("Weapon")) {
         Weapon * weapon = static_cast<Weapon *>(hand);
-        weapon->attack(this, world);
+        weapon->attack(this, m_world);
     } else if (hand->getTypeName() == std::string("Tool")) {
         Tool * tool = static_cast<Tool *>(hand);
-        tool->use(this, world);
+        tool->use(this, m_world);
+    }
+}
+
+void Person::rightClick(b2Vec2 mouseClick)
+{
+    auto hand = getHand();
+    if (hand->getTypeName() == std::string("Weapon")) {
+        //Weapon * weapon = static_cast<Weapon *>(hand);
+    } else if (hand->getTypeName() == std::string("Tool")) {
+        Tool * tool = static_cast<Tool *>(hand);
+        tool->rightClick(this, mouseClick, m_world);
     }
 }
 

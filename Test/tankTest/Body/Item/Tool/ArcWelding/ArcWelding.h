@@ -10,7 +10,7 @@ public:
     virtual ~ArcWelding() {}
 public:
     virtual void use(Person * person, PhysicalWorld * world);
-    virtual void rightClick();
+    virtual void rightClick(Person * person, b2Vec2 pos, PhysicalWorld * world);
 public:
     std::string m_generateEntity;
 };

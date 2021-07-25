@@ -379,9 +379,18 @@ void MainScene::init()
     sf::Mouse::Left, [personNode, physicalWorld](sf::Vector2i pos) -> void {
         //printf("Left:MousePos:%d, %d\n", pos.x, pos.y);
         //Temporary
-        if (!Graphic::isMouseInWindow()) {
+        if (!Graphic::isMouseInWindow())
+        {
             sf::Vector2f coordPos = Graphic::PixelToCoords(pos);
-            personNode->useHand(physicalWorld.get(), Math::DrawCoordSToPhysicalCoords(coordPos));
+            personNode->useHand(Math::DrawCoordSToPhysicalCoords(coordPos));
+        }
+    });
+
+    Graphic::insertMouseClickCallBack(sf::Mouse::Right, [personNode](sf::Vector2i pos) -> void {
+        if (!Graphic::isMouseInWindow())
+        {
+            sf::Vector2f coordPos = Graphic::PixelToCoords(pos);
+            personNode->rightClick(Math::DrawCoordSToWorldCoordS(coordPos));
         }
     });
 
@@ -392,27 +401,25 @@ void MainScene::init()
     //     gunNode->fire(GetRootNode(), physicalWorld.get());
     // });
 
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::Escape,
-
-                               []() -> void { Graphic::Close(); });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::Escape, []() -> void { Graphic::Close(); });
 
     Graphic::insertKeyCallBack(sf::Keyboard::Key::H,
-    [this, baffleNode]() -> void {
+    [this]() -> void {
         // printf("Move:Left\n");
         this->getCamera().get()->move(-2, 0);
     });
     Graphic::insertKeyCallBack(sf::Keyboard::Key::L,
-    [this, baffleNode]() -> void {
+    [this]() -> void {
         // printf("Move:Right\n");
         this->getCamera().get()->move(2, 0);
     });
     Graphic::insertKeyCallBack(sf::Keyboard::Key::J,
-    [this, baffleNode]() -> void {
+    [this]() -> void {
         // printf("Move:Up\n");
         this->getCamera().get()->move(0, 2);
     });
     Graphic::insertKeyCallBack(sf::Keyboard::Key::K,
-    [this, baffleNode]() -> void {
+    [this]() -> void {
         // printf("Move:Down\n");
         this->getCamera().get()->move(0, -2);
     });
@@ -447,18 +454,15 @@ void MainScene::init()
     // });
     Graphic::insertMouseWheelCallBack(
     [this](sf::Event::MouseWheelScrollEvent event) -> void {
-        int delta = event.delta;
-        if (delta > 0)
+        if (!Graphic::isMouseInWindow())
         {
-            this->getCamera()->zoom(0.9);
-        } else
-        {
-            this->getCamera()->zoom(1.1);
+            int delta = event.delta;
+            if (delta > 0) {
+                this->getCamera()->zoom(0.9);
+            } else {
+                this->getCamera()->zoom(1.1);
+            }
         }
-    });
-    Graphic::insertMouseClickCallBack(
-    sf::Mouse::Right, [this](sf::Vector2i pos) -> void {
-        printf("Right:MousePos:%d, %d\n", pos.x, pos.y);
     });
 
     /*
