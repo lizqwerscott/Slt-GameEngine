@@ -52,6 +52,22 @@ void PhysicalWorld::onEndContact(
   this->m_endContact.push_back(endContact);
 }
 
+std::vector<b2Fixture *>
+PhysicalWorld::getContact(b2Fixture *fixture)
+{
+    std::vector<b2Fixture *> results;
+    for (b2Contact * c = this->GetContactList(); c; c = c->GetNext()) {
+        b2Fixture * fixtureA = c->GetFixtureA();
+        b2Fixture * fixtureB = c->GetFixtureB();
+        if (fixtureA == fixture) {
+            results.push_back(fixtureB);
+        } else if (fixtureB == fixture) {
+            results.push_back(fixtureA);
+        }
+    }
+    return results;
+}
+
 void PhysicalWorld::onBeginContact() { this->m_beginContact.pop_back(); }
 
 void PhysicalWorld::onEndContact() { this->m_endContact.pop_back(); }

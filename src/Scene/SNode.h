@@ -57,11 +57,15 @@ public:
     void deleteShape(std::string name);
     void deletePhysicalBody();
 public:
+    unsigned int GetId();
     SNode * GetChild(std::string name);
+    SNode * GetChild(unsigned int id);
     SNode * CreateChild(std::string name, std::function<void(SNode *)> initFunction = [](SNode * node)->void {});
     void AddChild(SNode * node);
     void DeleteChild(std::string name);
+    void DeleteChild(unsigned int id);
     SNode * popChild(std::string name);
+    SNode * popChild(unsigned int id);
 public:
     //CallBack
 
@@ -82,6 +86,7 @@ private:
     b2Vec2 m_position;
 private:
     std::list<SNode *> m_deleteChild;
+    unsigned int m_id;
 };
 
 //Events

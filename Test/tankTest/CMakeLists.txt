@@ -19,6 +19,7 @@ set(MAIN_SRC_LIST
     Body/Item/Consume/BulletI/BulletI.cpp
     Body/Item/Weapon/Gun/Gun.cpp
     Body/Item/Tool/ArcWelding/ArcWelding.cpp
+    Body/Item/Tool/CuttingMachine/CuttingMachine.cpp
 
     MainScene/MainScene.cpp 
     StartScene/StartScene.cpp 

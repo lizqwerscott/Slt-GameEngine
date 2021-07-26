@@ -5,13 +5,16 @@
 
 using namespace slt;
 
+unsigned int generate_id = 0;
+
 SNode::SNode(std::string name, SNode * parent) :
     Node<SNode>(parent),
     Object(name),
     m_physicalBody(nullptr),
     m_physicalFixture(nullptr),
     m_isGroup(false),
-    m_position(b2Vec2(0.0f, 0.0f))
+    m_position(b2Vec2(0.0f, 0.0f)),
+    m_id(generate_id++)
 {
 }
 
@@ -129,12 +132,28 @@ void SNode::move(b2Vec2 posOffset)
     this->SetPosition(this->m_position + posOffset);
 }
 
+unsigned int SNode::GetId()
+{
+    return m_id;
+}
+
 SNode * SNode::GetChild(std::string name)
 {
     auto iter = find_if(m_next.begin(), m_next.end(), [name](SNode * node) {
         return name == node->GetName();
     });
     if (iter != this->m_next.end()) {
+        return *iter;
+    } else {
+        return nullptr;
+    }
+}
+
+SNode * SNode::GetChild(unsigned int id) {
+    auto iter = find_if(m_next.begin(), m_next.end(), [id](SNode * node) {
+        return id == node->GetId();
+    });
+    if (iter != m_next.end()) {
         return *iter;
     } else {
         return nullptr;
@@ -245,9 +264,24 @@ void SNode::DeleteChild(std::string name)
     }
 }
 
+void SNode::DeleteChild(unsigned int id)
+{
+    SNode * node = this->GetChild(id);
+    if (node != nullptr) {
+        this->m_deleteChild.push_back(node);
+    }
+}
+
 SNode * SNode::popChild(std::string name)
 {
     SNode * node = this->GetChild(name);
+    this->m_next.remove(node);
+    return node;
+}
+
+SNode * SNode::popChild(unsigned int id)
+{
+    SNode * node = this->GetChild(id);
     this->m_next.remove(node);
     return node;
 }

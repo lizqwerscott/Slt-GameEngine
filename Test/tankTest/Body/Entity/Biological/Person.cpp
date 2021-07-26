@@ -65,24 +65,28 @@ Person::~Person()
 
 void Person::useHand(b2Vec2 mouseClick)
 {
-    auto hand = getHand();
-    if (hand->getTypeName() == std::string("Weapon")) {
-        Weapon * weapon = static_cast<Weapon *>(hand);
-        weapon->attack(this, m_world);
-    } else if (hand->getTypeName() == std::string("Tool")) {
-        Tool * tool = static_cast<Tool *>(hand);
-        tool->use(this, m_world);
+    if (isInHand() && !m_tHand->isEmpty()) {
+        auto hand = getHand();
+        if (hand->getTypeName() == std::string("Weapon")) {
+            Weapon * weapon = static_cast<Weapon *>(hand);
+            weapon->attack(this, m_world);
+        } else if (hand->getTypeName() == std::string("Tool")) {
+            Tool * tool = static_cast<Tool *>(hand);
+            tool->use(this, m_world);
+        }
     }
 }
 
 void Person::rightClick(b2Vec2 mouseClick)
 {
-    auto hand = getHand();
-    if (hand->getTypeName() == std::string("Weapon")) {
-        //Weapon * weapon = static_cast<Weapon *>(hand);
-    } else if (hand->getTypeName() == std::string("Tool")) {
-        Tool * tool = static_cast<Tool *>(hand);
-        tool->rightClick(this, mouseClick, m_world);
+    if (isInHand() && !m_tHand->isEmpty()) {
+        auto hand = getHand();
+        if (hand->getTypeName() == std::string("Weapon")) {
+            //Weapon * weapon = static_cast<Weapon *>(hand);
+        } else if (hand->getTypeName() == std::string("Tool")) {
+            Tool * tool = static_cast<Tool *>(hand);
+            tool->rightClick(this, mouseClick, m_world);
+        }
     }
 }
 
@@ -213,13 +217,17 @@ void Person::DrawUiSelf()
     }
     m_tHand->DrawBoxUi(std::string("Hand"));
     {
-        auto hand = getHand();
-        if (hand->getName() == std::string("ArcWelding")) {
-            //ImGui::Text("Create");
-            auto list = EntityFactory::getAll();
-            const char * items[list.size()];
-            Math::vectorToCharList(list, items);
-            ImGui::Combo("Create", &selectI, items, list.size());
+        if (!m_tHand->isEmpty()) {
+            auto hand = getHand();
+            if (hand != nullptr) {
+                if (hand->getName() == std::string("ArcWelding")) {
+                    //ImGui::Text("Create");
+                    auto list = EntityFactory::getAll();
+                    const char * items[list.size()];
+                    Math::vectorToCharList(list, items);
+                    ImGui::Combo("Create", &selectI, items, list.size());
+                }
+            }
         }
     }
     if (m_tBackPack != nullptr) {
@@ -246,10 +254,14 @@ void Person::UpdateSelf(sf::Time &dt)
         b2Vec2 lineSpeed = this->m_physicalBody->GetBody()->GetLinearVelocity();
         m_physicalBody->GetBody()->ApplyForceToCenter(Math::NumberProduct(lineSpeed, -6), true);
     }
-    auto hand = getHand();
-    if (hand->getName() == std::string("ArcWelding")) {
-        ArcWelding * arc = static_cast<ArcWelding *>(hand);
-        auto list = EntityFactory::getAll();
-        arc->m_generateEntity = list[selectI];
+    if (!m_tHand->isEmpty()) {
+        auto hand = getHand();
+        if (hand != nullptr) {
+            if (hand->getName() == std::string("ArcWelding")) {
+                ArcWelding * arc = static_cast<ArcWelding *>(hand);
+                auto list = EntityFactory::getAll();
+                arc->m_generateEntity = list[selectI];
+            }
+        }
     }
 }

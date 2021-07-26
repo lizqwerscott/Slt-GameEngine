@@ -73,6 +73,7 @@ public:
     //Contatct
     void BeginContact(b2Contact* contact) override;
     void EndContact(b2Contact* contact) override;
+    std::vector<b2Fixture *> getContact(b2Fixture * fixture);
 private:
     bool m_isOpenDebugDraw;
 private:

@@ -30,23 +30,30 @@ int Application::run()
         runEngine = engine->Run(elapsed);
         sf::Event event;
         while (Graphic::PollWindowEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                Graphic::Close();
-            } else if (event.type == sf::Event::MouseWheelScrolled) {
-                printf("the mouse is moved, the delta is %f\n",
-                       event.mouseWheelScroll.delta);
-                Graphic::mouseWhellCallBackRun(event.mouseWheelScroll);
+            if (Graphic::isMouseInWindow()) {
+                if (event.type == sf::Event::Closed) {
+                    Graphic::Close();
+                } else {
+                    ImGui::SFML::ProcessEvent(event);
+                }
             } else {
-                ImGui::SFML::ProcessEvent(event);
-            }
-            Graphic::checkKeyCallBack();
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                sf::Vector2i pos = Graphic::getMousePosition();
-                Graphic::mouseClick(sf::Mouse::Left, pos);
-            }
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-                sf::Vector2i pos = Graphic::getMousePosition();
-                Graphic::mouseClick(sf::Mouse::Right, pos);
+                if (event.type == sf::Event::Closed) {
+                    Graphic::Close();
+                } else if (event.type == sf::Event::MouseWheelScrolled) {
+                    printf("the mouse is moved, the delta is %f\n",
+                           event.mouseWheelScroll.delta);
+                    Graphic::mouseWhellCallBackRun(event.mouseWheelScroll);
+                } else if (event.type == sf::Event::KeyPressed) {
+                    Graphic::applyKeyCallBack(event.key.code);
+                } else if (event.type == sf::Event::MouseButtonPressed) {
+                    if (event.mouseButton.button == sf::Mouse::Right) {
+                        sf::Vector2i pos = Graphic::getMousePosition();
+                        Graphic::mouseClick(sf::Mouse::Right, pos);
+                    } else if (event.mouseButton.button == sf::Mouse::Left) {
+                        sf::Vector2i pos = Graphic::getMousePosition();
+                        Graphic::mouseClick(sf::Mouse::Left, pos);
+                    }
+                }
             }
         }
     }

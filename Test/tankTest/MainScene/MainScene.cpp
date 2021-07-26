@@ -5,6 +5,7 @@
 #include "../Body/Item/Weapon/Gun/Gun.h"
 #include "../Body/Item/Consume/BulletI/BulletI.h"
 #include "../Body/Item/Tool/ArcWelding/ArcWelding.h"
+#include "../Body/Item/Tool/CuttingMachine/CuttingMachine.h"
 
 #include "../Body/Item/Bag/Bag.h"
 #include "../Body/Entity/Biological/Person.h"
@@ -210,8 +211,6 @@ void MainScene::init()
     b2Vec2 nodePos = Math::DrawCoordSToPhysicalCoords(sf::Vector2f(windowSize.x / 2, windowSize.y / 2));
     //Gun * gunNode = new Gun(std::string("Gun"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
     Person * personNode = new Person(std::string("person"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
-    //Gun * gun = new Gun(std::string("gun"), 10, 5, 10);
-    //personNode->equip(gun);
     ArcWelding * weld = new ArcWelding(std::string("ArcWelding"), 1, 1);
     personNode->equip(weld);
 
@@ -220,6 +219,10 @@ void MainScene::init()
         bag->addItem(new BulletI(std::string("bulletG"), 1, 2));
     }
     personNode->wearBag(bag);
+    Gun * gun = new Gun(std::string("gun"), 10, 5, 10);
+    bag->addItem(gun);
+    CuttingMachine * cuttingMachine = new CuttingMachine(std::string("CuttingMachine"), 10, 10);
+    bag->addItem(cuttingMachine);
 
     //Box * boxNode = new Box(std::string("box1"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), 100, 100, b2Vec2(0, 10), 100);
     Box * boxNode = static_cast<Box *>(EntityFactory::generateEntity(std::string("box1"), b2Vec2(0, 10)));

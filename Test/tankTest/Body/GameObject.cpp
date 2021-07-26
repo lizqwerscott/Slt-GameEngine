@@ -14,8 +14,8 @@ GameObject::GameObject(std::string name, GameObject * parent, double hp) :
         auto gameObject = static_cast<GameObject *>(node);
         if (gameObject->m_hp <= 0)
         {
-            printf("[Dead]:%s hp is zero", gameObject->GetName().c_str());
-            gameObject->GetParent()->DeleteChild(gameObject->GetName());
+            printf("[Dead]:%s (%u)hp is zero", gameObject->GetName().c_str(), gameObject->GetId());
+            gameObject->GetParent()->DeleteChild(gameObject->GetId());
         }
     });
 }
