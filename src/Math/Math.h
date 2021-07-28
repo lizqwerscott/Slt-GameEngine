@@ -47,6 +47,7 @@ public:
     static const sf::Vector2f PhysicalCoordSToDrawCoordS(b2Vec2 physicalPos);
 
     static const float SLTToPixel(float slt);
+    static const sf::Vector2f SLTToPixel(b2Vec2 pos);
     static const float PixelToSLT(float pixel);
     static const float SLTToMeter(float slt);
     static const float MeterToSLT(float meter);
@@ -60,6 +61,9 @@ public:
     static const b2Vec2 NumberProduct(b2Vec2 vector, double t);
 
     static void vectorToCharList(std::vector<std::string> vector, const char ** result);
+public:
+    static const float degreeToRad(float degree);
+    static const float radToDegree(float rad);
 public:
     // Use BKDR Hash Function
     static const unsigned int bkdrHash(std::string str);

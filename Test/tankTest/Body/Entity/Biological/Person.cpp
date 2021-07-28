@@ -41,6 +41,12 @@ Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2V
 
     m_findRayCastCallBack = new FindRayCastCallback(this);
     this->m_isDrawUi = false;
+
+    sf::Texture * texture = ResourceManager::GetTexture(std::string("person"));
+    auto sprite = CreateSprite(std::string("personSprite")).get();
+    texture->setSmooth(true);
+    sprite->setTexture(*texture);
+    sprite->setOrigin(sf::Vector2f(15, 15));
 }
 
 Person::~Person()
@@ -154,7 +160,6 @@ void Person::rotate(float angle)
     float torque = body->GetInertia() * desiredAngularVelocity / (1/60.0);
     body->ApplyTorque(torque, true);
     //rotate sprite
-
 }
 
 void Person::drink(Item * drink)

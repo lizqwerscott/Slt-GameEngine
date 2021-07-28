@@ -45,6 +45,7 @@ public:
 public:
     std::shared_ptr<sf::Sprite> CreateSprite(std::string name);
     void InsertShape(std::string name, sf::Shape * shape);
+    sf::RectangleShape * CreateRectangleShape(std::string name, b2Vec2 size, sf::Texture * texture);
     PhysicalBody * CreatePhysicalBody(std::string name, b2Vec2 localWorldPos, b2BodyDef bodyDef, b2World * world);
     bool isInGroup();
     bool isGroupRoot();

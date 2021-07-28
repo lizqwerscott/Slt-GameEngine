@@ -12,7 +12,7 @@ using namespace slt;
 
 Engine::Engine()
 {
-    ResourceManager::init();
+    ResourceManager::init(std::string("/home/lizqwer/project/Slt-GameEngine/resource/"));
     SceneManager::init();
 }
 

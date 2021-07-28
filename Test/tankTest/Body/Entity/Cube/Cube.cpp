@@ -28,4 +28,17 @@ Cube::Cube(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 
     physicalBody->GetBody()->GetUserData().data.push_back(static_cast<void*>(this));
     fixture->m_fixture->GetUserData().data.push_back(static_cast<void*>(this));
     this->m_isDrawUi = false;
+
+    sf::Texture * tieTexture = ResourceManager::GetTexture(std::string("tie"));
+    tieTexture->setSmooth(true);
+
+    CreateRectangleShape(std::string("tiep"), size, tieTexture);
+
+    ////auto sprite = CreateSprite(std::string("cubeSprite")).get();
+    //sf::RectangleShape * rectShape = new sf::RectangleShape();
+    //rectShape->setSize(Math::SLTToPixel(b2Vec2(size.x * 2, size.y * 2)));
+    //rectShape->setOrigin(Math::SLTToPixel(b2Vec2(size.x, size.y)));
+    //rectShape->setTexture(tieTexture);
+    //rectShape->setTextureRect(sf::IntRect(0, 0, 100, 100));
+    //InsertShape(std::string("tieShape"), rectShape);
 }

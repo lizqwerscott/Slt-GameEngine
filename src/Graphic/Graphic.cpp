@@ -87,7 +87,7 @@ sf::Color Graphic::changeColor(b2Color color)
                      (int)color.a * 255);
 }
 
-void Graphic::findKeyCallBack(sf::Keyboard::Key key)
+void Graphic::applyKeyCallBack(sf::Keyboard::Key key)
 {
     if (graphic->m_keyCallBacks.find(key) != graphic->m_keyCallBacks.end()) {
         graphic->m_keyCallBacks[key]();
@@ -103,11 +103,6 @@ void Graphic::insertKeyCallBack(sf::Keyboard::Key key,
 void Graphic::deleteKeyCallBack(sf::Keyboard::Key key)
 {
     graphic->m_keyCallBacks.erase(key);
-}
-
-void Graphic::applyKeyCallBack(sf::Keyboard::Key key)
-{
-    graphic->m_keyCallBacks[key]();
 }
 
 void Graphic::insertMouseWheelCallBack(

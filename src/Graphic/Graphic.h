@@ -38,11 +38,10 @@ public:
   static sf::Color changeColor(b2Color color);
 
 public:
-  static void findKeyCallBack(sf::Keyboard::Key key);
+  static void applyKeyCallBack(sf::Keyboard::Key key);
   static void insertKeyCallBack(sf::Keyboard::Key key,
                                 std::function<void(void)> keyCallBack);
   static void deleteKeyCallBack(sf::Keyboard::Key key);
-  static void applyKeyCallBack(sf::Keyboard::Key key);
 
   static void insertMouseWheelCallBack(std::function<void(sf::Event::MouseWheelScrollEvent)> mouseCallBack);
   static void deleteMouseWhellCallBack();

@@ -2,6 +2,7 @@
 #include "../Graphic/Graphic.h"
 #include <cstdio>
 #include "../Physical/PhysicalBody.h"
+#include "../ResourceManager/ResourceManager.h"
 
 using namespace slt;
 
@@ -82,16 +83,24 @@ void SNode::Draw()
         for (auto callBack : this->m_DrawCallBacks) {
             callBack(this);
         }
+        sf::Vector2f pos = Math::WorldCoordSToDrawCoordS(this->m_position);
+        float angle = 0;
+        if (m_physicalBody != nullptr) {
+            angle = Math::radToDegree(m_physicalBody->GetBody()->GetAngle());
+        }
         for (auto sprite : this->m_sprites) {
             //const sf::Vector2f tempPos = sprite.second->getPosition();
-            sprite.second->setPosition(Math::WorldCoordSToDrawCoordS(this->m_position));
+            sprite.second->setPosition(pos);
+            sprite.second->setRotation(angle);
             Graphic::DrawSprite(sprite.second.get());
             //sprite.second->setPosition(tempPos);
         }
         for (auto shape : this->m_shapes) {
             //const sf::Vector2f tempPos = shape.second->getPosition();
-            shape.second->setPosition(Math::WorldCoordSToDrawCoordS(this->m_position));
-            //printf("Shape:%s:Pos:%f, %f\n", this->GetName().c_str(), shape.second->getPosition().x, shape.second->getPosition().y);
+            shape.second->setPosition(pos);
+            shape.second->setRotation(angle);
+            //sf::Vector2f pos = shape.second->getOrigin();
+            //printf("Shape:%s:Pos:%f, %f\n", this->GetName().c_str(), pos.x, pos.y);
             /*
             for (int j=0; j<shape.second->getPointCount(); j++)
             {
@@ -171,6 +180,16 @@ SNode::CreateSprite(std::string name)
 void SNode::InsertShape(std::string name, sf::Shape * shape)
 {
     this->m_shapes[name] = std::shared_ptr<sf::Shape>(shape);
+}
+
+sf::RectangleShape *
+SNode::CreateRectangleShape(std::string name, b2Vec2 size, sf::Texture * texture)
+{
+    sf::RectangleShape * shape = new sf::RectangleShape(Math::SLTToPixel(b2Vec2(size.x * 2, size.y * 2)));
+    shape->setOrigin(Math::SLTToPixel(size));
+    shape->setTexture(texture);
+    InsertShape(name, shape);
+    return shape;
 }
 
 PhysicalBody *

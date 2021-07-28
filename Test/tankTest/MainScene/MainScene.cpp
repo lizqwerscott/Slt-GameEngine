@@ -51,13 +51,12 @@ void MainScene::init()
     ItemTManager::Create();
     EntityFactory::Create();
     auto physicalWorld =
-        this->CreatePhysicalWorld(std::string("World"), true, b2Vec2(0.0f, 0.0f));
+        this->CreatePhysicalWorld(std::string("World"), false, b2Vec2(0.0f, 0.0f));
     sf::Vector2u windowSize = Graphic::getWindowSize();
     printf("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
-    ResourceManager::LoadFontFromFile(
-        std::string(
-            "/home/lizqwer/project/Slt-GameEngine/resource/font/yudit.ttf"),
-        std::string("yudit"));
+    ResourceManager::LoadFontFromFile(std::string("font/yudit.ttf"), std::string("yudit"));
+    ResourceManager::LoadTextureFromFile(std::string("texture/tiepG.png"), std::string("tie"));
+    ResourceManager::LoadTextureFromFile(std::string("texture/person.png"), std::string("person"));
 
     // Wall node
     this->GetRootNode()->CreateChild(
@@ -329,7 +328,7 @@ void MainScene::init()
 
     });
 
-    float force = 1.1;
+    float force = 5;
 
     // bind key callBack
     Graphic::insertKeyCallBack(sf::Keyboard::Key::W, [personNode, force]() -> void {

@@ -14,8 +14,9 @@ PhysicalWorld::PhysicalWorld(std::string name, bool isOpenDebugDraw, int32 vI,
   this->settings->velocityIterations = vI;
   this->settings->positionIterations = pI;
   this->SetContactListener(this);
-  if (m_isOpenDebugDraw)
+  if (m_isOpenDebugDraw) {
     this->SetDebugDraw(Graphic::getInstance());
+  }
 }
 
 PhysicalWorld::~PhysicalWorld() { delete this->settings; }

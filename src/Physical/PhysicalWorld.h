@@ -17,7 +17,7 @@ struct Settings {
         positionIterations = 3; //how strongly to correct position
         drawShapes = true;
         drawJoints = true;
-        drawAABBs = false;
+        drawAABBs = true;
         drawContactPoints = false;
         drawContactNormals = false;
         drawContactImpulse = false;

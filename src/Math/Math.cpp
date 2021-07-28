@@ -95,6 +95,12 @@ Math::SLTToPixel(float slt)
     return slt * math->SLTTOPIXEL_UNIT;
 }
 
+const sf::Vector2f
+Math::SLTToPixel(b2Vec2 pos)
+{
+    return sf::Vector2f(Math::SLTToPixel(pos.x), Math::SLTToPixel(pos.y));
+}
+
 const float
 Math::PixelToSLT(float pixel)
 {
@@ -178,4 +184,14 @@ void Math::vectorToCharList(std::vector<std::string> vector, const char ** resul
     for (int i = 0; i < static_cast<int>(vector.size()); i++) {
         result[i] = const_cast<char *>(vector[i].c_str());
     }
+}
+
+const float
+Math::degreeToRad(float degree) {
+    return (PI / 180) * degree * -1.0f;
+}
+
+const float
+Math::radToDegree(float rad) {
+    return (180 / PI) * rad * -1.0f;
 }
