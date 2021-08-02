@@ -14,6 +14,7 @@
 
 #include "../Body/ItemTManager.h"
 #include "../Body/Entity/EntityFactory.h"
+#include "../Body/Item/ItemFactory.h"
 
 #define random(a, b) (rand() % (b - a + 1) + a)
 
@@ -29,6 +30,7 @@ MainScene::~MainScene()
 {
     ItemTManager::Destory();
     EntityFactory::Destroy();
+    ItemFactory::Destroy();
 }
 
 /**
@@ -50,6 +52,7 @@ void MainScene::init()
 {
     ItemTManager::Create();
     EntityFactory::Create();
+    ItemFactory::Create();
     auto physicalWorld =
         this->CreatePhysicalWorld(std::string("World"), false, b2Vec2(0.0f, 0.0f));
     sf::Vector2u windowSize = Graphic::getWindowSize();
@@ -57,6 +60,8 @@ void MainScene::init()
     ResourceManager::LoadFontFromFile(std::string("font/yudit.ttf"), std::string("yudit"));
     ResourceManager::LoadTextureFromFile(std::string("texture/tiepG.png"), std::string("tie"));
     ResourceManager::LoadTextureFromFile(std::string("texture/person.png"), std::string("person"));
+    ResourceManager::LoadTextureFromFile(std::string("texture/box.png"), std::string("boxtie"));
+    ResourceManager::LoadTextureFromFile(std::string("texture/bullet.png"), std::string("bullet1"));
 
     // Wall node
     this->GetRootNode()->CreateChild(
@@ -206,28 +211,46 @@ void MainScene::init()
         return new Cube(std::string("cubeLittle"), root, physicalWorld.get(), b2Vec2(1, 1), pos, 50);
     });
 
+    ItemFactory::addItem(std::string("gun1"), []() -> Item * {
+        return new Gun(std::string("gun1"), 10, 5, 30);
+    });
+
+    ItemFactory::addItem(std::string("bag1"), []() -> Item * {
+        return new Bag(std::string("bag1"), 10, 10, 300, 300);
+    });
+
+    ItemFactory::addItem(std::string("CuttingMachine"), []() -> Item * {
+        return new CuttingMachine(std::string("CuttingMachine"), 10, 10);
+    });
+
+    ItemFactory::addItem(std::string("ArcWelding"), []() -> Item * {
+        return new ArcWelding(std::string("ArcWelding"), 1, 1);
+    });
+
+    ItemFactory::addItem(std::string("bullet1"), []() -> Item * {
+        return new BulletI(std::string("bullet1"), 1, 2);
+    });
+
     // Gun node
     b2Vec2 nodePos = Math::DrawCoordSToPhysicalCoords(sf::Vector2f(windowSize.x / 2, windowSize.y / 2));
     //Gun * gunNode = new Gun(std::string("Gun"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
     Person * personNode = new Person(std::string("person"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
-    ArcWelding * weld = new ArcWelding(std::string("ArcWelding"), 1, 1);
-    personNode->equip(weld);
+    personNode->equip(ItemFactory::generateItem(std::string("ArcWelding")));
 
-    Bag * bag = new Bag(std::string("bag"), 10, 10, 1000, 1000);
+    Bag * bag = static_cast<Bag *>(ItemFactory::generateItem(std::string("bag1")));
     for (int i = 0; i < 100; i++) {
-        bag->addItem(new BulletI(std::string("bulletG"), 1, 2));
+        bag->addItem(ItemFactory::generateItem(std::string("bullet1")));
     }
     personNode->wearBag(bag);
-    Gun * gun = new Gun(std::string("gun"), 10, 5, 10);
+    Gun * gun = static_cast<Gun *>(ItemFactory::generateItem(std::string("gun1")));
     bag->addItem(gun);
-    CuttingMachine * cuttingMachine = new CuttingMachine(std::string("CuttingMachine"), 10, 10);
-    bag->addItem(cuttingMachine);
+    bag->addItem(ItemFactory::generateItem(std::string("CuttingMachine")));
 
     //Box * boxNode = new Box(std::string("box1"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), 100, 100, b2Vec2(0, 10), 100);
     Box * boxNode = static_cast<Box *>(EntityFactory::generateEntity(std::string("box1"), b2Vec2(0, 10)));
-    boxNode->addItem(new BulletI(std::string("bullet1"), 2, 1));
-    boxNode->addItem(new BulletI(std::string("bullet1"), 2, 1));
-    boxNode->addItem(new Gun(std::string("gun1"), 20, 20, 20));
+    boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
+    boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
+    boxNode->addItem(ItemFactory::generateItem(std::string("gun1")));
 
 
     auto camera_pos = this->getCamera().get()->getView().getCenter();
@@ -362,7 +385,7 @@ void MainScene::init()
                 Gun * gun = static_cast<Gun*>(personNode->getHand());
                 if (!gun->isLoadFull()) {
                     Bag * bag = personNode->getBag();
-                    std::vector<Item *> bullets = bag->getItem(std::string("bulletG"), 10);
+                    std::vector<Item *> bullets = bag->getItem(std::string("bullet1"), 30);
                     for (int i = 0; i < (int)bullets.size(); i++) {
                         gun->loadBullet(static_cast<BulletI *>(bullets[i]));
                     }

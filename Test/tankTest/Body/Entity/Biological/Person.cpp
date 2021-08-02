@@ -71,14 +71,20 @@ Person::~Person()
 
 void Person::useHand(b2Vec2 mouseClick)
 {
-    if (isInHand() && !m_tHand->isEmpty()) {
+    if (!m_tHand->isEmpty()) {
         auto hand = getHand();
         if (hand->getTypeName() == std::string("Weapon")) {
             Weapon * weapon = static_cast<Weapon *>(hand);
+            printf("weapon\n");
             weapon->attack(this, m_world);
         } else if (hand->getTypeName() == std::string("Tool")) {
-            Tool * tool = static_cast<Tool *>(hand);
-            tool->use(this, m_world);
+            if (isInHand()) {
+                Tool * tool = static_cast<Tool *>(hand);
+                printf("use\n");
+                tool->use(this, m_world);
+            }
+        } else {
+            printf("another\n");
         }
     }
 }

@@ -20,6 +20,7 @@ set(MAIN_SRC_LIST
     Body/Item/Weapon/Gun/Gun.cpp
     Body/Item/Tool/ArcWelding/ArcWelding.cpp
     Body/Item/Tool/CuttingMachine/CuttingMachine.cpp
+    Body/Item/ItemFactory.cpp
 
     MainScene/MainScene.cpp 
     StartScene/StartScene.cpp 

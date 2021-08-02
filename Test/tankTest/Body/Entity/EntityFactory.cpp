@@ -44,9 +44,9 @@ Entity * EntityFactory::generateEntity(std::string name, b2Vec2 pos)
     auto iter = entityFactory->m_entityMap.find(name);
     Entity * entity = nullptr;
     if (iter != entityFactory->m_entityMap.end()) {
-        entity = entityFactory->m_entityMap[name](pos);
+        entity = iter->second(pos);
     } else {
-        printf("don't find it\n");
+        printf("cant't find it:%s\n", name.c_str());
     }
     return entity;
 }

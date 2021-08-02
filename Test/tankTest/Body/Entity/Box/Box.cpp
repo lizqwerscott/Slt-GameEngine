@@ -28,6 +28,11 @@ Box::Box(std::string name, GameObject *parent, PhysicalWorld * world, double vol
     physicalBody->GetBody()->GetUserData().data.push_back(static_cast<void*>(this));
     fixture->m_fixture->GetUserData().data.push_back(static_cast<void*>(this));
     this->m_isDrawUi = false;
+
+    sf::Texture * boxTexture = ResourceManager::GetTexture(std::string("boxtie"));
+    boxTexture->setSmooth(true);
+
+    CreateRectangleShape(std::string("boxtie"), b2Vec2(2, 2), boxTexture);
 }
 
 Box::~Box() {}

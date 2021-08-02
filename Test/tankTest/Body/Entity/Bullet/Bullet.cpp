@@ -4,7 +4,6 @@ Bullet::Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     Entity(name, parent, nodePos, 1)
 {
     b2Vec2 localWorldPos(0, 0);
-
     b2BodyDef bodyDef;
     bodyDef.type = b2BodyType::b2_dynamicBody;
     bodyDef.position =
@@ -29,5 +28,10 @@ Bullet::Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     physicalBody->GetBody()->ApplyLinearImpulseToCenter(initSpeed, true);
     this->GetPhysicalBody()->GetBody()->GetUserData().data.push_back(static_cast<void *>(this));
     fixture->m_fixture->GetUserData().data.push_back(static_cast<void*>(this));
+
+    sf::Texture * bulletTexture = ResourceManager::GetTexture(std::string("bullet1"));
+    bulletTexture->setSmooth(true);
+
+    CreateRectangleShape(std::string("bullet"), b2Vec2(0.2, 0.2), bulletTexture);
 }
 
