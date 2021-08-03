@@ -33,6 +33,8 @@ int Application::run()
             if (Graphic::isMouseInWindow()) {
                 if (event.type == sf::Event::Closed) {
                     Graphic::Close();
+                } else if (event.type == sf::Event::Resized) {
+                    Math::setWindowSize(sf::Vector2u(event.size.width, event.size.height));
                 } else {
                     ImGui::SFML::ProcessEvent(event);
                 }

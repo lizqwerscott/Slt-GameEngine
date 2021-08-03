@@ -32,6 +32,6 @@ Bullet::Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     sf::Texture * bulletTexture = ResourceManager::GetTexture(std::string("bullet1"));
     bulletTexture->setSmooth(true);
 
-    CreateRectangleShape(std::string("bullet"), b2Vec2(0.2, 0.2), bulletTexture);
+    m_mainShape = CreateRectangleShape(b2Vec2(0.2, 0.2), bulletTexture);
 }
 

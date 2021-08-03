@@ -32,7 +32,7 @@ Cube::Cube(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 
     sf::Texture * tieTexture = ResourceManager::GetTexture(std::string("tie"));
     tieTexture->setSmooth(true);
 
-    CreateRectangleShape(std::string("tiep"), size, tieTexture);
+    m_mainShape = CreateRectangleShape(size, tieTexture);
 
     ////auto sprite = CreateSprite(std::string("cubeSprite")).get();
     //sf::RectangleShape * rectShape = new sf::RectangleShape();

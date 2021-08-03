@@ -13,7 +13,7 @@ using namespace slt;
 Graphic::Graphic(std::string tile, int width, int height) : m_window(nullptr)
 {
     this->m_window = std::shared_ptr<sf::RenderWindow>(
-                         new sf::RenderWindow(sf::VideoMode(width, height), tile.c_str()));
+                         new sf::RenderWindow(sf::VideoMode(width, height), tile.c_str(), sf::Style::Fullscreen));
     ImGui::SFML::Init(*this->m_window);
     this->m_mouseWhellCallBack = nullptr;
 }

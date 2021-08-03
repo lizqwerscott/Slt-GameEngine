@@ -17,8 +17,8 @@ class Camera;
 
 class Graphic : public b2Draw {
 public:
-  static void init(std::string tile = "The Window", int width = 800,
-                   int height = 700);
+  static void init(std::string tile = "The Window", int width = 1920,
+                   int height = 1080);
   static Graphic *getInstance();
   static void Destory();
 

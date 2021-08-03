@@ -32,7 +32,7 @@ Box::Box(std::string name, GameObject *parent, PhysicalWorld * world, double vol
     sf::Texture * boxTexture = ResourceManager::GetTexture(std::string("boxtie"));
     boxTexture->setSmooth(true);
 
-    CreateRectangleShape(std::string("boxtie"), b2Vec2(2, 2), boxTexture);
+    m_mainShape = CreateRectangleShape(b2Vec2(2, 2), boxTexture);
 }
 
 Box::~Box() {}

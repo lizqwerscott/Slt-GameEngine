@@ -23,6 +23,8 @@ private:
     Math(sf::Vector2u WindowSize);
     ~Math();
 public:
+    static void setWindowSize(sf::Vector2u windowSize);
+
     static void setSlotToMeterUnit(float stmu);
     static void setSlotToPixelUnit(float stpu);
     static float getSlotToMeterUnit();

@@ -21,7 +21,8 @@ Scene::Scene(std::string name, sf::FloatRect range, bool isActive)
     this->SetActive(isActive);
     this->SetDraw(true);
     this->m_RootTree = new SNode("RootSNode", nullptr);
-    auto camera = new Camera(std::string("Main"), sf::FloatRect(0.f, 0.f, 800.f, 700.f));
+    sf::Vector2u windowSize = Graphic::getWindowSize();
+    auto camera = new Camera(std::string("Main"), sf::FloatRect(0.f, 0.f, windowSize.x, windowSize.y));
     this->m_cameras[std::string("Main")] = std::shared_ptr<Camera>(camera);
 }
 

@@ -45,10 +45,16 @@ public:
 public:
     std::shared_ptr<sf::Sprite> CreateSprite(std::string name);
     void InsertShape(std::string name, sf::Shape * shape);
-    sf::RectangleShape * CreateRectangleShape(std::string name, b2Vec2 size, sf::Texture * texture);
+    sf::RectangleShape * CreateRectangleShape(b2Vec2 size, sf::Texture * texture);
+    sf::Shape * getMainShape();
+    sf::Sprite * getMainSprite();
+    bool changeShapeTexture(sf::Texture * texture);
+    bool changeSpriteTexture(sf::Texture * texture);
+
     PhysicalBody * CreatePhysicalBody(std::string name, b2Vec2 localWorldPos, b2BodyDef bodyDef, b2World * world);
     bool isInGroup();
     bool isGroupRoot();
+    
 
     std::shared_ptr<sf::Sprite> GetSprite(std::string name);
     std::shared_ptr<sf::Shape> GetShape(std::string name);
@@ -80,6 +86,8 @@ private:
 public:
     std::map<std::string, std::shared_ptr<sf::Sprite>> m_sprites;
     std::map<std::string, std::shared_ptr<sf::Shape>> m_shapes;
+    sf::Shape * m_mainShape;
+    sf::Sprite * m_mainSprite;
     PhysicalBody * m_physicalBody;
     PhysicalFixture * m_physicalFixture;
     bool m_isGroup;

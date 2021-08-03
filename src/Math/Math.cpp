@@ -26,6 +26,11 @@ void Math::Destory()
 Math::Math(sf::Vector2u WindowSize) : m_windowSize(WindowSize) {}
 Math::~Math() {}
 
+void Math::setWindowSize(sf::Vector2u windowSize)
+{
+    math->m_windowSize = windowSize;
+}
+
 void Math::setSlotToMeterUnit(float stmu)
 {
     math->SLTOMETER_UNIT = stmu;

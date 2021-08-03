@@ -43,10 +43,10 @@ Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     this->m_isDrawUi = false;
 
     sf::Texture * texture = ResourceManager::GetTexture(std::string("person"));
-    auto sprite = CreateSprite(std::string("personSprite")).get();
     texture->setSmooth(true);
-    sprite->setTexture(*texture);
-    sprite->setOrigin(sf::Vector2f(15, 15));
+    m_mainSprite = new sf::Sprite();
+    m_mainSprite->setTexture(*texture);
+    m_mainSprite->setOrigin(sf::Vector2f(15, 15));
 }
 
 Person::~Person()

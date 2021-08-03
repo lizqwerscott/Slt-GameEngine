@@ -11,6 +11,8 @@ unsigned int generate_id = 0;
 SNode::SNode(std::string name, SNode * parent) :
     Node<SNode>(parent),
     Object(name),
+    m_mainShape(nullptr),
+    m_mainSprite(nullptr),
     m_physicalBody(nullptr),
     m_physicalFixture(nullptr),
     m_isGroup(false),
@@ -27,6 +29,14 @@ SNode::~SNode()
     std::cout << this->GetName();
     this->m_sprites.clear();
     this->m_shapes.clear();
+    if (m_mainShape != nullptr) {
+        delete m_mainShape;
+        m_mainShape = nullptr;
+    }
+    if (m_mainSprite != nullptr) {
+        delete m_mainSprite;
+        m_mainSprite = nullptr;
+    }
     this->deletePhysicalBody();
     printf("[SNode:Finish]\n");
 }
@@ -87,6 +97,16 @@ void SNode::Draw()
         float angle = 0;
         if (m_physicalBody != nullptr) {
             angle = Math::radToDegree(m_physicalBody->GetBody()->GetAngle());
+        }
+        if (m_mainSprite != nullptr) {
+            m_mainSprite->setPosition(pos);
+            m_mainSprite->setRotation(angle);
+            Graphic::DrawSprite(m_mainSprite);
+        }
+        if (m_mainShape != nullptr) {
+            m_mainShape->setPosition(pos);
+            m_mainShape->setRotation(angle);
+            Graphic::DrawShape(m_mainShape);
         }
         for (auto sprite : this->m_sprites) {
             //const sf::Vector2f tempPos = sprite.second->getPosition();
@@ -182,13 +202,38 @@ void SNode::InsertShape(std::string name, sf::Shape * shape)
     this->m_shapes[name] = std::shared_ptr<sf::Shape>(shape);
 }
 
+sf::Shape * SNode::getMainShape()
+{
+    return m_mainShape;
+}
+
+sf::Sprite * SNode::getMainSprite()
+{
+    return m_mainSprite;
+}
+
+bool SNode::changeShapeTexture(sf::Texture *texture)
+{
+    if (m_mainShape != nullptr) {
+        m_mainShape->setTexture(texture);
+    }
+    return m_mainShape != nullptr;
+}
+
+bool SNode::changeSpriteTexture(sf::Texture *texture)
+{
+    if (m_mainSprite != nullptr) {
+        m_mainSprite->setTexture(*texture);
+    }
+    return m_mainSprite != nullptr;
+}
+
 sf::RectangleShape *
-SNode::CreateRectangleShape(std::string name, b2Vec2 size, sf::Texture * texture)
+SNode::CreateRectangleShape(b2Vec2 size, sf::Texture * texture)
 {
     sf::RectangleShape * shape = new sf::RectangleShape(Math::SLTToPixel(b2Vec2(size.x * 2, size.y * 2)));
     shape->setOrigin(Math::SLTToPixel(size));
     shape->setTexture(texture);
-    InsertShape(name, shape);
     return shape;
 }
 
