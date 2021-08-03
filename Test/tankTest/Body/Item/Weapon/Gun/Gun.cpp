@@ -2,6 +2,7 @@
 #include "../../../Entity/Bullet/Bullet.h"
 #include "../../../Entity/Biological/Person.h"
 #include "../../Consume/BulletI/BulletI.h"
+#include "../../../Entity/EntityFactory.h"
 
 #include <cstdio>
 
@@ -29,10 +30,10 @@ void Gun::fire(Person * person, PhysicalWorld * world, b2Vec2 position)
         printf("need load bullet\n");
         return;
     }
-    std::string bulletName = std::string("bullet") + std::to_string(m_bulletN);
-    //b2Vec2 bulletPos = person-> + b2Vec2(0, 10.5);
-    new Bullet(bulletName, person, world, position + person->GetPosition(), b2Vec2(position.x * 30, position.y * 30));
-    printf("[CreateBullet]:%s, pos:%f,%f\n", bulletName.c_str(), position.x, position.y);
+    auto bullet = static_cast<Bullet *>(EntityFactory::generateEntity("bullet", position + person->GetPosition()));
+    bullet->setInitSpeed(b2Vec2(position.x * 30, position.y * 30));
+
+    printf("[CreateBullet]:%u, pos:%f,%f\n", bullet->GetId(), position.x, position.y);
     m_bulletN++;
     m_nowBulletN--;
 }

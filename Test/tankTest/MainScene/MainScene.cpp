@@ -210,6 +210,9 @@ void MainScene::init()
     EntityFactory::addEntity(std::string("cubeLittle"), [root, physicalWorld](b2Vec2 pos) -> Entity * {
         return new Cube(std::string("cubeLittle"), root, physicalWorld.get(), b2Vec2(1, 1), pos, 50);
     });
+    EntityFactory::addEntity(std::string("bullet"), [root, physicalWorld](b2Vec2 pos) -> Entity * {
+        return new Bullet(std::string("bullet"), root, physicalWorld.get(), pos);
+    });
 
     ItemFactory::addItem(std::string("gun1"), []() -> Item * {
         return new Gun(std::string("gun1"), 10, 5, 30);
@@ -397,7 +400,7 @@ void MainScene::init()
         personNode->useFace(physicalWorld.get());
     });
     Graphic::insertKeyCallBack(sf::Keyboard::Tab, [personNode, physicalWorld]() -> void {
-        personNode->SetDrawUi(true);
+        personNode->SetDrawUi(!personNode->GetDrawUi());
         printf("tab\n");
     });
     Graphic::insertMouseClickCallBack(

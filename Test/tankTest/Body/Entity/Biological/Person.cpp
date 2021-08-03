@@ -14,15 +14,11 @@ Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     m_food(100),
     m_world(world)
 {
-    b2Vec2 localWorldPos(0, 0);
     b2BodyDef bodyDef;
     bodyDef.type = b2BodyType::b2_dynamicBody;
-    bodyDef.position =
-        Math::WorldCoordSToPhysicalCoordS(nodePos + localWorldPos);
+    bodyDef.position = Math::WorldCoordSToPhysicalCoordS(nodePos);
     bodyDef.angle = 0;
     bodyDef.bullet = true;
-
-    auto physicalBody = this->CreatePhysicalBody(std::string("PersonBody"), localWorldPos, bodyDef, world);
 
     b2CircleShape circleShape;
     //b2PolygonShape polygonShape;
@@ -35,9 +31,7 @@ Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     fixtureDef.restitution = 1;
     //fixtureDef.shape = &polygonShape;
     fixtureDef.shape = &circleShape;
-    auto fixture = physicalBody->CreateFixture(std::string("fixture"), fixtureDef);
-    this->GetPhysicalBody()->GetBody()->GetUserData().data.push_back(static_cast<void *>(this));
-    fixture->m_fixture->GetUserData().data.push_back(static_cast<void *>(this));
+    initPhysical(bodyDef, fixtureDef, world, "PersonBody", "PersonFixture");
 
     m_findRayCastCallBack = new FindRayCastCallback(this);
     this->m_isDrawUi = false;

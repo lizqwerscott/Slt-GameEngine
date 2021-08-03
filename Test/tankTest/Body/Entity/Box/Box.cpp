@@ -6,15 +6,11 @@ Box::Box(std::string name, GameObject *parent, PhysicalWorld * world, double vol
     Entity(name, parent, nodePos, hp),
     BoxBase(volume, quality)
 {
-    this->SetPosition(nodePos);
-    b2Vec2 localWorldPos(0, 0);
     b2BodyDef bodyDef;
     bodyDef.type = b2BodyType::b2_dynamicBody;
-    bodyDef.position =
-        Math::WorldCoordSToPhysicalCoordS(nodePos + localWorldPos);
+    bodyDef.position = Math::WorldCoordSToPhysicalCoordS(nodePos);
     bodyDef.angle = 0;
     bodyDef.bullet = false;
-    auto physicalBody = CreatePhysicalBody(std::string("BoxBody"), localWorldPos, bodyDef, world);
     b2PolygonShape polygonShape;
     // polygonShape.SetAsBox(3, 1, Math::WorldCoordSToPhysicalCoordS(nodePos
     // + localWorldPos), 0);
@@ -24,9 +20,9 @@ Box::Box(std::string name, GameObject *parent, PhysicalWorld * world, double vol
     fixtureDef.friction = 0.2;
     fixtureDef.restitution = 1;
     fixtureDef.shape = &polygonShape;
-    auto fixture = physicalBody->CreateFixture(std::string("BoxFixture"), fixtureDef);
-    physicalBody->GetBody()->GetUserData().data.push_back(static_cast<void*>(this));
-    fixture->m_fixture->GetUserData().data.push_back(static_cast<void*>(this));
+
+    initPhysical(bodyDef, fixtureDef, world, "BoxBody", "BoxFixture");
+
     this->m_isDrawUi = false;
 
     sf::Texture * boxTexture = ResourceManager::GetTexture(std::string("boxtie"));
@@ -40,7 +36,7 @@ Box::~Box() {}
 void Box::onFace(Person *person)
 {
     printf("[Box]report box\n");
-    this->m_isDrawUi = true;
+    this->m_isDrawUi = !this->m_isDrawUi;
 }
 
 void Box::DrawUiSelf()

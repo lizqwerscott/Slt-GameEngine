@@ -6,7 +6,9 @@
 class Bullet : public Entity
 {
 public:
-    Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos, b2Vec2 initSpeed);
+    Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos);
+public:
+    void setInitSpeed(b2Vec2 speed);
 };
 
 #endif /* BULLET_H */

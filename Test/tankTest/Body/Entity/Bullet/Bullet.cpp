@@ -1,19 +1,14 @@
 #include "Bullet.h"
 
-Bullet::Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos, b2Vec2 initSpeed) :
+Bullet::Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos) :
     Entity(name, parent, nodePos, 1)
 {
-    b2Vec2 localWorldPos(0, 0);
     b2BodyDef bodyDef;
     bodyDef.type = b2BodyType::b2_dynamicBody;
     bodyDef.position =
-        Math::WorldCoordSToPhysicalCoordS(this->GetPosition() + localWorldPos);
+        Math::WorldCoordSToPhysicalCoordS(this->GetPosition());
     bodyDef.angle = 0;
     bodyDef.bullet = true;
-
-    auto physicalBody = this->CreatePhysicalBody(
-                            std::string("BulletBody"), localWorldPos, bodyDef,
-                            world);
 
     b2CircleShape circleShape;
     circleShape.m_p = b2Vec2(0, 0);
@@ -23,15 +18,16 @@ Bullet::Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     fixtureDef.friction = 0.3;
     fixtureDef.shape = &circleShape;
     fixtureDef.restitution = 1;
-    auto fixture = physicalBody->CreateFixture(std::string("fixture"),
-                   fixtureDef);
-    physicalBody->GetBody()->ApplyLinearImpulseToCenter(initSpeed, true);
-    this->GetPhysicalBody()->GetBody()->GetUserData().data.push_back(static_cast<void *>(this));
-    fixture->m_fixture->GetUserData().data.push_back(static_cast<void*>(this));
+    initPhysical(bodyDef, fixtureDef, world, "BulletBody", "BulletFixture");
 
     sf::Texture * bulletTexture = ResourceManager::GetTexture(std::string("bullet1"));
     bulletTexture->setSmooth(true);
 
     m_mainShape = CreateRectangleShape(b2Vec2(0.2, 0.2), bulletTexture);
+}
+
+void Bullet::setInitSpeed(b2Vec2 speed)
+{
+    this->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(speed, true);
 }
 
