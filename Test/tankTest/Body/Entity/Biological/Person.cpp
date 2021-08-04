@@ -69,16 +69,15 @@ void Person::useHand(b2Vec2 mouseClick)
         auto hand = getHand();
         if (hand->getTypeName() == std::string("Weapon")) {
             Weapon * weapon = static_cast<Weapon *>(hand);
-            printf("weapon\n");
             weapon->attack(this, m_world);
         } else if (hand->getTypeName() == std::string("Tool")) {
             if (isInHand()) {
                 Tool * tool = static_cast<Tool *>(hand);
-                printf("use\n");
                 tool->use(this, m_world);
             }
         } else {
-            printf("another\n");
+            Log::setLevel(LOG_LEVEL_INFO);
+            Log::printLog("another\n");
         }
     }
 }
@@ -105,7 +104,8 @@ Item * Person::getHand()
 void Person::useFace(PhysicalWorld * world)
 {
     //find face entity;
-    printf("face: %f, %f\n", m_face.x, m_face.y);
+    Log::setLevel(LOG_LEVEL_INFO);
+    Log::printLog("face: %f, %f\n", m_face.x, m_face.y);
     //world->RayCast(m_findRayCastCallBack, GetPosition(), m_face);
     if (m_faceEntity != nullptr) {
         if (isInHand()) {
@@ -159,7 +159,6 @@ void Person::rotate(float angle)
     float desiredAngularVelocity = totalRotation * 60;
     float torque = body->GetInertia() * desiredAngularVelocity / (1/60.0);
     body->ApplyTorque(torque, true);
-    //rotate sprite
 }
 
 void Person::drink(Item * drink)
@@ -177,7 +176,6 @@ void Person::wear(Item * clothes)
 bool Person::equip(Item *tool)
 {
     if (m_tHand != nullptr) {
-        //m_tHand = tool;
         m_tHand->addItem(tool);
         return true;
     } else {
@@ -251,8 +249,6 @@ void Person::UpdateSelf(sf::Time &dt)
     float targetAngle = atan2f(-nowFace.x, nowFace.y);
     rotate(targetAngle);
     m_face = nowFace;
-    //printf("m_face, %f, %f\n", m_face.x, m_face.y);
-    //
     m_world->RayCast(m_findRayCastCallBack, GetPosition(), m_MousePos);
 
     if (m_SpeedAdjust) {

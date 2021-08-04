@@ -42,7 +42,8 @@ int Application::run()
                 if (event.type == sf::Event::Closed) {
                     Graphic::Close();
                 } else if (event.type == sf::Event::MouseWheelScrolled) {
-                    printf("the mouse is moved, the delta is %f\n",
+                    Log::setLevel(LOG_LEVEL_DEBUG);
+                    Log::printLog("the mouse is moved, the delta is %f\n",
                            event.mouseWheelScroll.delta);
                     Graphic::mouseWhellCallBackRun(event.mouseWheelScroll);
                 } else if (event.type == sf::Event::KeyPressed) {

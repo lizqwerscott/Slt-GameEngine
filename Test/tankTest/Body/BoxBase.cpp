@@ -132,7 +132,8 @@ bool BoxBase::transferItem(ContainerBase * target, std::string name, int number)
             }
             return true;
         } else {
-            printf("number bigger than have\n");
+            Log::setLevel(LOG_LEVEL_WARNING);
+            Log::printLog("[BoxBase::transferItem]:number bigger than have\n");
             return false;
         }
     }
@@ -153,7 +154,8 @@ void BoxBase::releaseEmptyItems()
 {
     for (auto iter = m_container.begin(); iter != m_container.end(); iter++) {
         if (iter->second.empty()) {
-            printf("release %s\n", iter->first.c_str());
+            Log::setLevel(LOG_LEVEL_INFO);
+            Log::printLog("[BoxBase]:release %s\n", iter->first.c_str());
             m_container.erase(iter);
         }
     }

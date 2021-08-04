@@ -6,6 +6,7 @@
 #include "PhysicalBody.h"
 #include "../Math/Math.h"
 #include "PhysicalFixture.h"
+#include "../Log/Log.h"
 
 using namespace slt;
 
@@ -51,7 +52,8 @@ std::shared_ptr<PhysicalFixture>
 PhysicalBody::GetFixture(std::string name)
 {
     if (this->m_physicalFixtures.find(name) == this->m_physicalFixtures.end()) {
-        printf("PhyscialBody::GetFixture()->[Error:]Can't find fixture. Name:%s\n", name.c_str());
+        Log::setLevel(LOG_LEVEL_ERROR);
+        Log::printLog("PhyscialBody::GetFixture()->[Error:]Can't find fixture. Name:%s\n", name.c_str());
         return nullptr;
     } else {
         return this->m_physicalFixtures[name];

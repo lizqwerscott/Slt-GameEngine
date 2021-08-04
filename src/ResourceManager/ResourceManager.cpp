@@ -7,6 +7,7 @@
 
 #include <cstdlib>
 #include "ResourceManager.h"
+#include "../Log/Log.h"
 
 using namespace slt;
 
@@ -57,7 +58,8 @@ ResourceManager::LoadTextureFromFile(std::string fileName, std::string textureNa
     std::string filePath = resourceManager->m_resourcePath + fileName;
     sf::Texture * texture = new sf::Texture();
     if (!texture->loadFromFile(filePath.c_str())) {
-        printf("[ERROR]:The %s(fileName:%s) texture load error\n", fileName.c_str(), textureName.c_str());
+        Log::setLevel(LOG_LEVEL_INFO);
+        Log::printLog("[ERROR]:The %s(fileName:%s) texture load error\n", fileName.c_str(), textureName.c_str());
     }
     resourceManager->m_textures[textureName] = texture;
     return texture;
@@ -81,7 +83,8 @@ ResourceManager::LoadFontFromFile(std::string fileName, std::string fontName)
     std::string filePath = resourceManager->m_resourcePath + fileName;
     sf::Font * font = new sf::Font();
     if (!font->loadFromFile(filePath.c_str())) {
-        printf("[ERROR]:The %s(fileName:%s) font load error\n", fileName.c_str(), fontName.c_str());
+        Log::setLevel(LOG_LEVEL_ERROR);
+        Log::printLog("[ERROR]:The %s(fileName:%s) font load error\n", fileName.c_str(), fontName.c_str());
     }
     resourceManager->m_fonts[fontName] = font;
     return font;

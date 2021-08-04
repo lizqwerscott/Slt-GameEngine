@@ -100,15 +100,9 @@ public:
     float ReportFixture(b2Fixture * fixture, const b2Vec2& point, const b2Vec2& normal, float fraction)
     {
         Entity * entity = static_cast<Entity *>(fixture->GetUserData().data[1]);
-        //PhysicalFixture * pFixture = static_cast<PhysicalFixture *>(fixture->GetUserData().data[0]);
         m_person->m_faceFixture = fixture;
         m_person->m_faceEntity = entity;
         m_person->m_faceFraction = fraction;
-        //printf("fraction:%f\n", fraction);
-        //printf("name:%s\n", pFixture->GetName().c_str());
-        // if (fraction <= 0.309) {
-        //     entity->onFace(m_person);
-        // }
         return 0;
     }
 public:

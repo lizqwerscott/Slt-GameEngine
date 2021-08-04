@@ -5,7 +5,8 @@ GameObject::GameObject(std::string name, GameObject * parent, double hp) :
 {
     parent->AddChild(this);
     if (hp <= 0) {
-        printf("[ERROR][%s]:this hp must be greater than 0\n", this->GetName().c_str());
+        Log::setLevel(LOG_LEVEL_ERROR);
+        Log::printLog("[ERROR][%s]:this hp must be greater than 0\n", this->GetName().c_str());
     } else {
         m_hp = hp;
     }
@@ -14,7 +15,8 @@ GameObject::GameObject(std::string name, GameObject * parent, double hp) :
         auto gameObject = static_cast<GameObject *>(node);
         if (gameObject->m_hp <= 0)
         {
-            printf("[Dead]:%s (%u)hp is zero", gameObject->GetName().c_str(), gameObject->GetId());
+        Log::setLevel(LOG_LEVEL_INFO);
+        Log::printLog("[Dead]:%s (%u)hp is zero", gameObject->GetName().c_str(), gameObject->GetId());
             gameObject->GetParent()->DeleteChild(gameObject->GetId());
         }
     });
@@ -22,5 +24,6 @@ GameObject::GameObject(std::string name, GameObject * parent, double hp) :
 
 GameObject::~GameObject()
 {
-    printf("[Dead]:%s is dead\n", GetName().c_str());
+    Log::setLevel(LOG_LEVEL_INFO);
+    Log::printLog("[Dead]:%s is dead\n", GetName().c_str());
 }

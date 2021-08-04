@@ -5,6 +5,7 @@
 #include "EventSender.h"
 #include "EventReciver.h"
 #include "../Math/Math.h"
+#include "../Log/Log.h"
 #include <memory>
 #include <functional>
 
@@ -45,13 +46,15 @@ EventManager::~EventManager()
 void EventManager::AddEventHandler(EventKey id, EventHandler * handler)
 {
     if (handler == nullptr) {
-        printf("Error::EventManager::AddEventHandler()::The EventHandle is nullptr\n");
+        Log::setLevel(LOG_LEVEL_ERROR);
+        Log::printLog("Error::EventManager::AddEventHandler()::The EventHandle is nullptr\n");
         return;
     }
     auto pair = m_events.insert(std::make_pair(id, HandlerList()));
     auto it = pair.first;
     if (it == m_events.end()) {
-        printf("Error::EventManager::AddEventHandler()::It is the end, HandlerList insert error\n");
+        Log::setLevel(LOG_LEVEL_ERROR);
+        Log::printLog("Error::EventManager::AddEventHandler()::It is the end, HandlerList insert error\n");
         return;
     }
     it->second.push_back(handler);
@@ -86,7 +89,8 @@ void EventManager::RemoveEventHandlerIml(EventKey id, const std::string &name)
             }
             if (handler != nullptr) {
                 if (handler->m_name == name) {
-                    printf("[Remove:]%s, ref:%d\n", handler->m_name.c_str(), handler->getReferenceCount());
+                    Log::setLevel(LOG_LEVEL_DEBUG);
+                    Log::printLog("[Remove:]%s, ref:%d\n", handler->m_name.c_str(), handler->getReferenceCount());
                     m_pool->addObject(handler);
                     break;
                 }
@@ -130,7 +134,6 @@ EventManager::GetEventData(EventKey id)
     EventData * eventData;
     auto it = m_dataMaps.find(id);
     if (it == m_dataMaps.end()) {
-        printf("GetEventData:new eventData\n");
         eventData = new EventData();
         m_dataMaps[id] = eventData;
         return *eventData;

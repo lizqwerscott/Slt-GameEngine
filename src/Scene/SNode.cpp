@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "../Physical/PhysicalBody.h"
 #include "../ResourceManager/ResourceManager.h"
+#include "../Log/Log.h"
 
 using namespace slt;
 
@@ -25,7 +26,8 @@ SNode::~SNode()
 {
     this->m_UpdateCallBacks.clear();
     this->m_DrawCallBacks.clear();
-    printf("[SNode:release]");
+    Log::setLevel(LOG_LEVEL_INFO);
+    Log::printLog("[SNode:release]");
     std::cout << this->GetName();
     this->m_sprites.clear();
     this->m_shapes.clear();
@@ -38,7 +40,7 @@ SNode::~SNode()
         m_mainSprite = nullptr;
     }
     this->deletePhysicalBody();
-    printf("[SNode:Finish]\n");
+    Log::printLog("[SNode:Finish]\n");
 }
 
 void SNode::init()
@@ -109,26 +111,15 @@ void SNode::Draw()
             Graphic::DrawShape(m_mainShape);
         }
         for (auto sprite : this->m_sprites) {
-            //const sf::Vector2f tempPos = sprite.second->getPosition();
             sprite.second->setPosition(pos);
             sprite.second->setRotation(angle);
             Graphic::DrawSprite(sprite.second.get());
             //sprite.second->setPosition(tempPos);
         }
         for (auto shape : this->m_shapes) {
-            //const sf::Vector2f tempPos = shape.second->getPosition();
             shape.second->setPosition(pos);
             shape.second->setRotation(angle);
-            //sf::Vector2f pos = shape.second->getOrigin();
-            //printf("Shape:%s:Pos:%f, %f\n", this->GetName().c_str(), pos.x, pos.y);
-            /*
-            for (int j=0; j<shape.second->getPointCount(); j++)
-            {
-            	printf("Shape:%s:Pos:%f, %f\n", this->GetName().c_str(), shape.second->getPoint(j).x, shape.second->getPoint(j).y);
-            }
-            */
             Graphic::DrawShape(shape.second.get());
-            //shape.second->setPosition(tempPos);
         }
     }
 }
@@ -260,7 +251,8 @@ SNode::GetSprite(std::string name)
     if (this->m_sprites.find(name) != this->m_sprites.end()) {
         return this->m_sprites[name];
     } else {
-        printf("SNode::GetSprite()->[Warring]:Can't find sprite in snode's sprites\n");
+        Log::setLevel(LOG_LEVEL_WARNING);
+        Log::printLog("SNode::GetSprite():Can't find sprite in snode's sprites\n");
         return nullptr;
     }
 }
@@ -271,7 +263,8 @@ SNode::GetShape(std::string name)
     if (this->m_shapes.find(name) != this->m_shapes.end()) {
         return this->m_shapes[name];
     } else {
-        printf("SNode::GetShape()->[Warring]:Can't find shape in snode's shapes\n");
+        Log::setLevel(LOG_LEVEL_WARNING);
+        Log::printLog("SNode::GetShape():Can't find shape in snode's shapes\n");
         return nullptr;
     }
 }
@@ -280,7 +273,8 @@ PhysicalBody *
 SNode::GetPhysicalBody()
 {
     if (this->m_physicalBody == nullptr) {
-        printf("[%s]SNode::GetPhysicalBody()->[Warring]:The PhyicalBody is nullptr\n", this->GetName().c_str());
+        Log::setLevel(LOG_LEVEL_WARNING);
+        Log::printLog("[%s]SNode::GetPhysicalBody():The PhyicalBody is nullptr\n", this->GetName().c_str());
         return nullptr;
     } else {
         return this->m_physicalBody;

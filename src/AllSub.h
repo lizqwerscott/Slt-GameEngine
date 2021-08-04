@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "Math/Math.h"
+#include "Log/Log.h"
 
 #include "Event/Event.h"
 #include "Event/EventSender.h"

@@ -45,7 +45,8 @@ Item * ItemFactory::generateItem(std::string name)
     if (iter != itemFactory->m_itemMap.end()) {
         item = iter->second();
     } else {
-        printf("cant't find it:%s\n", name.c_str());
+        Log::setLevel(LOG_LEVEL_ERROR);
+        Log::printLog("[ItemFactory]:can't find it:%s\n", name.c_str());
     }
     return item;
 }

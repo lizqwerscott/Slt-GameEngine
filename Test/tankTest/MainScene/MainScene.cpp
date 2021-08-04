@@ -56,7 +56,8 @@ void MainScene::init()
     auto physicalWorld =
         this->CreatePhysicalWorld(std::string("World"), false, b2Vec2(0.0f, 0.0f));
     sf::Vector2u windowSize = Graphic::getWindowSize();
-    printf("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
+    Log::setLevel(LOG_LEVEL_INFO);
+    Log::printLog("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
     ResourceManager::LoadFontFromFile(std::string("font/yudit.ttf"), std::string("yudit"));
     ResourceManager::LoadTextureFromFile(std::string("texture/tiepG.png"), std::string("tie"));
     ResourceManager::LoadTextureFromFile(std::string("texture/person.png"), std::string("person"));
@@ -257,12 +258,13 @@ void MainScene::init()
 
 
     auto camera_pos = this->getCamera().get()->getView().getCenter();
-    printf("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
-    printf("baffleNodePos:%f, %f\n", baffleNode->GetPosition().x,
+    Log::setLevel(LOG_LEVEL_INFO);
+    Log::printLog("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
+    Log::printLog("baffleNodePos:%f, %f\n", baffleNode->GetPosition().x,
            baffleNode->GetPosition().y);
-    printf("gunPos:%f, %f\n", personNode->GetPosition().x, personNode->GetPosition().y);
+    Log::printLog("gunPos:%f, %f\n", personNode->GetPosition().x, personNode->GetPosition().y);
     auto size_view = this->getCamera().get()->getView().getSize();
-    printf("Size:%f, %f\n", size_view.x, size_view.y);
+    Log::printLog("Size:%f, %f\n", size_view.x, size_view.y);
 
     SubscribeEventIml(
         E_NODEUPDATEEND,
@@ -315,10 +317,9 @@ void MainScene::init()
             PhysicalBody *bodyB = static_cast<PhysicalBody *>(userDataB);
             std::string::size_type resultA = bodyA->GetName().find("Bullet");
             std::string::size_type resultB = bodyB->GetName().find("Bullet");
-            std::cout << "Contant"
-                      << "A:Name:" << bodyA->GetName() << std::endl;
-            std::cout << "Contant"
-                      << "B:Name:" << bodyB->GetName() << std::endl;
+            Log::setLevel(LOG_LEVEL_INFO);
+            Log::printLog("ContantA:Name:%s\n", bodyA->GetName().c_str());
+            Log::printLog("ContantB:Name:%s\n", bodyB->GetName().c_str());
 
             if (resultA != std::string::npos) {
             }
@@ -401,7 +402,6 @@ void MainScene::init()
     });
     Graphic::insertKeyCallBack(sf::Keyboard::Tab, [personNode, physicalWorld]() -> void {
         personNode->SetDrawUi(!personNode->GetDrawUi());
-        printf("tab\n");
     });
     Graphic::insertMouseClickCallBack(
     sf::Mouse::Left, [personNode, physicalWorld](sf::Vector2i pos) -> void {
@@ -455,13 +455,14 @@ void MainScene::init()
     sf::Keyboard::Key::P, [this, baffleNode, ballNode]() -> void {
         auto pos_view = this->getCamera().get()->getView().getCenter();
         auto size_view = this->getCamera().get()->getView().getSize();
-        printf("viewPos:%f, %f;Size:%f, %f\n", pos_view.x, pos_view.y,
+        Log::setLevel(LOG_LEVEL_INFO);
+        Log::printLog("viewPos:%f, %f;Size:%f, %f\n", pos_view.x, pos_view.y,
                size_view.x, size_view.y);
         auto pos_baffle = baffleNode->GetPosition();
-        printf("bafflePos:%f, %f\n", pos_baffle.x, pos_baffle.y);
+        Log::printLog("bafflePos:%f, %f\n", pos_baffle.x, pos_baffle.y);
         auto linearVelocity =
         ballNode->GetPhysicalBody()->GetBody()->GetLinearVelocity();
-        printf("ballNodeSpedd:%f\n", linearVelocity.Length());
+        Log::printLog("ballNodeSpedd:%f\n", linearVelocity.Length());
     });
     Graphic::insertKeyCallBack(sf::Keyboard::Key::F, [this, ballNode]() -> void {
         ballNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
@@ -492,67 +493,9 @@ void MainScene::init()
             }
         }
     });
-
-    /*
-    srand((unsigned)time(NULL));
-    speed = b2Vec2(random(1, 10), random(1, 10));
-    ballNode->pushUpdateCallBack([this, baffleNode, windowSize](SNode *
-    node)->void { b2Vec2 ballPos = node->GetPosation(); sf::CircleShape *
-    ballShape = dynamic_cast<sf::CircleShape
-    *>(node->GetShape("MainCircle").get());
-        //Collision in wall
-                //judgment ball collision with upWall?
-        {
-                if (ballPos.y <= 0)
-                {
-                        printf("Up\n");
-                        speed = b2Vec2(speed.x, -speed.y);
-                }
-        }
-        //judgment ball collision with downWall?
-        {
-                if (ballPos.y - ballShape->getRadius() * 2 >= windowSize.y)
-                {
-                        printf("Down\n");
-                        speed = b2Vec2(speed.x, -speed.y);
-                }
-        }
-        //judgment ball collision with leftWall?
-        {
-                if (ballPos.x <= 0)
-                {
-                        printf("Left\n");
-                        speed = b2Vec2(-speed.x, speed.y);
-                }
-        }
-        //judgment ball collision with rightWall?
-        {
-                if (ballPos.x - ballShape->getRadius() * 2 >= windowSize.x)
-                {
-                        printf("Right\n");
-                        speed = b2Vec2(-speed.x, speed.y);
-                }
-        }
-        //judgment ball collision with baffle?
-        {
-                //sf::RectangleShape * rectangleShape =
-    dynamic_cast<sf::RectangleShape
-    *>(baffleNode->GetShape("MainRectangle").get());
-                //b2Vec2 bafflePos = baffleNode->GetPosation();
-                //if true
-                ;
-        }
-        //judgment ball collision with Bricks? ......
-        {
-
-        }
-        //printf("Speed:%f, %f\n", speed.x, speed.y);
-        b2Vec2 movePos(speed.x + node->GetPosation().x, abs(speed.y -
-    node->GetPosation().y));
-        //printf("MovePos:%f, %f\n", movePos.x, movePos.y);
-        node->SetPosation(movePos);
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::C, []() -> void {
+        Log::setDrawUi();
     });
-    */
 }
 
 void MainScene::DrawUiSelf()

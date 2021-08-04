@@ -35,7 +35,8 @@ Box::~Box() {}
 
 void Box::onFace(Person *person)
 {
-    printf("[Box]report box\n");
+    Log::setLevel(LOG_LEVEL_INFO);
+    Log::printLog("[Box]report box\n");
     this->m_isDrawUi = !this->m_isDrawUi;
 }
 

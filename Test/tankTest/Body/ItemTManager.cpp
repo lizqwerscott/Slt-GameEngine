@@ -55,7 +55,8 @@ void ItemTManager::hoveredBox(ContainerBase *box)
 {
     if (box != itemTManager->m_lastHoveredBox && box != itemTManager->m_box) {
         itemTManager->m_lastHoveredBox = box;
-        printf("hoveredBox\n");
+        Log::setLevel(LOG_LEVEL_INFO);
+        Log::printLog("hoveredBox\n");
     }
 }
 

@@ -27,13 +27,15 @@ void Gun::attack(Person *person, PhysicalWorld * world)
 void Gun::fire(Person * person, PhysicalWorld * world, b2Vec2 position)
 {
     if (m_nowBulletN == 0) {
-        printf("need load bullet\n");
+        Log::setLevel(LOG_LEVEL_WARNING);
+        Log::printLog("need load bullet\n");
         return;
     }
     auto bullet = static_cast<Bullet *>(EntityFactory::generateEntity("bullet", position + person->GetPosition()));
     bullet->setInitSpeed(b2Vec2(position.x * 30, position.y * 30));
 
-    printf("[CreateBullet]:%u, pos:%f,%f\n", bullet->GetId(), position.x, position.y);
+    Log::setLevel(LOG_LEVEL_INFO);
+    Log::printLog("Create bullet:%u, pos:%f,%f\n", bullet->GetId(), position.x, position.y);
     m_bulletN++;
     m_nowBulletN--;
 }
@@ -45,7 +47,8 @@ void Gun::loadBullet(BulletI *bullet)
     }
     delete bullet;
     m_nowBulletN++;
-    printf("[LoadBullet]: %d\n", m_nowBulletN);
+    Log::setLevel(LOG_LEVEL_INFO);
+    Log::printLog("[LoadBullet]: %d\n", m_nowBulletN);
 }
 
 

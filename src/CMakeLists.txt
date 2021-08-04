@@ -24,6 +24,7 @@ set(Tool_SRC_LIST 	${Memory_SRC_LIST}
 
                     Graphic/Camera.cpp
 				  	Graphic/Graphic.cpp 
+                    Log/Log.cpp
 				  	Math/Tree.h
 				  	Scene/SNode.cpp 
 				  	Scene/Scene.cpp 
