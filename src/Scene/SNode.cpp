@@ -28,7 +28,7 @@ SNode::~SNode()
     this->m_DrawCallBacks.clear();
     Log::setLevel(LOG_LEVEL_INFO);
     Log::printLog("[SNode:release]");
-    std::cout << this->GetName();
+    Log::printLog("%s", GetName().c_str());
     this->m_sprites.clear();
     this->m_shapes.clear();
     if (m_mainShape != nullptr) {
