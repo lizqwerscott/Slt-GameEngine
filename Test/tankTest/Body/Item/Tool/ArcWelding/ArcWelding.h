@@ -12,6 +12,8 @@ public:
     virtual void use(Person * person, PhysicalWorld * world);
     virtual void rightClick(Person * person, b2Vec2 pos, PhysicalWorld * world);
 public:
+    virtual void draw();
+public:
     std::string m_generateEntity;
 };
 

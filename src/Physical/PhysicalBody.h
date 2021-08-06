@@ -20,6 +20,7 @@ public:
     void DestoryFixture(std::string name);
 public:
     std::shared_ptr<PhysicalFixture> GetFixture(std::string name);
+    std::shared_ptr<PhysicalFixture> GetFixture();
     b2Body * GetBody();
     b2Vec2 GetLocalWorldPos();
     b2Vec2 GetPosition();

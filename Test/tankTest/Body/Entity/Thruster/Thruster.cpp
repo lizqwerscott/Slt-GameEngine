@@ -1,12 +1,13 @@
-#include "Cube.h"
+#include "Thruster.h"
 
-Cube::Cube(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 size, b2Vec2 nodePos, double hp) :
-    Entity(name, parent, nodePos, hp)
+Thruster::Thruster(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 size, float maxThrust, b2Vec2 nodePos, double hp) :
+    Entity(name, parent, nodePos, hp),
+    m_thrust(0),
+    m_maxThrust(maxThrust)
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2BodyType::b2_dynamicBody;
-    bodyDef.position =
-        Math::WorldCoordSToPhysicalCoordS(nodePos);
+    bodyDef.position = Math::WorldCoordSToPhysicalCoordS(nodePos);
     bodyDef.angle = 0;
     bodyDef.bullet = true;
     b2PolygonShape polygonShape;
@@ -30,3 +31,24 @@ Cube::Cube(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 
 
     m_mainShape = CreateRectangleShape(size, tieTexture);
 }
+
+void Thruster::increaseThrust(float step)
+{
+    if (m_thrust + step <= m_maxThrust) {
+        m_thrust += step;
+    }
+}
+
+void Thruster::decreaseThrust(float step)
+{
+    if (m_thrust - step >= 0) {
+        m_thrust -= step;
+    }
+}
+
+void Thruster::push()
+{
+    b2Vec2 back(0, -1);
+    m_physicalBody->GetBody()->ApplyForceToCenter(b2Vec2(back.x * m_thrust, back.y * m_thrust), true);
+}
+

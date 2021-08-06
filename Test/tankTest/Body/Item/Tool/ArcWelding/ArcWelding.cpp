@@ -12,7 +12,52 @@ void ArcWelding::use(Person *person, PhysicalWorld *world)
     b2Vec2 pos = person->getMousePos();
     Log::setLevel(LOG_LEVEL_INFO);
     Log::printLog("generate: %s, pos: %f, %f \n", m_generateEntity.c_str(), pos.x, pos.y);
-    EntityFactory::generateEntity(m_generateEntity, pos);
+    auto entity = EntityFactory::generateEntity(m_generateEntity, pos);
+
+    auto faceEntity = person->getFaceEntity();
+
+    //TODO
+    if (faceEntity != nullptr) {
+        auto facePos = faceEntity->GetPosition();
+        auto faceAABB = person->getFaceFixture()->GetAABB(0);
+
+        auto generatePos = entity->m_physicalBody->GetPosition();
+        auto generateAABB = entity->GetPhysicalBody()->GetFixture()->m_fixture->GetAABB(0);
+
+        //Line is facePos generatePos
+        //faceAABB
+        auto intersection = [facePos, generatePos](b2AABB * aabb) -> b2Vec2 {
+            b2Vec2 vertices[4];
+            vertices[0] = aabb->lowerBound;
+            vertices[1] = b2Vec2(aabb->upperBound.x, aabb->lowerBound.y);
+            vertices[2] = aabb->upperBound;
+            vertices[3] = b2Vec2(aabb->lowerBound.x, aabb->upperBound.y);
+            //four Pos;
+            for (int i = 0; i < 4; i++)
+            {
+                if (Math::PointInLine(vertices[i], facePos, generatePos)) {
+                    return vertices[i];
+                }
+            }
+            //four line
+            for (int i = 0; i < 4; i++)
+            {
+                b2Vec2 start = vertices[i];
+                b2Vec2 end = vertices[(i + 1) % 4];
+                if (Math::LinesIntersectionP(facePos, generatePos, start, end)) {
+                    return Math::LinesIntersection(facePos, generatePos, start, end);
+                }
+            }
+            return b2Vec2(0, 0);
+        };
+
+        b2Vec2 faceI = intersection(&faceAABB);
+        b2Vec2 generateI = intersection(&generateAABB);
+        b2Vec2 transformI = generateI - faceI;
+
+        //entity->SetPosition(transformI + generatePos);
+    }
+
 }
 
 void ArcWelding::rightClick(Person * person, b2Vec2 pos, PhysicalWorld * world)
@@ -53,5 +98,29 @@ void ArcWelding::rightClick(Person * person, b2Vec2 pos, PhysicalWorld * world)
         joinDef.Initialize(fixture->GetBody(), contantEntity->m_physicalBody->GetBody(), b2Vec2(0, 0));
         world->CreateJoint(&joinDef);
     }
+}
 
+void ArcWelding::draw()
+{
+    if (isEquip()) {
+        Person * person = static_cast<Person *>(m_equipEntity);
+        auto faceFixture = person->getFaceFixture();
+        if (person->isHaveSelected()) {
+            auto pos = (faceFixture->GetBody()->GetPosition());
+            if (person->isInSelected()) {
+                auto aabb = faceFixture->GetAABB(0);
+                aabb.upperBound = Math::NumberProduct(aabb.upperBound - pos, 1.1) + pos;
+                aabb.lowerBound = Math::NumberProduct(aabb.lowerBound - pos, 1.1) + pos;
+                Graphic::getInstance()->DrawAABB(&aabb, b2Color(219, 112, 147));
+            }
+
+            auto mousePos = Graphic::getMousePositionP();
+            if (mousePos.Length() - pos.Length() <= 2) {
+                b2Vec2 vertices[2];
+                vertices[0] = pos;
+                vertices[1] = mousePos;
+                Graphic::getInstance()->DrawPolygon(vertices, 2, b2Color(219, 112, 147));
+            }
+        }
+    }
 }

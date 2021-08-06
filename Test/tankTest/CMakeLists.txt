@@ -13,6 +13,7 @@ set(MAIN_SRC_LIST
     Body/Entity/Biological/Biological.cpp
     Body/Entity/Biological/Person.cpp
     Body/Entity/Cube/Cube.cpp
+    Body/Entity/Thruster/Thruster.cpp
     Body/Entity/EntityFactory.cpp
 
     Body/Item/Bag/Bag.cpp

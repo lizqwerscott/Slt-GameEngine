@@ -30,6 +30,8 @@ public:
     void useFace(PhysicalWorld * world);
 
     bool isInHand() {return m_faceFraction <= 1.309 && (m_MousePos - GetPosition()).Length() <= 5;}
+    bool isInSelected() {return (m_MousePos.Length() - GetPosition().Length()) <= 10;}
+    bool isHaveSelected() {return m_faceFixture != nullptr && m_faceEntity != nullptr;}
     b2Vec2 getFace() {return m_face;}
     float getFaceFraction() {return m_faceFraction;}
     Entity * getFaceEntity() {return m_faceEntity;}
@@ -46,11 +48,13 @@ public:
     bool equip(Item * tool);
 public:
     virtual void DrawUiSelf() override;
+    virtual void DrawSelf() override;
 public:
     virtual void UpdateSelf(sf::Time &dt) override;
 public:
     b2Vec2 getMousePos() {return m_MousePos;}
 private:
+    bool m_rayCastP = false;
     FindRayCastCallback * m_findRayCastCallBack;
     b2Vec2 m_MousePos;
     b2Vec2 m_face; //mouse place
@@ -82,13 +86,22 @@ private:
     // Shoes * m_cLeftFoot = nullptr;
     // Shoes * m_cRightFoot = nullptr;
 
-    //Attributes 
+    //Attributes
     double m_water;
     double m_food;
 private:
     //Temp
     PhysicalWorld * m_world;
 friend class FindRayCastCallback;
+};
+class QueryCallBack : public b2QueryCallback
+{
+public:
+    bool ReportFixture(b2Fixture * fixture)
+    {
+        return true;
+    }
+
 };
 
 class FindRayCastCallback : public b2RayCastCallback

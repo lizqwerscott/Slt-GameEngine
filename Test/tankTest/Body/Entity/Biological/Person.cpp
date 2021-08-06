@@ -177,6 +177,7 @@ bool Person::equip(Item *tool)
 {
     if (m_tHand != nullptr) {
         m_tHand->addItem(tool);
+        getHand()->setEquip(this);
         return true;
     } else {
         return false;
@@ -249,7 +250,22 @@ void Person::UpdateSelf(sf::Time &dt)
     float targetAngle = atan2f(-nowFace.x, nowFace.y);
     rotate(targetAngle);
     m_face = nowFace;
-    m_world->RayCast(m_findRayCastCallBack, GetPosition(), m_MousePos);
+
+    Log::setLevel(LOG_LEVEL_INFO);
+    if (isInSelected() && !isHaveSelected()) {
+        Log::printLog("Start RayCast\n");
+        m_world->RayCast(m_findRayCastCallBack, GetPosition(), m_MousePos);
+    }
+
+    if (isHaveSelected()) {
+        Log::printLog("FaceEntity:%s\n", m_faceEntity->GetName().c_str());
+        if (!m_faceFixture->TestPoint(mousePos)) {
+            Log::printLog("Not In\n");
+            m_faceEntity = nullptr;
+            m_faceFixture = nullptr;
+            m_faceFraction = 0.0f;
+        }
+    }
 
     if (m_SpeedAdjust) {
         b2Vec2 lineSpeed = this->m_physicalBody->GetBody()->GetLinearVelocity();
@@ -265,4 +281,9 @@ void Person::UpdateSelf(sf::Time &dt)
             }
         }
     }
+}
+
+void Person::DrawSelf()
+{
+    getHand()->draw();
 }

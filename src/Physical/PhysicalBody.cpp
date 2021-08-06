@@ -60,6 +60,18 @@ PhysicalBody::GetFixture(std::string name)
     }
 }
 
+std::shared_ptr<PhysicalFixture>
+PhysicalBody::GetFixture()
+{
+    if (m_physicalFixtures.size() == 1) {
+        for (auto item : m_physicalFixtures) {
+            return item.second;
+            break;
+        }
+    }
+    return nullptr;
+}
+
 b2Body *
 PhysicalBody::GetBody()
 {

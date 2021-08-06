@@ -11,6 +11,7 @@
 #include "../Body/Entity/Biological/Person.h"
 #include "../Body/Entity/Box/Box.h"
 #include "../Body/Entity/Cube/Cube.h"
+#include "../Body/Entity/Thruster/Thruster.h"
 
 #include "../Body/ItemTManager.h"
 #include "../Body/Entity/EntityFactory.h"
@@ -211,6 +212,9 @@ void MainScene::init()
     EntityFactory::addEntity(std::string("cubeLittle"), [root, physicalWorld](b2Vec2 pos) -> Entity * {
         return new Cube(std::string("cubeLittle"), root, physicalWorld.get(), b2Vec2(1, 1), pos, 50);
     });
+    EntityFactory::addEntity(std::string("thrusterLittle"), [root, physicalWorld](b2Vec2 pos) -> Entity * {
+        return new Thruster(std::string("thrusterLittle"), root, physicalWorld.get(), b2Vec2(1, 2), 20, pos, 45);
+    });
     EntityFactory::addEntity(std::string("bullet"), [root, physicalWorld](b2Vec2 pos) -> Entity * {
         return new Bullet(std::string("bullet"), root, physicalWorld.get(), pos);
     });
@@ -261,10 +265,23 @@ void MainScene::init()
     Log::setLevel(LOG_LEVEL_INFO);
     Log::printLog("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
     Log::printLog("baffleNodePos:%f, %f\n", baffleNode->GetPosition().x,
-           baffleNode->GetPosition().y);
+                  baffleNode->GetPosition().y);
     Log::printLog("gunPos:%f, %f\n", personNode->GetPosition().x, personNode->GetPosition().y);
     auto size_view = this->getCamera().get()->getView().getSize();
     Log::printLog("Size:%f, %f\n", size_view.x, size_view.y);
+
+    {
+        //b2Vec2 p1(1, 5), p2(3, 3);
+        //if (Math::PointInLine(b2Vec2(2, 4), p1, p2)) {
+            //Log::printLog("Yes\n");
+        //} else {
+            //Log::printLog("No\n");
+        //}
+        b2Vec2 p1(1, 5), p2(3, 3);
+        b2Vec2 q1(0, 0), q2(10, 10);
+        b2Vec2 result = Math::LinesIntersection(p1, p2, q1, q2);
+        Log::printLog("I:%f, %f\n", result.x, result.y);
+    }
 
     SubscribeEventIml(
         E_NODEUPDATEEND,
@@ -457,7 +474,7 @@ void MainScene::init()
         auto size_view = this->getCamera().get()->getView().getSize();
         Log::setLevel(LOG_LEVEL_INFO);
         Log::printLog("viewPos:%f, %f;Size:%f, %f\n", pos_view.x, pos_view.y,
-               size_view.x, size_view.y);
+                      size_view.x, size_view.y);
         auto pos_baffle = baffleNode->GetPosition();
         Log::printLog("bafflePos:%f, %f\n", pos_baffle.x, pos_baffle.y);
         auto linearVelocity =

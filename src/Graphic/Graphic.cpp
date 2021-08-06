@@ -315,11 +315,10 @@ void Graphic::DrawPoint(const b2Vec2 &p, float_t size, const b2Color &color)
 void Graphic::DrawAABB(b2AABB *aabb, const b2Color &color)
 {
     b2Vec2 vertices[4];
-    b2Vec2 size = aabb->upperBound - aabb->lowerBound;
-    vertices[0] = b2Vec2(aabb->upperBound);
-    vertices[1] = b2Vec2(b2Vec2(aabb->upperBound.x + size.x, aabb->upperBound.y));
-    vertices[2] = b2Vec2(aabb->lowerBound);
-    vertices[3] = b2Vec2(b2Vec2(aabb->upperBound.x, aabb->upperBound.y + size.y));
+    vertices[0] = aabb->lowerBound;
+    vertices[1] = b2Vec2(aabb->upperBound.x, aabb->lowerBound.y);
+    vertices[2] = aabb->upperBound;
+    vertices[3] = b2Vec2(aabb->lowerBound.x, aabb->upperBound.y);
     this->DrawPolygon(vertices, 4, color);
 }
 

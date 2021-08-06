@@ -61,6 +61,7 @@ public:
     static const b2Vec2 NumberProduct(b2Vec2 vector, int t);
     static const b2Vec2 NumberProduct(b2Vec2 vector, float t);
     static const b2Vec2 NumberProduct(b2Vec2 vector, double t);
+    static const double PointProduct(b2Vec2 v1, b2Vec2 v2);
 
     static void vectorToCharList(std::vector<std::string> vector, const char ** result);
 public:
@@ -70,6 +71,10 @@ public:
     // Use BKDR Hash Function
     static const unsigned int bkdrHash(std::string str);
     static const unsigned int bkdrHash(char * str);
+public:
+    static bool PointInLine(b2Vec2 point, b2Vec2 start, b2Vec2 end);
+    static bool LinesIntersectionP(b2Vec2 p1, b2Vec2 p2, b2Vec2 q1, b2Vec2 q2);
+    static const b2Vec2 LinesIntersection(b2Vec2 p1, b2Vec2 p2, b2Vec2 q1, b2Vec2 q2);
 private:
     float SLTOMETER_UNIT = 1;
     float SLTTOPIXEL_UNIT = 10;
