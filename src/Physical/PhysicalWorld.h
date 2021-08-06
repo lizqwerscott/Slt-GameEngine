@@ -60,6 +60,8 @@ public:
     PhysicalWorld(std::string name, bool isOpenDebugDraw, int32 vI, int32 pI, b2Vec2 gravity);
     ~PhysicalWorld();
 public:
+    static b2BodyDef generateBodyDef(b2Vec2 pos, float angle = 0, bool bullet = false, b2BodyType type = b2BodyType::b2_dynamicBody);
+public:
     void setDebugDraw(bool isOpen);
 public:
     virtual void init() override;

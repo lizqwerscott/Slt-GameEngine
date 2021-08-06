@@ -26,7 +26,7 @@ void EntityFactory::Destroy()
     }
 }
 
-void EntityFactory::addEntity(std::string name, std::function<Entity * (b2Vec2)> map)
+void EntityFactory::addEntity(std::string name, std::function<Entity * (b2Vec2, Entity * mainEntity)> map)
 {
     entityFactory->m_entityMap[name] = map;
 }
@@ -39,12 +39,12 @@ void EntityFactory::removeEntity(std::string name)
     }
 }
 
-Entity * EntityFactory::generateEntity(std::string name, b2Vec2 pos)
+Entity * EntityFactory::generateEntity(std::string name, b2Vec2 pos, Entity * mainEntity)
 {
     auto iter = entityFactory->m_entityMap.find(name);
     Entity * entity = nullptr;
     if (iter != entityFactory->m_entityMap.end()) {
-        entity = iter->second(pos);
+        entity = iter->second(pos, mainEntity);
     } else {
         Log::setLevel(LOG_LEVEL_ERROR);
         Log::printLog("[EntityFactory]:cant 't find it:%s\n", name.c_str());
@@ -61,4 +61,3 @@ EntityFactory::getAll()
     }
     return result;
 }
-

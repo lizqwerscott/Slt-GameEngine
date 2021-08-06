@@ -206,16 +206,137 @@ void MainScene::init()
 
     GameObject * root = static_cast<GameObject *>(GetRootNode());
 
-    EntityFactory::addEntity(std::string("box1"), [root, physicalWorld](b2Vec2 pos) -> Entity * {
-        return new Box(std::string("box1"), root, physicalWorld.get(), 100, 100, pos, 100);
+    EntityFactory::addEntity(std::string("box1"), [root, physicalWorld](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        b2Vec2 nodePos = pos;
+        b2Vec2 size(2, 2);
+        float angle = 0.0f;
+        if (mainEntity != nullptr) {
+            auto body = mainEntity->m_physicalBody->GetBody();
+            angle = body->GetAngle();
+            b2Vec2 mousPos = Graphic::getMousePositionP();
+            b2Vec2 mainPos = body->GetPosition();
+            b2AABB aabb = mainEntity->m_physicalBody->GetFixture()->m_fixture->GetAABB(0);
+
+            float width = abs(aabb.upperBound.x - mainPos.x);
+            float height = abs(aabb.upperBound.y - mainPos.y);
+            b2Vec2 v = mousPos - mainPos;
+            float mAngle = atan(v.y / v.x);
+            float distance = 2;
+            Log::printLog("upperBound, %f, %f\n", width, height);
+            Log::setLevel(LOG_LEVEL_INFO);
+            Log::printLog("MainPos:%f, %f\n", mainPos.x, mainPos.y);
+            if (abs(mAngle) <= (PI / 4)) {
+                distance += width;
+                if (v.x >= 0) {
+                    //mousPos in right
+                    nodePos = mainPos + b2Vec2(distance, 0);
+                    Log::printLog("Right\n");
+                } else {
+                    //mousPos in left
+                    nodePos = mainPos + b2Vec2(-distance, 0);
+                    Log::printLog("Left\n");
+                }
+            } else {
+                distance += height;
+                if (v.y >=0) {
+                    //mousPos in up
+                    nodePos = mainPos + b2Vec2(0, distance);
+                    Log::printLog("Up\n");
+                } else {
+                    //mousPos in down
+                    nodePos = mainPos + b2Vec2(0, -distance);
+                    Log::printLog("Down\n");
+                }
+            }
+            Log::printLog("NodePos:%f, %f\n", nodePos.x, nodePos.y);
+        }
+
+        b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
+
+        b2PolygonShape polygonShape;
+        polygonShape.SetAsBox(2, 2, b2Vec2(0, 0), 0);
+        b2FixtureDef fixtureDef;
+        fixtureDef.density = 0.5;
+        fixtureDef.friction = 0.2;
+        fixtureDef.restitution = 1;
+        fixtureDef.shape = &polygonShape;
+
+        auto entity = new Box(std::string("box1"), root, 100, 100, pos, 100);
+        entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "BoxBody", "BoxFixture");
+        return entity;
     });
-    EntityFactory::addEntity(std::string("cubeLittle"), [root, physicalWorld](b2Vec2 pos) -> Entity * {
-        return new Cube(std::string("cubeLittle"), root, physicalWorld.get(), b2Vec2(1, 1), pos, 50);
+    EntityFactory::addEntity(std::string("cubeLittle"), [root, physicalWorld](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        b2Vec2 nodePos = pos;
+        b2Vec2 size(1, 1);
+        float angle = 0.0f;
+        if (mainEntity != nullptr)
+        {
+            auto body = mainEntity->m_physicalBody->GetBody();
+            angle = body->GetAngle();
+            b2Vec2 mousPos = Graphic::getMousePositionP();
+            b2Vec2 mainPos = body->GetPosition();
+            b2AABB aabb = mainEntity->m_physicalBody->GetFixture()->m_fixture->GetAABB(0);
+
+            float width = abs(aabb.upperBound.x - mainPos.x);
+            float height = abs(aabb.upperBound.y - mainPos.y);
+            b2Vec2 v = mousPos - mainPos;
+            float mAngle = atan(v.y / v.x);
+            float distance = 1;
+            Log::printLog("upperBound, %f, %f\n", width, height);
+            Log::setLevel(LOG_LEVEL_INFO);
+            Log::printLog("MainPos:%f, %f\n", mainPos.x, mainPos.y);
+            if (abs(mAngle) <= (PI / 4)) {
+                distance += width;
+                if (v.x >= 0) {
+                    //mousPos in right
+                    nodePos = mainPos + b2Vec2(distance, 0);
+                    Log::printLog("Right\n");
+                } else {
+                    //mousPos in left
+                    nodePos = mainPos + b2Vec2(-distance, 0);
+                    Log::printLog("Left\n");
+                }
+            } else {
+                distance += height;
+                if (v.y >=0) {
+                    //mousPos in up
+                    nodePos = mainPos + b2Vec2(0, distance);
+                    Log::printLog("Up\n");
+                } else {
+                    //mousPos in down
+                    nodePos = mainPos + b2Vec2(0, -distance);
+                    Log::printLog("Down\n");
+                }
+            }
+            Log::printLog("NodePos:%f, %f\n", nodePos.x, nodePos.y);
+        }
+        b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
+
+        b2PolygonShape polygonShape;
+
+        if (size.x > 1 && size.y > 1)
+        {
+            polygonShape.SetAsBox(size.x, size.y, b2Vec2(0, 0), 0);
+        } else
+        {
+            polygonShape.SetAsBox(1, 1, b2Vec2(0, 0), 0);
+        }
+        b2FixtureDef fixtureDef;
+        fixtureDef.density = 0.5;
+        fixtureDef.friction = 0.2;
+        fixtureDef.restitution = 1;
+        fixtureDef.shape = &polygonShape;
+
+        auto entity = new Cube(std::string("cubeLittle"), root, size, pos, 50);
+
+        entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeBody", "CubeFixture");
+
+        return entity;
     });
-    EntityFactory::addEntity(std::string("thrusterLittle"), [root, physicalWorld](b2Vec2 pos) -> Entity * {
+    EntityFactory::addEntity(std::string("thrusterLittle"), [root, physicalWorld](b2Vec2 pos, Entity * mainEntity) -> Entity * {
         return new Thruster(std::string("thrusterLittle"), root, physicalWorld.get(), b2Vec2(1, 2), 20, pos, 45);
     });
-    EntityFactory::addEntity(std::string("bullet"), [root, physicalWorld](b2Vec2 pos) -> Entity * {
+    EntityFactory::addEntity(std::string("bullet"), [root, physicalWorld](b2Vec2 pos, Entity * mainEntity) -> Entity * {
         return new Bullet(std::string("bullet"), root, physicalWorld.get(), pos);
     });
 
@@ -273,9 +394,9 @@ void MainScene::init()
     {
         //b2Vec2 p1(1, 5), p2(3, 3);
         //if (Math::PointInLine(b2Vec2(2, 4), p1, p2)) {
-            //Log::printLog("Yes\n");
+        //Log::printLog("Yes\n");
         //} else {
-            //Log::printLog("No\n");
+        //Log::printLog("No\n");
         //}
         b2Vec2 p1(1, 5), p2(3, 3);
         b2Vec2 q1(0, 0), q2(10, 10);

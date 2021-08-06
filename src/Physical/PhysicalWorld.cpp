@@ -23,6 +23,16 @@ PhysicalWorld::~PhysicalWorld() { delete this->settings; }
 
 void PhysicalWorld::init() {}
 
+b2BodyDef PhysicalWorld::generateBodyDef(b2Vec2 pos, float angle, bool bullet, b2BodyType type)
+{
+    b2BodyDef bodyDef;
+    bodyDef.type = type;
+    bodyDef.position = pos;
+    bodyDef.angle = 0;
+    bodyDef.bullet = bullet;
+    return bodyDef;
+}
+
 void PhysicalWorld::setDebugDraw(bool isOpen) {
   this->m_isOpenDebugDraw = isOpen;
   this->SetDebugDraw(Graphic::getInstance());

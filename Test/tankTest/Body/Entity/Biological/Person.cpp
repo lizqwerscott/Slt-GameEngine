@@ -253,14 +253,14 @@ void Person::UpdateSelf(sf::Time &dt)
 
     Log::setLevel(LOG_LEVEL_INFO);
     if (isInSelected() && !isHaveSelected()) {
-        Log::printLog("Start RayCast\n");
+        //Log::printLog("Start RayCast\n");
         m_world->RayCast(m_findRayCastCallBack, GetPosition(), m_MousePos);
     }
 
     if (isHaveSelected()) {
-        Log::printLog("FaceEntity:%s\n", m_faceEntity->GetName().c_str());
+        //Log::printLog("FaceEntity:%s\n", m_faceEntity->GetName().c_str());
         if (!m_faceFixture->TestPoint(mousePos)) {
-            Log::printLog("Not In\n");
+            //Log::printLog("Not In\n");
             m_faceEntity = nullptr;
             m_faceFixture = nullptr;
             m_faceFraction = 0.0f;

@@ -29,7 +29,7 @@ public:
 public:
     void useFace(PhysicalWorld * world);
 
-    bool isInHand() {return m_faceFraction <= 1.309 && (m_MousePos - GetPosition()).Length() <= 5;}
+    bool isInHand() {return m_faceFraction <= 3.309 && (m_MousePos - GetPosition()).Length() <= 5;}
     bool isInSelected() {return (m_MousePos.Length() - GetPosition().Length()) <= 10;}
     bool isHaveSelected() {return m_faceFixture != nullptr && m_faceEntity != nullptr;}
     b2Vec2 getFace() {return m_face;}
