@@ -33,6 +33,16 @@ b2BodyDef PhysicalWorld::generateBodyDef(b2Vec2 pos, float angle, bool bullet, b
     return bodyDef;
 }
 
+b2FixtureDef PhysicalWorld::generateFixtureDef(b2Shape *shape, float density, float friction, float restitution, bool isSensor)
+{
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = shape;
+    fixtureDef.density = density;
+    fixtureDef.friction = friction;
+    fixtureDef.restitution = restitution;
+    return fixtureDef;
+}
+
 void PhysicalWorld::setDebugDraw(bool isOpen) {
   this->m_isOpenDebugDraw = isOpen;
   this->SetDebugDraw(Graphic::getInstance());

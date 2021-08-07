@@ -61,6 +61,7 @@ public:
     ~PhysicalWorld();
 public:
     static b2BodyDef generateBodyDef(b2Vec2 pos, float angle = 0, bool bullet = false, b2BodyType type = b2BodyType::b2_dynamicBody);
+    static b2FixtureDef generateFixtureDef(b2Shape * shape, float density = 0.5, float friction = 0.2, float restitution = 1, bool isSensor = false);
 public:
     void setDebugDraw(bool isOpen);
 public:
