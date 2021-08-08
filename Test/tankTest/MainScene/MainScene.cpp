@@ -621,6 +621,13 @@ void MainScene::init()
     Graphic::insertKeyCallBack(sf::Keyboard::Key::C, []() -> void {
         Log::setDrawUi();
     });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::V, []() -> void {
+        Script::setDrawUi();
+    });
+    DEFUN_NONE("hello", []() -> void {
+        Log::setLevel(LOG_LEVEL_INFO);
+        Log::printLog("print\n");
+    }, 0)
 }
 
 void MainScene::DrawUiSelf()

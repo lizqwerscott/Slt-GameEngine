@@ -8,11 +8,11 @@ using namespace slt;
 class MyApplication : public Application
 {
 public:
-	MyApplication();
-	~MyApplication();
+    MyApplication(int argc, char * argv[]);
+    ~MyApplication();
 public:
-	virtual void init() override;
-	virtual void end() override;
+    virtual void init() override;
+    virtual void end() override;
 };
 
 #endif

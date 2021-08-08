@@ -1,8 +1,8 @@
 #include <cstdio>
 #include "MyApplication.h"
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
-    MyApplication app;
+    MyApplication app(argc, argv);
     return app.run();
 }

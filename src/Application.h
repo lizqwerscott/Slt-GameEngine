@@ -7,14 +7,14 @@ class Engine;
 class Application
 {
 public:
-	Application();
-	virtual ~Application();
+    Application(int argc, char * argv[]);
+    virtual ~Application();
 public:
-	virtual void init() = 0;
-	int run();
-	virtual void end() = 0;	
+    virtual void init() = 0;
+    int run();
+    virtual void end() = 0;
 protected:
-	Engine * engine;
+    Engine * engine;
 };
 }
 #endif

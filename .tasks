@@ -22,4 +22,16 @@ errorformat=%f:%l:%m
 # save file before execute
 save=1
 
+[project-generate-ccls]
+
+command=cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES
+
+cwd=%(VIM_ROOT)
+
+output=quickfix
+
+errorformat=%f:%l:%m
+
+save=1
+
 

@@ -8,8 +8,9 @@
 
 using namespace slt;
 
-Application::Application()
+Application::Application(int argc, char * argv[])
 {
+    Script::init(argc, argv);
     this->engine = new Engine();
 }
 

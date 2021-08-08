@@ -25,6 +25,7 @@ set(Tool_SRC_LIST 	${Memory_SRC_LIST}
                     Graphic/Camera.cpp
 				  	Graphic/Graphic.cpp 
                     Log/Log.cpp
+                    Script/Script.cpp
 				  	Math/Tree.h
 				  	Scene/SNode.cpp 
 				  	Scene/Scene.cpp 
@@ -38,4 +39,4 @@ add_compile_options(-g -Wall -std=c++11)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 add_library(slt ${Header_SRC_LIST} ${Tool_SRC_LIST})
 set_target_properties(slt PROPERTIES OUTPUT_NAME "slt")
-target_link_libraries(slt -lsfml-graphics -lsfml-window -lsfml-system -lGL dl box2d)
+target_link_libraries(slt -lecl -lsfml-graphics -lsfml-window -lsfml-system -lGL dl box2d)

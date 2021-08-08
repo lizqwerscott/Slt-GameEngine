@@ -3,6 +3,7 @@
 
 #include "Math/Math.h"
 #include "Log/Log.h"
+#include "Script/Script.h"
 
 #include "Event/Event.h"
 #include "Event/EventSender.h"
