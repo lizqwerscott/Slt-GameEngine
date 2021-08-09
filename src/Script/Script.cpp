@@ -49,6 +49,16 @@ void Script::Strtrim(char *s)
     *str_end = 0;
 }
 
+std::string Script::clToString(cl_object clStr)
+{
+    std::string str;
+    ecl_character * selV = clStr->string.self;
+    for (int i = 0; i < (int)clStr->string.dim; i++) {
+        str += (*(selV + i));
+    }
+    return str;
+}
+
 void Script::drawUi()
 {
     if (_script->m_open) {
@@ -93,5 +103,4 @@ void Script::setDrawUi()
 {
     _script->m_open = !_script->m_open;
 }
-
 

@@ -124,6 +124,7 @@ void ArcWelding::draw()
                 aabb.upperBound = Math::NumberProduct(aabb.upperBound - pos, 1.1) + pos;
                 aabb.lowerBound = Math::NumberProduct(aabb.lowerBound - pos, 1.1) + pos;
                 Graphic::getInstance()->DrawAABB(&aabb, b2Color(219, 112, 147));
+                Graphic::getInstance()->DrawPoint(pos, 1, b2Color(255, 0, 0));
             }
 
             auto mousePos = Graphic::getMousePositionP();
@@ -131,7 +132,7 @@ void ArcWelding::draw()
                 b2Vec2 vertices[2];
                 vertices[0] = pos;
                 vertices[1] = mousePos;
-                Graphic::getInstance()->DrawPolygon(vertices, 2, b2Color(219, 112, 147));
+                Graphic::getInstance()->DrawPolygon(vertices, 2, b2Color(255, 0, 0));
             }
         }
     }

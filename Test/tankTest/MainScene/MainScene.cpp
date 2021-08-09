@@ -223,26 +223,34 @@ void MainScene::init()
         Log::printLog("MainPos:%f, %f\n", mainPos.x, mainPos.y);
         if (abs(mAngle) <= (PI / 4))
         {
+            float mouseHeight = mousePos.y - mainPos.y;
+            if (abs(mouseHeight) <= 0.1 || size.y == height / 2) {
+                mouseHeight = 0;
+            }
             distance += width + size.x;
             if (v.x >= 0) {
                 //mousPos in right
-                nodePos = mainPos + b2Vec2(distance, 0);
+                nodePos = mainPos + b2Vec2(distance, mouseHeight);
                 Log::printLog("Right\n");
             } else {
                 //mousPos in left
-                nodePos = mainPos + b2Vec2(-distance, 0);
+                nodePos = mainPos + b2Vec2(-distance, mouseHeight);
                 Log::printLog("Left\n");
             }
         } else
         {
+            float mouseWidth = mousePos.x - mainPos.x;
+            if (abs(mouseWidth) <= 0.1 || size.x == width / 2) {
+                mouseWidth = 0;
+            }
             distance += height + size.y;
             if (v.y >=0) {
                 //mousPos in up
-                nodePos = mainPos + b2Vec2(0, distance);
+                nodePos = mainPos + b2Vec2(mouseWidth, distance);
                 Log::printLog("Up\n");
             } else {
                 //mousPos in down
-                nodePos = mainPos + b2Vec2(0, -distance);
+                nodePos = mainPos + b2Vec2(mouseWidth, -distance);
                 Log::printLog("Down\n");
             }
         }
@@ -377,6 +385,7 @@ void MainScene::init()
     Log::printLog("gunPos:%f, %f\n", personNode->GetPosition().x, personNode->GetPosition().y);
     auto size_view = this->getCamera().get()->getView().getSize();
     Log::printLog("Size:%f, %f\n", size_view.x, size_view.y);
+    getCamera().get()->setTrack(personNode, true);
 
     {
         //b2Vec2 p1(1, 5), p2(3, 3);
@@ -628,6 +637,14 @@ void MainScene::init()
         Log::setLevel(LOG_LEVEL_INFO);
         Log::printLog("print\n");
     }, 0)
+    cl_object (*generateEntity)(cl_object, int, int) = [](cl_object name, int x, int y) -> cl_object {
+        Log::setLevel(LOG_LEVEL_INFO);
+        std::string nameC = Script::clToString(name);
+        Log::printLog("EntityName:%s, %f, %f\n", nameC.c_str(), x, y);
+        EntityFactory::generateEntity(nameC, b2Vec2(x, y));
+        return ECL_NIL;
+    };
+    DEFUN("generateEntity", generateEntity, 3);
 }
 
 void MainScene::DrawUiSelf()

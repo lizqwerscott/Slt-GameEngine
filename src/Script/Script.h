@@ -21,6 +21,8 @@ class Script
 {
 public:
     static cl_object lisp(const std::string &call);
+public:
+    static std::string clToString(cl_object clStr);
 private:
     static void Strtrim(char* s);
 public:

@@ -307,6 +307,7 @@ void Graphic::DrawTransform(const b2Transform &xf) {}
 void Graphic::DrawPoint(const b2Vec2 &p, float_t size, const b2Color &color)
 {
     sf::CircleShape *circle = new sf::CircleShape(size);
+    circle->setOrigin(sf::Vector2f(size, size));
     circle->setFillColor(Graphic::changeColor(color));
     circle->setPosition(Math::PhysicalCoordSToDrawCoordS(p));
     graphic->insert(circle);
