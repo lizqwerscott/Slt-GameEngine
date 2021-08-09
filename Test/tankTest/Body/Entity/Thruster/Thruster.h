@@ -13,10 +13,13 @@ public:
     void decreaseThrust(float step = 2);
     void push();
 public:
+    virtual void UpdateSelf(sf::Time &dt) override;
+public:
     virtual void onFace(Person * person) {}
 private:
     float m_thrust;
     float m_maxThrust;
+    bool m_isPush = false;
 };
 
 #endif /* THRUSTER_H */

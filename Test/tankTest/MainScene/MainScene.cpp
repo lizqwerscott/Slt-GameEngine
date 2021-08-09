@@ -6,12 +6,14 @@
 #include "../Body/Item/Consume/BulletI/BulletI.h"
 #include "../Body/Item/Tool/ArcWelding/ArcWelding.h"
 #include "../Body/Item/Tool/CuttingMachine/CuttingMachine.h"
+#include "../Body/Item/Tool/NetConnect/NetConnect.h"
 
 #include "../Body/Item/Bag/Bag.h"
 #include "../Body/Entity/Biological/Person.h"
 #include "../Body/Entity/Box/Box.h"
 #include "../Body/Entity/Cube/Cube.h"
 #include "../Body/Entity/Thruster/Thruster.h"
+#include "../Body/Entity/Computer/Computer.h"
 
 #include "../Body/ItemTManager.h"
 #include "../Body/Entity/EntityFactory.h"
@@ -277,6 +279,27 @@ void MainScene::init()
         entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "BoxBody", "BoxFixture");
         return entity;
     });
+
+    EntityFactory::addEntity(std::string("Computer1"), [root, physicalWorld, generateNodePos](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        b2Vec2 nodePos = pos;
+        b2Vec2 size(2, 2);
+        float angle = 0.0f;
+        if (mainEntity != nullptr)
+        {
+            angle = mainEntity->m_physicalBody->GetBody()->GetAngle();
+            nodePos = generateNodePos(mainEntity, size);
+        }
+        b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
+
+        b2PolygonShape polygonShape;
+        polygonShape.SetAsBox(2, 2, b2Vec2(0, 0), 0);
+        b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
+
+        auto entity = new Computer(std::string("Computer1"), root, nodePos);
+        entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "ComputerBody", "ComputerFixture");
+        return entity;
+    });
+
     EntityFactory::addEntity(std::string("cubeLittle"), [root, physicalWorld, generateNodePos](b2Vec2 pos, Entity * mainEntity) -> Entity * {
         b2Vec2 nodePos = pos;
         b2Vec2 size(1, 1);
@@ -289,13 +312,7 @@ void MainScene::init()
         b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
         b2PolygonShape polygonShape;
-        if (size.x > 1 && size.y > 1)
-        {
-            polygonShape.SetAsBox(size.x, size.y, b2Vec2(0, 0), 0);
-        } else
-        {
-            polygonShape.SetAsBox(1, 1, b2Vec2(0, 0), 0);
-        }
+        polygonShape.SetAsBox(size.x, size.y, b2Vec2(0, 0), 0);
         b2FixtureDef fixtureDef;
         fixtureDef.density = 0.5;
         fixtureDef.friction = 0.2;
@@ -318,13 +335,7 @@ void MainScene::init()
         b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
         b2PolygonShape polygonShape;
-        if (size.x > 1 && size.y > 1)
-        {
-            polygonShape.SetAsBox(size.x, size.y, b2Vec2(0, 0), 0);
-        } else
-        {
-            polygonShape.SetAsBox(1, 1, b2Vec2(0, 0), 0);
-        }
+        polygonShape.SetAsBox(size.x, size.y, b2Vec2(0, 0), 0);
         b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape);
 
         auto entity = new Thruster(std::string("thrusterLittle"), root, size, 20, pos, 45);
@@ -351,6 +362,10 @@ void MainScene::init()
         return new ArcWelding(std::string("ArcWelding"), 1, 1);
     });
 
+    ItemFactory::addItem(std::string("NetConnect"), []() -> Item * {
+        return new NetConnect(std::string("NetConnect"), 1, 1);
+    });
+
     ItemFactory::addItem(std::string("bullet1"), []() -> Item * {
         return new BulletI(std::string("bullet1"), 1, 2);
     });
@@ -369,6 +384,7 @@ void MainScene::init()
     Gun * gun = static_cast<Gun *>(ItemFactory::generateItem(std::string("gun1")));
     bag->addItem(gun);
     bag->addItem(ItemFactory::generateItem(std::string("CuttingMachine")));
+    bag->addItem(ItemFactory::generateItem(std::string("NetConnect")));
 
     //Box * boxNode = new Box(std::string("box1"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), 100, 100, b2Vec2(0, 10), 100);
     Box * boxNode = static_cast<Box *>(EntityFactory::generateEntity(std::string("box1"), b2Vec2(0, 10)));
@@ -636,7 +652,7 @@ void MainScene::init()
     DEFUN_NONE("hello", []() -> void {
         Log::setLevel(LOG_LEVEL_INFO);
         Log::printLog("print\n");
-    }, 0)
+    })
     cl_object (*generateEntity)(cl_object, int, int) = [](cl_object name, int x, int y) -> cl_object {
         Log::setLevel(LOG_LEVEL_INFO);
         std::string nameC = Script::clToString(name);

@@ -14,6 +14,7 @@ set(MAIN_SRC_LIST
     Body/Entity/Biological/Person.cpp
     Body/Entity/Cube/Cube.cpp
     Body/Entity/Thruster/Thruster.cpp
+    Body/Entity/Computer/Computer.cpp
     Body/Entity/EntityFactory.cpp
 
     Body/Item/Bag/Bag.cpp
@@ -21,6 +22,7 @@ set(MAIN_SRC_LIST
     Body/Item/Weapon/Gun/Gun.cpp
     Body/Item/Tool/ArcWelding/ArcWelding.cpp
     Body/Item/Tool/CuttingMachine/CuttingMachine.cpp
+    Body/Item/Tool/NetConnect/NetConnect.cpp
     Body/Item/ItemFactory.cpp
 
     MainScene/MainScene.cpp 

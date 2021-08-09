@@ -72,11 +72,6 @@ void Script::drawUi()
             ImGui::EndPopup();
         }
 
-        if (ImGui::BeginPopup("Options")) {
-            ImGui::Checkbox("Auto-scroll", &_script->m_open);
-            ImGui::EndPopup();
-        }
-        ImGui::Separator();
         bool reclaim_focus = false;
         ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue;
 

@@ -1,7 +1,8 @@
 #include "Entity.h"
 
-Entity::Entity(std::string name, GameObject * parent, b2Vec2 nodePos, double hp) : 
-    GameObject(name, parent, hp)
+Entity::Entity(std::string name, const std::string &typeName, GameObject * parent, b2Vec2 nodePos, double hp) : 
+    GameObject(name, parent, hp),
+    m_typeName(typeName)
 {
     this->SetPosition(nodePos);
 }

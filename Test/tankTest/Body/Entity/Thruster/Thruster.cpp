@@ -1,7 +1,7 @@
 #include "Thruster.h"
 
 Thruster::Thruster(std::string name, GameObject * parent, b2Vec2 size, float maxThrust, b2Vec2 nodePos, double hp) :
-    Entity(name, parent, nodePos, hp),
+    Entity(name, "Thruster", parent, nodePos, hp),
     m_thrust(0),
     m_maxThrust(maxThrust)
 {
@@ -29,7 +29,14 @@ void Thruster::decreaseThrust(float step)
 
 void Thruster::push()
 {
-    b2Vec2 back(0, -1);
-    m_physicalBody->GetBody()->ApplyForceToCenter(b2Vec2(back.x * m_thrust, back.y * m_thrust), true);
+    m_isPush = !m_isPush;
 }
 
+void Thruster::UpdateSelf(sf::Time &dt)
+{
+    if (m_isPush) {
+        b2Vec2 back(0, -1);
+        m_physicalBody->GetBody()->ApplyForceToCenter(b2Vec2(back.x * m_thrust, back.y * m_thrust), true);
+        Log::printLog("push ....\n");
+    }
+}

@@ -1,7 +1,7 @@
 #include "Cube.h"
 
 Cube::Cube(std::string name, GameObject * parent, b2Vec2 size, b2Vec2 nodePos, double hp) :
-    Entity(name, parent, nodePos, hp)
+    Entity(name, "Cube", parent, nodePos, hp)
 {
     this->m_isDrawUi = false;
 

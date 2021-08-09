@@ -4,12 +4,12 @@
 #include <ecl/ecl.h>
 #include <vector>
 
-#define DEFUN_NONE(name,fun,args) \
+#define DEFUN_NONE(name,fun) \
     {\
     void (*_run)() = fun; \
     ecl_def_c_function(c_string_to_object(name),\
             (cl_objectfn_fixed)_run,\
-            args); \
+            0); \
     }
 
 #define DEFUN(name,fun,args) \
@@ -23,7 +23,7 @@ public:
     static cl_object lisp(const std::string &call);
 public:
     static std::string clToString(cl_object clStr);
-private:
+public:
     static void Strtrim(char* s);
 public:
     static void drawUi();

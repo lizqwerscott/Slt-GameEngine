@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
 Bullet::Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos) :
-    Entity(name, parent, nodePos, 1)
+    Entity(name, "Bullet", parent, nodePos, 1)
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2BodyType::b2_dynamicBody;

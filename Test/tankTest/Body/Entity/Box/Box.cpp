@@ -2,7 +2,7 @@
 #include "../../Item/Item.h"
 
 Box::Box(std::string name, GameObject *parent, double volume, double quality, b2Vec2 nodePos, double hp) :
-    Entity(name, parent, nodePos, hp),
+    Entity(name, "Box", parent, nodePos, hp),
     BoxBase(volume, quality)
 {
     this->m_isDrawUi = false;
