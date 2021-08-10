@@ -97,7 +97,6 @@ void Person::rightClick(b2Vec2 mouseClick)
 
 Item * Person::getHand()
 {
-    //return m_tHand;
     return m_tHand->getItem();
 }
 
@@ -301,6 +300,13 @@ void Person::DrawSelf()
             vertices[0] = pos;
             vertices[1] = mousePos;
             Graphic::getInstance()->DrawPolygon(vertices, 2, b2Color(255, 0, 0));
+        }
+        auto hand = getHand();
+        if (hand != nullptr) {
+            if (hand->getTypeName() == "Tool") {
+                Tool * tool = static_cast<Tool *>(hand);
+                tool->drawT(this);
+            }
         }
     }
 }

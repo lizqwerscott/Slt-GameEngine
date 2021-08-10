@@ -2,6 +2,8 @@
 #include <cstdio>
 #include <ctime>
 
+#include "../AllSub.h"
+
 using namespace slt;
 
 Log::Log() :
@@ -77,6 +79,11 @@ void Log::printLog(const char * fmt, ...)
     }
     break;
     }
+}
+
+void Log::printVec2(const char *fmt, b2Vec2 pos)
+{
+    Log::printLog("%s: %f, %f\n", fmt, pos.x, pos.y);
 }
 
 void Log::drawUi()

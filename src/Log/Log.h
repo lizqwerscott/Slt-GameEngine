@@ -5,6 +5,8 @@
 #include "../Graphic/UI/imgui.h"
 #include "../Graphic/UI/imgui-SFML.h"
 
+class b2Vec2;
+
 namespace slt
 {
 enum LOGLEVEL
@@ -20,12 +22,14 @@ enum TARGET
     TARGET_TERMINAL,
     TARGET_GUI
 };
+
 class Log
 {
 public:
     static void setLevel(LOGLEVEL level);
     static void setTarget(TARGET target);
     static void printLog(const char * fmt, ...);
+    static void printVec2(const char * fmt, b2Vec2 pos);
 public:
     static void drawUi();
     static void setDrawUi();

@@ -16,14 +16,16 @@
     ecl_def_c_function(c_string_to_object(name),\
             (cl_objectfn_fixed)fun,\
             args)
-
+namespace slt
+{
 class Script
 {
 public:
     static cl_object lisp(const std::string &call);
 public:
-    static std::string clToString(cl_object clStr);
+    static void signFunction();
 public:
+    static std::string clToString(cl_object clStr);
     static void Strtrim(char* s);
 public:
     static void drawUi();
@@ -41,6 +43,7 @@ private:
 private:
     Script();
     ~Script();
+};
 };
 
 #endif /* SCRIPT_H */

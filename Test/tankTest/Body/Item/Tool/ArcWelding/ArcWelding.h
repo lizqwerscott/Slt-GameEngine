@@ -9,10 +9,10 @@ public:
     ArcWelding(std::string name, double volume, double quality);
     virtual ~ArcWelding() {}
 public:
-    virtual void use(Person * person, PhysicalWorld * world);
-    virtual void rightClick(Person * person, b2Vec2 pos, PhysicalWorld * world);
+    virtual void use(Person * person, PhysicalWorld * world) override;
+    virtual void rightClick(Person * person, b2Vec2 pos, PhysicalWorld * world) override;
 public:
-    virtual void draw();
+    virtual void drawT(Person * person) override;
 public:
     std::string m_generateEntity;
 };

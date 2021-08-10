@@ -5,6 +5,10 @@
 #include "../Graphic/UI/imgui.h"
 #include "../Graphic/UI/imgui-SFML.h"
 
+#include "../Log/Log.h"
+
+using namespace slt;
+
 Script::Script()
 {
     memset(m_inputBuf, 0, sizeof(m_inputBuf));
@@ -35,6 +39,12 @@ void Script::Destory()
 void Script::init(int argc, char *argv[])
 {
     cl_boot(argc, argv);
+    lisp("(load \"/home/lizqwer/project/Slt-GameEngine/Test/tankTest/Scripts/initrc.lisp\")");
+    void (*_printLog)(cl_object str) = [](cl_object str) -> void {
+        std::string strS = Script::clToString(str);
+        Log::printLog(strS.c_str());
+    };
+    DEFUN("printLog", _printLog, 1);
 }
 
 cl_object Script::lisp(const std::string &call)

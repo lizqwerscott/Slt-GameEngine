@@ -35,8 +35,11 @@ void Thruster::push()
 void Thruster::UpdateSelf(sf::Time &dt)
 {
     if (m_isPush) {
-        b2Vec2 back(0, -1);
-        m_physicalBody->GetBody()->ApplyForceToCenter(b2Vec2(back.x * m_thrust, back.y * m_thrust), true);
+        b2Vec2 back(0, 1);
+        float angle = m_physicalBody->GetBody()->GetAngle();
+        b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));
+        b2Vec2 then = mat.Solve(back);
+        m_physicalBody->GetBody()->ApplyForceToCenter(b2Vec2(then.x * m_thrust, then.y * m_thrust), true);
         Log::printLog("push ....\n");
     }
 }

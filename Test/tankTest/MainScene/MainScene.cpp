@@ -208,143 +208,111 @@ void MainScene::init()
 
     GameObject * root = static_cast<GameObject *>(GetRootNode());
 
-    auto generateNodePos = [](Entity * mainEntity, b2Vec2 size) -> b2Vec2 {
-        b2Vec2 nodePos;
-        auto body = mainEntity->m_physicalBody->GetBody();
-        b2Vec2 mousePos = Graphic::getMousePositionP();
-        b2Vec2 mainPos = body->GetPosition();
-        b2AABB aabb = mainEntity->m_physicalBody->GetFixture()->m_fixture->GetAABB(0);
-
-        float width = abs(aabb.upperBound.x - mainPos.x);
-        float height = abs(aabb.upperBound.y - mainPos.y);
-        b2Vec2 v = mousePos - mainPos;
-        float mAngle = atan(v.y / v.x);
-        float distance = 0;
-        Log::printLog("upperBound, %f, %f\n", width, height);
-        Log::setLevel(LOG_LEVEL_INFO);
-        Log::printLog("MainPos:%f, %f\n", mainPos.x, mainPos.y);
-        if (abs(mAngle) <= (PI / 4))
-        {
-            float mouseHeight = mousePos.y - mainPos.y;
-            if (abs(mouseHeight) <= 0.1 || size.y == height / 2) {
-                mouseHeight = 0;
+    {
+        entityData * data = new entityData("box1", b2Vec2(2, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+            b2Vec2 nodePos = pos;
+            float angle = 0.0f;
+            if (mainEntity != nullptr)
+            {
+                angle = Math::degreeToRad(data->angle);
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, data->getSize());
             }
-            distance += width + size.x;
-            if (v.x >= 0) {
-                //mousPos in right
-                nodePos = mainPos + b2Vec2(distance, mouseHeight);
-                Log::printLog("Right\n");
-            } else {
-                //mousPos in left
-                nodePos = mainPos + b2Vec2(-distance, mouseHeight);
-                Log::printLog("Left\n");
+            b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
+
+            b2PolygonShape polygonShape;
+            polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
+            b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
+
+            auto entity = new Box(data->name, root, 100, 100, pos, 100);
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "BoxBody", "BoxFixture");
+            return entity;
+        };
+        EntityFactory::addEntity(data);
+    }
+
+    {
+        entityData * data = new entityData("computer", b2Vec2(2, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+            b2Vec2 nodePos = pos;
+            float angle = 0.0f;
+            if (mainEntity != nullptr)
+            {
+                angle = Math::degreeToRad(data->angle);
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, data->getSize());
             }
-        } else
-        {
-            float mouseWidth = mousePos.x - mainPos.x;
-            if (abs(mouseWidth) <= 0.1 || size.x == width / 2) {
-                mouseWidth = 0;
+            b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
+
+            b2PolygonShape polygonShape;
+            polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
+            b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
+
+            auto entity = new Computer(data->name, root, nodePos);
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "ComputerBody", "ComputerFixture");
+            return entity;
+        };
+        EntityFactory::addEntity(data);
+    }
+
+    {
+        entityData * data = new entityData("cubeLittle", b2Vec2(1, 1));
+        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+            b2Vec2 nodePos = pos;
+            float angle = 0.0f;
+            if (mainEntity != nullptr)
+            {
+                angle = Math::degreeToRad(data->angle);
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, data->getSize());
             }
-            distance += height + size.y;
-            if (v.y >=0) {
-                //mousPos in up
-                nodePos = mainPos + b2Vec2(mouseWidth, distance);
-                Log::printLog("Up\n");
-            } else {
-                //mousPos in down
-                nodePos = mainPos + b2Vec2(mouseWidth, -distance);
-                Log::printLog("Down\n");
+            b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
+
+            b2PolygonShape polygonShape;
+            polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
+            b2FixtureDef fixtureDef;
+            fixtureDef.density = 0.5;
+            fixtureDef.friction = 0.2;
+            fixtureDef.restitution = 1;
+            fixtureDef.shape = &polygonShape;
+
+            auto entity = new Cube(data->name, root, data->size, pos, 50);
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeBody", "CubeFixture");
+            return entity;
+        };
+        EntityFactory::addEntity(data);
+    }
+
+    {
+        entityData  * data = new entityData("thrusterLittle", b2Vec2(1, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+            b2Vec2 nodePos = pos;
+            float angle = 0.0f;
+            if (mainEntity != nullptr)
+            {
+                angle = Math::degreeToRad(data->angle) * -1.0f;
+                Log::setLevel(LOG_LEVEL_INFO);
+                Log::printLog("angle:%f\n", angle);
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, data->getSize());
             }
-        }
-        Log::printLog("NodePos:%f, %f\n", nodePos.x, nodePos.y);
-        return nodePos;
-    };
+            b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
-    EntityFactory::addEntity(std::string("box1"), [root, physicalWorld, generateNodePos](b2Vec2 pos, Entity * mainEntity) -> Entity * {
-        b2Vec2 nodePos = pos;
-        b2Vec2 size(2, 2);
-        float angle = 0.0f;
-        if (mainEntity != nullptr)
-        {
-            angle = mainEntity->m_physicalBody->GetBody()->GetAngle();
-            nodePos = generateNodePos(mainEntity, size);
-        }
-        b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
+            b2PolygonShape polygonShape;
+            polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
+            b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape);
 
-        b2PolygonShape polygonShape;
-        polygonShape.SetAsBox(2, 2, b2Vec2(0, 0), 0);
-        b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
+            auto entity = new Thruster(data->name, root, data->size, 20, pos, 45);
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeBody", "CubeFixture");
+            return entity;
+        };
+        EntityFactory::addEntity(data);
+    }
 
-        auto entity = new Box(std::string("box1"), root, 100, 100, pos, 100);
-        entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "BoxBody", "BoxFixture");
-        return entity;
-    });
-
-    EntityFactory::addEntity(std::string("Computer1"), [root, physicalWorld, generateNodePos](b2Vec2 pos, Entity * mainEntity) -> Entity * {
-        b2Vec2 nodePos = pos;
-        b2Vec2 size(2, 2);
-        float angle = 0.0f;
-        if (mainEntity != nullptr)
-        {
-            angle = mainEntity->m_physicalBody->GetBody()->GetAngle();
-            nodePos = generateNodePos(mainEntity, size);
-        }
-        b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
-
-        b2PolygonShape polygonShape;
-        polygonShape.SetAsBox(2, 2, b2Vec2(0, 0), 0);
-        b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
-
-        auto entity = new Computer(std::string("Computer1"), root, nodePos);
-        entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "ComputerBody", "ComputerFixture");
-        return entity;
-    });
-
-    EntityFactory::addEntity(std::string("cubeLittle"), [root, physicalWorld, generateNodePos](b2Vec2 pos, Entity * mainEntity) -> Entity * {
-        b2Vec2 nodePos = pos;
-        b2Vec2 size(1, 1);
-        float angle = 0.0f;
-        if (mainEntity != nullptr)
-        {
-            angle = mainEntity->m_physicalBody->GetBody()->GetAngle();
-            nodePos = generateNodePos(mainEntity, size);
-        }
-        b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
-
-        b2PolygonShape polygonShape;
-        polygonShape.SetAsBox(size.x, size.y, b2Vec2(0, 0), 0);
-        b2FixtureDef fixtureDef;
-        fixtureDef.density = 0.5;
-        fixtureDef.friction = 0.2;
-        fixtureDef.restitution = 1;
-        fixtureDef.shape = &polygonShape;
-
-        auto entity = new Cube(std::string("cubeLittle"), root, size, pos, 50);
-        entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeBody", "CubeFixture");
-        return entity;
-    });
-    EntityFactory::addEntity(std::string("thrusterLittle"), [root, physicalWorld, generateNodePos](b2Vec2 pos, Entity * mainEntity) -> Entity * {
-        b2Vec2 nodePos = pos;
-        b2Vec2 size(1, 2);
-        float angle = 0.0f;
-        if (mainEntity != nullptr)
-        {
-            angle = mainEntity->m_physicalBody->GetBody()->GetAngle();
-            nodePos = generateNodePos(mainEntity, size);
-        }
-        b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
-
-        b2PolygonShape polygonShape;
-        polygonShape.SetAsBox(size.x, size.y, b2Vec2(0, 0), 0);
-        b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape);
-
-        auto entity = new Thruster(std::string("thrusterLittle"), root, size, 20, pos, 45);
-        entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeBody", "CubeFixture");
-        return entity;
-    });
-    EntityFactory::addEntity(std::string("bullet"), [root, physicalWorld](b2Vec2 pos, Entity * mainEntity) -> Entity * {
-        return new Bullet(std::string("bullet"), root, physicalWorld.get(), pos);
-    });
+    {
+        entityData * data = new entityData("bullet", b2Vec2(0.2, 0.2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+            return new Bullet(data->name, root, physicalWorld.get(), pos);
+        };
+        EntityFactory::addEntity(data);
+    }
 
     ItemFactory::addItem(std::string("gun1"), []() -> Item * {
         return new Gun(std::string("gun1"), 10, 5, 30);
@@ -386,7 +354,6 @@ void MainScene::init()
     bag->addItem(ItemFactory::generateItem(std::string("CuttingMachine")));
     bag->addItem(ItemFactory::generateItem(std::string("NetConnect")));
 
-    //Box * boxNode = new Box(std::string("box1"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), 100, 100, b2Vec2(0, 10), 100);
     Box * boxNode = static_cast<Box *>(EntityFactory::generateEntity(std::string("box1"), b2Vec2(0, 10)));
     boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
     boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
@@ -532,7 +499,7 @@ void MainScene::init()
         //personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0, -force), true);
         personNode->move(3, force);
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::R, [personNode]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::R, [personNode]() -> void {
         if (personNode->handP())
         {
             if (personNode->getHand()->getTypeName() == std::string("Weapon")) {
@@ -543,6 +510,22 @@ void MainScene::init()
                     for (int i = 0; i < (int)bullets.size(); i++) {
                         gun->loadBullet(static_cast<BulletI *>(bullets[i]));
                     }
+                }
+            } else if (personNode->getHand()->getTypeName() == std::string("Tool")) {
+                Tool * tool = static_cast<Tool*>(personNode->getHand());
+                if (tool->getName() == "ArcWelding") {
+                    ArcWelding * arcWelding = static_cast<ArcWelding *>(tool);
+                    auto generateEntity = arcWelding->m_generateEntity;
+                    entityData * generateData = EntityFactory::getEntityData(generateEntity);
+                    Log::setLevel(LOG_LEVEL_INFO);
+                    if (generateData->angle == 360) {
+                        generateData->angle = 90;
+                        Log::printLog("gui\n");
+                    } else {
+                        generateData->angle += 90;
+                        Log::printLog("increase\n");
+                    }
+                    Log::printLog("[%s]data:%d\n", generateEntity.c_str(), generateData->angle);
                 }
             }
         }

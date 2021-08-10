@@ -8,6 +8,10 @@ EntityFactory::EntityFactory()
 
 EntityFactory::~EntityFactory()
 {
+    for (auto data : m_entityMap) {
+        delete data.second;
+        data.second = nullptr;
+    }
     m_entityMap.clear();
 }
 
@@ -26,9 +30,19 @@ void EntityFactory::Destroy()
     }
 }
 
-void EntityFactory::addEntity(std::string name, std::function<Entity * (b2Vec2, Entity * mainEntity)> map)
+void EntityFactory::addEntity(entityData * entityData)
 {
-    entityFactory->m_entityMap[name] = map;
+    entityFactory->m_entityMap[entityData->name] = entityData;
+}
+
+entityData * EntityFactory::getEntityData(std::string name)
+{
+    auto iter = entityFactory->m_entityMap.find(name);
+    if (iter != entityFactory->m_entityMap.end()) {
+        return iter->second;
+    } else {
+        return nullptr;
+    }
 }
 
 void EntityFactory::removeEntity(std::string name)
@@ -44,7 +58,7 @@ Entity * EntityFactory::generateEntity(std::string name, b2Vec2 pos, Entity * ma
     auto iter = entityFactory->m_entityMap.find(name);
     Entity * entity = nullptr;
     if (iter != entityFactory->m_entityMap.end()) {
-        entity = iter->second(pos, mainEntity);
+        entity = iter->second->init(pos, mainEntity);
     } else {
         Log::setLevel(LOG_LEVEL_ERROR);
         Log::printLog("[EntityFactory]:cant 't find it:%s\n", name.c_str());

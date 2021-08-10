@@ -15,7 +15,7 @@ public:
 public:
     virtual void UpdateSelf(sf::Time &dt) override;
 public:
-    virtual void onFace(Person * person) {}
+    virtual void onFace(Person * person) override {}
 private:
     float m_thrust;
     float m_maxThrust;

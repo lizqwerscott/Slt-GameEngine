@@ -23,18 +23,18 @@ public:
     static void init();
     static void Destory();
 public:
-	static Scene * GetRunScene();
-	static void SetRunScene(Scene * scene);
-	static void push_(Scene * scene);
-	static void pop_();
+    static Scene * GetRunScene();
+    static void SetRunScene(Scene * scene);
+    static void push_(Scene * scene);
+    static void pop_();
     static void next(Scene * scene);
 private:
-	static Scene * GetSceneBack();
+    static Scene * GetSceneBack();
 private:
     SceneManager();
     ~SceneManager();
 private:
-	std::list<Scene *> m_Scenes;
+    std::list<Scene *> m_Scenes;
 };
 }
 #endif
