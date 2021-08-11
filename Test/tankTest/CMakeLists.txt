@@ -15,6 +15,7 @@ set(MAIN_SRC_LIST
     Body/Entity/Cube/Cube.cpp
     Body/Entity/Thruster/Thruster.cpp
     Body/Entity/Computer/Computer.cpp
+    Body/Entity/Seat/Seat.cpp
     Body/Entity/EntityFactory.cpp
 
     Body/Item/Bag/Bag.cpp

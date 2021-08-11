@@ -52,6 +52,10 @@ cl_object Script::lisp(const std::string &call)
     return cl_safe_eval(c_string_to_object(call.c_str()), ECL_NIL, ECL_NIL);
 }
 
+void Script::signFunction(std::string entityName)
+{
+}
+
 void Script::Strtrim(char *s)
 {
     char* str_end = s + strlen(s);

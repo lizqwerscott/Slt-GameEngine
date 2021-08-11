@@ -1,23 +1,10 @@
 #include "MainScene.h"
 #include <cstdlib>
 #include <ctime>
-#include "../Body/Entity/Bullet/Bullet.h"
-#include "../Body/Item/Weapon/Gun/Gun.h"
-#include "../Body/Item/Consume/BulletI/BulletI.h"
-#include "../Body/Item/Tool/ArcWelding/ArcWelding.h"
-#include "../Body/Item/Tool/CuttingMachine/CuttingMachine.h"
-#include "../Body/Item/Tool/NetConnect/NetConnect.h"
-
-#include "../Body/Item/Bag/Bag.h"
-#include "../Body/Entity/Biological/Person.h"
-#include "../Body/Entity/Box/Box.h"
-#include "../Body/Entity/Cube/Cube.h"
-#include "../Body/Entity/Thruster/Thruster.h"
-#include "../Body/Entity/Computer/Computer.h"
+#include "../Body/Item/AllItem.h"
+#include "../Body/Entity/AllEntity.h"
 
 #include "../Body/ItemTManager.h"
-#include "../Body/Entity/EntityFactory.h"
-#include "../Body/Item/ItemFactory.h"
 
 #define random(a, b) (rand() % (b - a + 1) + a)
 
@@ -249,6 +236,29 @@ void MainScene::init()
 
             auto entity = new Computer(data->name, root, nodePos);
             entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "ComputerBody", "ComputerFixture");
+            return entity;
+        };
+        EntityFactory::addEntity(data);
+    }
+
+    {
+        entityData * data = new entityData("seat", b2Vec2(2, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+            b2Vec2 nodePos = pos;
+            float angle = 0.0f;
+            if (mainEntity != nullptr)
+            {
+                angle = Math::degreeToRad(data->angle);
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, data->getSize());
+            }
+            b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
+
+            b2PolygonShape polygonShape;
+            polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
+            b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
+
+            auto entity = new Seat(data->name, root, nodePos);
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "SeatBody", "SeatFixture");
             return entity;
         };
         EntityFactory::addEntity(data);

@@ -23,7 +23,7 @@ class Script
 public:
     static cl_object lisp(const std::string &call);
 public:
-    static void signFunction();
+    static void signFunction(std::string entityName);
 public:
     static std::string clToString(cl_object clStr);
     static void Strtrim(char* s);
