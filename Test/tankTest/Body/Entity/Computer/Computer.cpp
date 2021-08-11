@@ -8,10 +8,11 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
     m_isControl = true;
     m_isConnect = true;
 
-    sf::Texture * tieTexture = ResourceManager::GetTexture(std::string("tie"));
-    tieTexture->setSmooth(true);
+    sf::Texture * computer = ResourceManager::GetTexture("computer");
+    computer->setSmooth(true);
 
-    m_mainShape = CreateRectangleShape(b2Vec2(2, 2), tieTexture);
+    m_mainShape = CreateRectangleShape(b2Vec2(1, 1), computer);
+
     Clear();
     memset(m_inputBuf, 0, sizeof(m_inputBuf));
 }

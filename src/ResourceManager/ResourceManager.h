@@ -24,13 +24,13 @@ public:
     static void setResourcePath(std::string resourcePath);
 public:
     //Texture
-    static sf::Texture * LoadTextureFromFile(std::string fileName, std::string textureName);
-    static sf::Texture * GetTexture(std::string textureName);
-    static void DeleteTexture(std::string textureName);
+    static sf::Texture * LoadTextureFromFile(const std::string &fileName, const std::string &textureName);
+    static sf::Texture * GetTexture(const std::string &textureName);
+    static void DeleteTexture(const std::string &textureName);
     //Font
-    static sf::Font * LoadFontFromFile(std::string fileName, std::string fontName);
-    static sf::Font  * GetFont(std::string fontName);
-    static void DeleteFont(std::string fontName);
+    static sf::Font * LoadFontFromFile(const std::string &fileName, const std::string &fontName);
+    static sf::Font  * GetFont(const std::string &fontName);
+    static void DeleteFont(const std::string &fontName);
 private:
     ResourceManager();
     ~ResourceManager();

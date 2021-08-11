@@ -7,10 +7,10 @@ Thruster::Thruster(std::string name, GameObject * parent, b2Vec2 size, float max
 {
     this->m_isDrawUi = false;
 
-    sf::Texture * tieTexture = ResourceManager::GetTexture(std::string("tie"));
-    tieTexture->setSmooth(true);
+    sf::Texture * thruster = ResourceManager::GetTexture("thruster");
+    thruster->setSmooth(true);
 
-    m_mainShape = CreateRectangleShape(size, tieTexture);
+    m_mainShape = CreateRectangleShape(size, thruster);
 }
 
 void Thruster::increaseThrust(float step)

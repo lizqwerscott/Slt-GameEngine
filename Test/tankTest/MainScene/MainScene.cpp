@@ -48,11 +48,14 @@ void MainScene::init()
     sf::Vector2u windowSize = Graphic::getWindowSize();
     Log::setLevel(LOG_LEVEL_INFO);
     Log::printLog("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
-    ResourceManager::LoadFontFromFile(std::string("font/yudit.ttf"), std::string("yudit"));
-    ResourceManager::LoadTextureFromFile(std::string("texture/tiepG.png"), std::string("tie"));
-    ResourceManager::LoadTextureFromFile(std::string("texture/person.png"), std::string("person"));
-    ResourceManager::LoadTextureFromFile(std::string("texture/box.png"), std::string("boxtie"));
-    ResourceManager::LoadTextureFromFile(std::string("texture/bullet.png"), std::string("bullet1"));
+    //ResourceManager::LoadFontFromFile("yudit.ttf", "yudit");
+    ResourceManager::LoadTextureFromFile("tiepG.png", "tie");
+    ResourceManager::LoadTextureFromFile("person.png", "person");
+    ResourceManager::LoadTextureFromFile("box.png", "boxtie");
+    ResourceManager::LoadTextureFromFile("bullet.png", "bullet1");
+    ResourceManager::LoadTextureFromFile("computer.png", "computer");
+    ResourceManager::LoadTextureFromFile("seat.png", "seat");
+    ResourceManager::LoadTextureFromFile("thruster.png", "thruster");
 
     // Wall node
     this->GetRootNode()->CreateChild(
@@ -219,7 +222,7 @@ void MainScene::init()
     }
 
     {
-        entityData * data = new entityData("computer", b2Vec2(2, 2));
+        entityData * data = new entityData("computer", b2Vec2(1, 1));
         data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
             b2Vec2 nodePos = pos;
             float angle = 0.0f;
@@ -242,7 +245,7 @@ void MainScene::init()
     }
 
     {
-        entityData * data = new entityData("seat", b2Vec2(2, 2));
+        entityData * data = new entityData("seat", b2Vec2(1, 3));
         data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
             b2Vec2 nodePos = pos;
             float angle = 0.0f;

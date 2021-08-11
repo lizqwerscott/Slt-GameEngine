@@ -53,9 +53,9 @@ void ResourceManager::setResourcePath(std::string resourcePath)
 }
 
 sf::Texture *
-ResourceManager::LoadTextureFromFile(std::string fileName, std::string textureName)
+ResourceManager::LoadTextureFromFile(const std::string &fileName, const std::string &textureName)
 {
-    std::string filePath = resourceManager->m_resourcePath + fileName;
+    std::string filePath = resourceManager->m_resourcePath + std::string("texture/") + fileName;
     sf::Texture * texture = new sf::Texture();
     if (!texture->loadFromFile(filePath.c_str())) {
         Log::setLevel(LOG_LEVEL_INFO);
@@ -66,21 +66,21 @@ ResourceManager::LoadTextureFromFile(std::string fileName, std::string textureNa
 }
 
 sf::Texture *
-ResourceManager::GetTexture(std::string textureName)
+ResourceManager::GetTexture(const std::string &textureName)
 {
     return resourceManager->m_textures[textureName];
 }
 
-void ResourceManager::DeleteTexture(std::string textureName)
+void ResourceManager::DeleteTexture(const std::string &textureName)
 {
     delete resourceManager->m_textures[textureName];
     resourceManager->m_textures.erase(textureName);
 }
 
 sf::Font *
-ResourceManager::LoadFontFromFile(std::string fileName, std::string fontName)
+ResourceManager::LoadFontFromFile(const std::string &fileName, const std::string &fontName)
 {
-    std::string filePath = resourceManager->m_resourcePath + fileName;
+    std::string filePath = resourceManager->m_resourcePath + std::string("font/") + fileName;
     sf::Font * font = new sf::Font();
     if (!font->loadFromFile(filePath.c_str())) {
         Log::setLevel(LOG_LEVEL_ERROR);
@@ -91,12 +91,12 @@ ResourceManager::LoadFontFromFile(std::string fileName, std::string fontName)
 }
 
 sf::Font *
-ResourceManager::GetFont(std::string fontName)
+ResourceManager::GetFont(const std::string &fontName)
 {
     return resourceManager->m_fonts[fontName];
 }
 
-void ResourceManager::DeleteFont(std::string fontName)
+void ResourceManager::DeleteFont(const std::string &fontName)
 {
     delete resourceManager->m_fonts[fontName];
     resourceManager->m_fonts.erase(fontName);

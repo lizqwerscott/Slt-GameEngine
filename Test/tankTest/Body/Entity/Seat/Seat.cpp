@@ -6,15 +6,16 @@ Seat::Seat(std::string name, GameObject * parent, b2Vec2 nodePos, double hp) :
 {
     this->m_isDrawUi = false;
 
-    sf::Texture * tieTexture = ResourceManager::GetTexture(std::string("tie"));
+    sf::Texture * seat = ResourceManager::GetTexture("seat");
+    seat->setSmooth(true);
 
-    m_mainShape = CreateRectangleShape(b2Vec2(2, 2), tieTexture);
+    m_mainShape = CreateRectangleShape(b2Vec2(1, 3), seat);
     Graphic::insertKeyCallBack(sf::Keyboard::Key::T, [this]() -> void {
         m_person->SetPosition(m_pos + GetPosition());
         m_person->m_physicalBody->GetFixture()->m_fixture->SetSensor(false);
+        m_person->SetDraw(true);
         m_person = nullptr;
         m_pos = b2Vec2(0, 0);
-        m_isDraw = true;
     });
 }
 
@@ -28,7 +29,7 @@ void Seat::onFace(Person *person)
     m_pos = person->GetPosition() - GetPosition();
     person->SetPosition(GetPosition());
     m_person = person;
-    m_isDraw = false;
+    m_person->SetDraw(false);
 }
 
 void Seat::UpdateSelf(sf::Time &dt)
