@@ -49,6 +49,7 @@ void MainScene::init()
     Log::setLevel(LOG_LEVEL_INFO);
     Log::printLog("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
     //ResourceManager::LoadFontFromFile("yudit.ttf", "yudit");
+    ResourceManager::LoadFontFromFile("odokai.ttf", "odokai");
     ResourceManager::LoadTextureFromFile("tiepG.png", "tie");
     ResourceManager::LoadTextureFromFile("person.png", "person");
     ResourceManager::LoadTextureFromFile("box.png", "boxtie");
@@ -230,7 +231,7 @@ void MainScene::init()
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-                angle = Math::degreeToRad(data->angle) * -1.0f;
+                angle = Math::degreeToRad(data->angle);
                 Log::setLevel(LOG_LEVEL_INFO);
                 Log::printLog("angle:%f\n", angle);
                 nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, data->getSize());
@@ -241,7 +242,7 @@ void MainScene::init()
             polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
             b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape);
 
-            auto entity = new Thruster(data->name, root, data->size, 20, pos, 45);
+            auto entity = new Thruster(data->name, root, data->size, 100, pos, 45);
             entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeBody", "CubeFixture");
             return entity;
         };
@@ -432,6 +433,13 @@ void MainScene::init()
         Log::setLevel(LOG_LEVEL_INFO);
         Log::printLog("print\n");
     })
+    cl_object (*_print)(cl_object) = [](cl_object fmt) -> cl_object {
+        Log::setLevel(LOG_LEVEL_INFO);
+        std::string fmtC = Script::clToString(fmt);
+        Log::printLog(fmtC.c_str());
+        return ECL_T;
+    };
+    DEFUN("AddLog", _print, 1);
     cl_object (*generateEntity)(cl_object, int, int) = [](cl_object name, int x, int y) -> cl_object {
         Log::setLevel(LOG_LEVEL_INFO);
         std::string nameC = Script::clToString(name);

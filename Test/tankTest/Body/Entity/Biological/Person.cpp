@@ -328,6 +328,7 @@ void Person::UpdateSelf(sf::Time &dt)
     m_face = nowFace;
 
     Log::setLevel(LOG_LEVEL_INFO);
+
     if (isInSelected() && !isHaveSelected()) {
         //Log::printLog("Start RayCast\n");
         m_world->RayCast(m_findRayCastCallBack, GetPosition(), m_MousePos);
@@ -385,7 +386,15 @@ void Person::DrawSelf()
                 tool->drawT(this);
             }
         }
-        Log::setLevel(LOG_LEVEL_INFO);
-        Log::printLog("Selected: %u\n", m_faceEntity->GetId());
+        auto text = new sf::Text();
+        text->setFont(*ResourceManager::GetFont("yudit"));
+        text->setString("name:" + m_faceEntity->GetName() + "\nid:" + std::to_string(m_faceEntity->GetId()));
+        text->setCharacterSize(8); // in pixels, not points!
+        text->setFillColor(sf::Color::Red);
+        text->setPosition(Math::PhysicalCoordSToDrawCoordS(m_faceEntity->GetPosition()));
+        text->setStyle(sf::Text::Bold | sf::Text::Underlined);
+        Graphic::insert(text);
+        //Log::setLevel(LOG_LEVEL_INFO);
+        //Log::printLog("Selected: %u\n", m_faceEntity->GetId());
     }
 }

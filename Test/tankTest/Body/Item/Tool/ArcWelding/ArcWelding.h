@@ -17,7 +17,7 @@ public:
     virtual void drawT(Person * person) override;
 public:
     std::string m_generateEntity;
-    bool m_isAutoConnect = false;
+    bool m_isAutoConnect = true;
 };
 
 #endif /* ARCWELDING_H */

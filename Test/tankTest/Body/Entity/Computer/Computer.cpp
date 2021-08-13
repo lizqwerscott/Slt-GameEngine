@@ -1,6 +1,7 @@
 #include "Computer.h"
 #include "../Thruster/Thruster.h"
 #include "../Biological/Person.h"
+#include "../Seat/Seat.h"
 
 Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double hp) :
     Entity(name, "Computer", parent, nodePos, hp)
@@ -25,8 +26,31 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
     };
     DEFUN("pushShip", _push, 3);
 
-    Clear();
-    memset(m_inputBuf, 0, sizeof(m_inputBuf));
+    float force = 90;
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::W, GetId(), [force, this]() -> void {
+        if (m_seat != nullptr && m_seat->m_person != nullptr)
+        {
+            this->move(0, force);
+        }
+    });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::S, GetId(), [force, this]() -> void {
+        if (m_seat != nullptr && m_seat->m_person != nullptr)
+        {
+            this->move(1, force);
+        }
+    });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::A, GetId(), [force, this]() -> void {
+        if (m_seat != nullptr && m_seat->m_person != nullptr)
+        {
+            this->move(2, force);
+        }
+    });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::D, GetId(), [force, this]() -> void {
+        if (m_seat != nullptr && m_seat->m_person != nullptr)
+        {
+            this->move(3, force);
+        }
+    });
 }
 
 Computer::~Computer()
@@ -42,11 +66,24 @@ void Computer::onFace(Person *person)
 
 void Computer::addControl(Entity * entity)
 {
-    if (entity->m_typeName == std::string("Thruster")) {
-        Thruster * thruster = static_cast<Thruster *>(entity);
-        Log::setLevel(LOG_LEVEL_INFO);
-        Log::printLog("add thruster\n");
-        m_thrusters.push_back(thruster);
+    auto iter = find_if(m_thrusters.begin(), m_thrusters.end(), [entity](Thruster * thruster) -> bool {
+        return thruster->GetId() == entity->GetId();
+    });
+    if (iter == m_thrusters.end()) {
+        if (entity->m_typeName == std::string("Thruster")) {
+            Thruster * thruster = static_cast<Thruster *>(entity);
+            Log::setLevel(LOG_LEVEL_INFO);
+            Log::printLog("add thruster\n");
+            m_thrusters.push_back(thruster);
+        }
+    } else {
+        if (entity->m_typeName == std::string("Seat")) {
+            if (m_seat == nullptr) {
+                m_seat = static_cast<Seat *>(entity);
+            }
+        }
+        Log::setLevel(LOG_LEVEL_ERROR);
+        Log::printLog("Added, %u\n", entity->GetId());
     }
 }
 
@@ -55,27 +92,24 @@ void Computer::DrawUiSelf()
     if (m_isDrawUi) {
         ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
         ImGui::Begin("Computer");
-        //Options menu
-        if (ImGui::BeginPopup("Options")) {
-            ImGui::Checkbox("Auto-scroll", &m_isAutoScroll);
-            ImGui::EndPopup();
-        }
-        if (ImGui::Button("Options"))
-            ImGui::OpenPopup("Options");
-        ImGui::Separator();
-        float force = 10;
+
+        float force = 100;
         if (ImGui::Button("Up")) {
             move(0, force);
         }
+        ImGui::SameLine();
         if (ImGui::Button("Down")) {
             move(1, force);
         }
+        ImGui::SameLine();
         if (ImGui::Button("Left")) {
             move(2, force);
         }
+        ImGui::SameLine();
         if (ImGui::Button("Right")) {
             move(3, force);
         }
+        ImGui::SameLine();
         if (ImGui::Button("Push")) {
             for (auto thruster : m_thrusters) {
                 thruster->increaseThrust(10);
@@ -84,99 +118,85 @@ void Computer::DrawUiSelf()
                 Log::printLog("Push\n");
             }
         }
-        bool reclaim_focus = false;
-        ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
-        if (ImGui::InputText("Input", m_inputBuf, IM_ARRAYSIZE(m_inputBuf), input_text_flags)) {
-            char * s = m_inputBuf;
-            Script::Strtrim(s);
-            if (s[0]) {
-                Script::lisp(s);
+        if (ImGui::Button("GetInfo")) {
+            Log::setLevel(LOG_LEVEL_INFO);
+            Log::printLog("this angle:%u, %f\n", GetId(), GetAngle());
+            for (auto thruster : m_thrusters) {
+                Log::printLog("thruster:%u, %f, Direction:%f, %f\n", thruster->GetId(), thruster->GetAngle(), thruster->m_pushDirection.x, thruster->m_pushDirection.y);
             }
-            strcpy(s, "");
-            reclaim_focus = true;
         }
-
-        ImGui::SetItemDefaultFocus();
-        if (reclaim_focus) {
-            ImGui::SetKeyboardFocusHere(-1);
+        if (ImGui::Button("LoadScripts")) {
+            Script::lisp("(load \"/home/lizqwer/project/Slt-GameEngine/Test/tankTest/Scripts/test.lisp\")");
         }
-
-        //Main window
-        if (ImGui::Button("Options"))
-            ImGui::OpenPopup("Options");
-        ImGui::SameLine();
-        bool clear = ImGui::Button("Clear");
-        ImGui::SameLine();
-        bool copy = ImGui::Button("Copy");
-        ImGui::SameLine();
-        m_filter.Draw("Filter", -100.0f);
-
-        ImGui::Separator();
-        ImGui::BeginChild("scroling", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
-
-        if (clear)
-            Clear();
-        if (copy)
-            ImGui::LogToClipboard();
-
-        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
-        const char * buf = m_buf.begin();
-        const char * buf_end = m_buf.end();
-        if (m_filter.IsActive()) {
-            for (int line_no = 0; line_no < m_lineOffsets.Size; line_no++) {
-                const char* line_start = buf + m_lineOffsets[line_no];
-                const char* line_end = (line_no + 1 < m_lineOffsets.Size) ? (buf + m_lineOffsets[line_no + 1] - 1) : buf_end;
-                if (m_filter.PassFilter(line_start, line_end))
-                    ImGui::TextUnformatted(line_start, line_end);
-            }
-
-        } else {
-            ImGuiListClipper clipped;
-            clipped.Begin(m_lineOffsets.Size);
-            while (clipped.Step()) {
-                for (int line_no = clipped.DisplayStart; line_no < clipped.DisplayEnd; line_no++) {
-                    const char * line_start = buf + m_lineOffsets[line_no];
-                    const char * line_end = (line_no + 1 < m_lineOffsets.Size) ? (buf + m_lineOffsets[line_no + 1] - 1) : buf_end;
-                    ImGui::TextUnformatted(line_start, line_end);
-                }
-            }
-            clipped.End();
-        }
-
-        ImGui::PopStyleVar();
-
-        if (m_isAutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) {
-            ImGui::SetScrollHereY(1.0f);
-        }
-
-        ImGui::EndChild();
         ImGui::End();
     }
 }
 
 void Computer::move(int direction, float force)
 {
-}
+    auto wucha = [](float angle1, float angle2, float wuc = 0.1) -> bool {
+        return abs(angle1 - angle2) <= 0.1;
+    };
+    std::vector<Thruster *> _direction;
 
-void Computer::addLog(const char *fmt, ...)
-{
-    int old_size = m_buf.size();
-    va_list args;
-    va_start(args, fmt);
-    m_buf.appendfv(fmt, args);
-    va_end(args);
-    for (int new_size = m_buf.size(); old_size < new_size; old_size++) {
-        if ((m_buf)[old_size] == '\n')
-            m_lineOffsets.push_back(old_size + 1);
+    switch (direction) {
+    case 0: {
+        for (auto thruster : m_thrusters) {
+            float angle = thruster->GetAngle();
+            if (wucha(angle, GetAngle())) {
+                _direction.push_back(thruster);
+            }
+        }
+        for (auto thruster : _direction) {
+            thruster->setThrust(force);
+            thruster->push();
+        }
     }
-}
+    break;
+    case 1: {
+        for (auto thruster : m_thrusters) {
+            float angle = thruster->GetAngle();
+            if (wucha(angle, GetAngle() + PI)) {
+                _direction.push_back(thruster);
+            }
+        }
+        for (auto thruster : _direction) {
+            thruster->setThrust(force);
+            thruster->push();
+        }
+    }
+    break;
+    case 2: {
+        for (auto thruster : m_thrusters) {
+            float angle = thruster->GetAngle();
+            if (wucha(angle, GetAngle() + PI + PI / 2)) {
+                _direction.push_back(thruster);
+            }
+        }
+        for (auto thruster : _direction) {
+            thruster->setThrust(force);
+            thruster->push();
+        }
+    }
+    break;
+    case 3: {
+        for (auto thruster : m_thrusters) {
+            float angle = thruster->GetAngle();
+            if (wucha(angle, GetAngle() + PI / 2)) {
+                _direction.push_back(thruster);
+            }
+        }
+        for (auto thruster : _direction) {
+            thruster->setThrust(force);
+            thruster->push();
+        }
+    }
+    break;
+    default:
+        break;
+    }
 
-void Computer::Clear()
-{
-    m_buf.clear();
-    m_lineOffsets.clear();
-    m_lineOffsets.push_back(0);
+
 }
 
 void Computer::UpdateSelf(sf::Time &dt)

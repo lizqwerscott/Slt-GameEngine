@@ -102,5 +102,13 @@ void ArcWelding::drawT(Person * person)
         aabb.upperBound = b2Vec2(-size.x, size.y) + nodePos;
         aabb.lowerBound = b2Vec2(size.x, -size.y) + nodePos;
         Graphic::getInstance()->DrawAABB(&aabb, b2Color(127, 255, 0));
+
+        float angle = Math::degreeToRad(data->angle);
+        b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));
+        b2Vec2 vertices[2];
+        b2Vec2 up = mat.Solve(b2Vec2(0, 1));
+        vertices[0] = nodePos;
+        vertices[1] = up + nodePos;
+        Graphic::getInstance()->DrawPolygon(vertices, 2, b2Color(127, 255, 0));
     }
 }

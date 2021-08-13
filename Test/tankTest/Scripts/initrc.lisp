@@ -1,6 +1,3 @@
-
-
-
 (defun init ()
   (printLog "Hello"))
 

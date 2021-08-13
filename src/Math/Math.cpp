@@ -200,13 +200,13 @@ void Math::vectorToCharList(std::vector<std::string> vector, const char ** resul
 const float
 Math::degreeToRad(float degree)
 {
-    return (PI / 180) * degree * -1.0f;
+    return (PI / 180) * degree;
 }
 
 const float
 Math::radToDegree(float rad)
 {
-    return (180 / PI) * rad * -1.0f;
+    return (180 / PI) * rad;
 }
 
 bool Math::PointInLine(b2Vec2 point, b2Vec2 start, b2Vec2 end)

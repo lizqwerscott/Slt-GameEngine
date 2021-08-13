@@ -5,6 +5,7 @@
 #include <vector>
 
 class Thruster;
+class Seat;
 
 class Computer : public Entity
 {
@@ -21,11 +22,8 @@ public:
 private:
     //推进器 其他
     std::vector<Thruster *> m_thrusters;
+    Seat * m_seat = nullptr;
     void move(int direction, float force);
-public:
-    void addLog(const char * fmt, ...);
-private:
-    void Clear();
 public:
     static Computer * findSelf(int id);
     static cl_object getThrusters();
@@ -33,14 +31,6 @@ public:
 
     //static void move(int direction, float force);
     static void rotate(float angle);
-private:
-    bool m_isAutoScroll = true;
-    ImGuiTextBuffer m_buf;
-    ImGuiTextFilter m_filter;
-    ImVector<int> m_lineOffsets;
-
-    char m_inputBuf[256];
-    const char * m_commands;
 };
 
 #endif /* COMPUTER_H */

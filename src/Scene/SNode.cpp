@@ -98,7 +98,7 @@ void SNode::Draw()
         sf::Vector2f pos = Math::WorldCoordSToDrawCoordS(this->m_position);
         float angle = 0;
         if (m_physicalBody != nullptr) {
-            angle = Math::radToDegree(m_physicalBody->GetBody()->GetAngle());
+            angle = Math::radToDegree(m_physicalBody->GetBody()->GetAngle()) * -1.0f;
         }
         if (m_mainSprite != nullptr) {
             m_mainSprite->setPosition(pos);
@@ -145,6 +145,11 @@ void SNode::SetPosition(b2Vec2 pos)
     this->m_position = pos;
     if (this->m_physicalBody != nullptr)
         this->m_physicalBody->GetBody()->SetTransform(pos, this->m_physicalBody->GetBody()->GetAngle());
+}
+
+float SNode::GetAngle()
+{
+    return m_physicalBody->GetBody()->GetAngle();
 }
 
 void SNode::move(b2Vec2 posOffset)

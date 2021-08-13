@@ -196,6 +196,11 @@ void Graphic::Update(sf::Time &dt)
 void Graphic::Render()
 {
     // Draw Start
+    // Draw Text
+    for (auto text : graphic->m_texts) {
+        graphic->m_window->draw(*text);
+    }
+    graphic->m_texts.clear();
     // Draw Sprite
     for (auto sprite : graphic->m_sprites) {
         graphic->m_window->draw(*sprite);
@@ -206,11 +211,6 @@ void Graphic::Render()
         graphic->m_window->draw(*shape);
     }
     graphic->m_shapes.clear();
-    // Draw Text
-    for (auto text : graphic->m_texts) {
-        graphic->m_window->draw(*text);
-    }
-    graphic->m_texts.clear();
     for (auto line : graphic->m_lines) {
         graphic->m_window->draw(&line[0], line.size(), sf::Lines);
     }
