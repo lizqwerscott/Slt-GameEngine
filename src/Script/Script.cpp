@@ -7,6 +7,8 @@
 
 #include "../Log/Log.h"
 
+#include "../AllSub.h"
+
 using namespace slt;
 
 Script::Script()
@@ -52,8 +54,10 @@ cl_object Script::lisp(const std::string &call)
     return cl_safe_eval(c_string_to_object(call.c_str()), ECL_NIL, ECL_NIL);
 }
 
-void Script::signFunction(std::string entityName)
+void Script::signFunction(unsigned int id)
 {
+    auto rootNode = SceneManager::GetRunScene()->GetRootNode();
+    rootNode->GetChild(id);
 }
 
 void Script::Strtrim(char *s)

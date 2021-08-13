@@ -10,7 +10,7 @@ Seat::Seat(std::string name, GameObject * parent, b2Vec2 nodePos, double hp) :
     seat->setSmooth(true);
 
     m_mainShape = CreateRectangleShape(b2Vec2(1, 3), seat);
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::T, [this]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::T, GetId(), [this]() -> void {
         m_person->SetPosition(m_pos + GetPosition());
         m_person->m_physicalBody->GetFixture()->m_fixture->SetSensor(false);
         m_person->SetDraw(true);

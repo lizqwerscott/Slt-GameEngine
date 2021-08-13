@@ -16,14 +16,23 @@ public:
 public:
     void addControl(Entity * entity);
 public:
+    virtual void UpdateSelf(sf::Time &dt) override;
     virtual void DrawUiSelf() override;
 private:
     //推进器 其他
     std::vector<Thruster *> m_thrusters;
+    void move(int direction, float force);
 public:
     void addLog(const char * fmt, ...);
 private:
     void Clear();
+public:
+    static Computer * findSelf(int id);
+    static cl_object getThrusters();
+    static void push(int computerId, int id, int force);
+
+    //static void move(int direction, float force);
+    static void rotate(float angle);
 private:
     bool m_isAutoScroll = true;
     ImGuiTextBuffer m_buf;

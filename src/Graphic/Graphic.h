@@ -39,9 +39,8 @@ public:
 
 public:
   static void applyKeyCallBack(sf::Keyboard::Key key);
-  static void insertKeyCallBack(sf::Keyboard::Key key,
-                                std::function<void(void)> keyCallBack);
-  static void deleteKeyCallBack(sf::Keyboard::Key key);
+  static void insertKeyCallBack(sf::Keyboard::Key key, unsigned int sender, std::function<void(void)> keyCallBack);
+  static void deleteKeyCallBack(sf::Keyboard::Key key, unsigned int sender);
 
   static void insertMouseWheelCallBack(std::function<void(sf::Event::MouseWheelScrollEvent)> mouseCallBack);
   static void deleteMouseWhellCallBack();
@@ -119,7 +118,8 @@ private:
   std::vector<std::vector<sf::Vertex>> m_lines;
   std::vector<std::vector<sf::Vertex>> m_polygons;
 
-  std::map<sf::Keyboard::Key, std::function<void(void)>> m_keyCallBacks;
+  //std::map<sf::Keyboard::Key, std::function<void(void)>> m_keyCallBacks;
+  std::map<sf::Keyboard::Key, std::map<unsigned int, std::function<void(void)>>> m_keyCallBacks;
   std::function<void(sf::Event::MouseWheelScrollEvent)> m_mouseWhellCallBack;
   std::map<sf::Mouse::Button, std::function<void(sf::Vector2i)>> m_mouseClickCallBack;
 };

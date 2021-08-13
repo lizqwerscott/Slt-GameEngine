@@ -16,6 +16,7 @@
     ecl_def_c_function(c_string_to_object(name),\
             (cl_objectfn_fixed)fun,\
             args)
+
 namespace slt
 {
 class Script
@@ -23,7 +24,7 @@ class Script
 public:
     static cl_object lisp(const std::string &call);
 public:
-    static void signFunction(std::string entityName);
+    static void signFunction(unsigned int id);
 public:
     static std::string clToString(cl_object clStr);
     static void Strtrim(char* s);

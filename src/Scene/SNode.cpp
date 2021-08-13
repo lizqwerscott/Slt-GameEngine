@@ -7,7 +7,7 @@
 
 using namespace slt;
 
-unsigned int generate_id = 0;
+unsigned int generate_id = 1;
 
 SNode::SNode(std::string name, SNode * parent) :
     Node<SNode>(parent),

@@ -4,6 +4,7 @@
 #include "../../ToolBox.h"
 #include "../../Item/Tool/ArcWelding/ArcWelding.h"
 #include "../../Entity/EntityFactory.h"
+#include "../../Item/Consume/BulletI/BulletI.h"
 
 Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos) :
     Biological(name, parent, nodePos, 100),
@@ -61,6 +62,82 @@ Person::~Person()
     //     delete m_tBackPack;
     //     m_tHand = nullptr;
     // }
+}
+
+void Person::init()
+{
+    float force = 5;
+
+    // bind key callBack
+    //Move
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::W, GetId(), [this, force]() -> void {
+        move(0, force);
+    });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::S, GetId(), [this, force]() -> void {
+        move(1, force);
+    });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::A, GetId(), [this, force]() -> void {
+        move(2, force);
+    });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::D, GetId(), [this, force]() -> void {
+        move(3, force);
+    });
+    //reload
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::R, GetId(), [this]() -> void {
+        if (handP())
+        {
+            if (getHand()->getTypeName() == std::string("Weapon")) {
+                Gun * gun = static_cast<Gun*>(getHand());
+                if (!gun->isLoadFull()) {
+                    Bag * bag = getBag();
+                    std::vector<Item *> bullets = bag->getItem(std::string("bullet1"), 30);
+                    for (int i = 0; i < (int)bullets.size(); i++) {
+                        gun->loadBullet(static_cast<BulletI *>(bullets[i]));
+                    }
+                }
+            } else if (getHand()->getTypeName() == std::string("Tool")) {
+                Tool * tool = static_cast<Tool*>(getHand());
+                if (tool->getName() == "ArcWelding") {
+                    ArcWelding * arcWelding = static_cast<ArcWelding *>(tool);
+                    auto generateEntity = arcWelding->m_generateEntity;
+                    entityData * generateData = EntityFactory::getEntityData(generateEntity);
+                    Log::setLevel(LOG_LEVEL_INFO);
+                    if (generateData->angle == 360) {
+                        generateData->angle = 90;
+                        Log::printLog("gui\n");
+                    } else {
+                        generateData->angle += 90;
+                        Log::printLog("increase\n");
+                    }
+                    Log::printLog("[%s]data:%d\n", generateEntity.c_str(), generateData->angle);
+                }
+            }
+        }
+    });
+    //face
+    Graphic::insertKeyCallBack(sf::Keyboard::E, GetId(), [this]() -> void {
+        useFace(m_world);
+    });
+    //Bag
+    Graphic::insertKeyCallBack(sf::Keyboard::Tab, GetId(), [this]() -> void {
+        SetDrawUi(!GetDrawUi());
+    });
+
+    //hand
+    Graphic::insertMouseClickCallBack(sf::Mouse::Left, [this](sf::Vector2i pos) -> void {
+        if (!Graphic::isMouseInWindow())
+        {
+            sf::Vector2f coordPos = Graphic::PixelToCoords(pos);
+            useHand(Math::DrawCoordSToPhysicalCoords(coordPos));
+        }
+    });
+    Graphic::insertMouseClickCallBack(sf::Mouse::Right, [this](sf::Vector2i pos) -> void {
+        if (!Graphic::isMouseInWindow())
+        {
+            sf::Vector2f coordPos = Graphic::PixelToCoords(pos);
+            rightClick(Math::DrawCoordSToWorldCoordS(coordPos));
+        }
+    });
 }
 
 void Person::useHand(b2Vec2 mouseClick)
@@ -308,5 +385,7 @@ void Person::DrawSelf()
                 tool->drawT(this);
             }
         }
+        Log::setLevel(LOG_LEVEL_INFO);
+        Log::printLog("Selected: %u\n", m_faceEntity->GetId());
     }
 }

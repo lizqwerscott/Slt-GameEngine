@@ -125,77 +125,6 @@ void MainScene::init()
         physicalBody->CreateFixture(std::string("RightWall"), rightfixtureDef);
     });
 
-    // Ball node
-    auto ballNode = this->GetRootNode()->CreateChild(
-    std::string("Ball"), [windowSize, physicalWorld](SNode *node) -> void {
-        b2Vec2 nodePos =
-        Math::DrawCoordSToWorldCoordS(sf::Vector2f(windowSize.x / 2, 40));
-        node->SetPosition(nodePos);
-        b2Vec2 localWorldPos(0, 0);
-
-        b2BodyDef bodyDef;
-        bodyDef.type = b2BodyType::b2_dynamicBody;
-        bodyDef.position =
-        Math::WorldCoordSToPhysicalCoordS(nodePos + localWorldPos);
-        bodyDef.angle = 0;
-        bodyDef.bullet = true;
-        auto physicalBody =
-        node->CreatePhysicalBody(std::string("BallBody"), localWorldPos,
-                                 bodyDef, physicalWorld.get());
-        // ERROR
-        // physicalBody->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(2, 10),
-        // true);
-        b2CircleShape circleShape;
-        // circleShape.m_p = Math::WorldCoordSToPhysicalCoordS(nodePos +
-        // localWorldPos); //position, relative to body position
-        circleShape.m_p = b2Vec2(0, 0);
-        circleShape.m_radius = 1; // radius
-        b2FixtureDef fixtureDef;
-        fixtureDef.density = 0.1;
-        fixtureDef.friction = 0.3;
-        fixtureDef.shape = &circleShape;
-        fixtureDef.restitution = 1;
-        auto fixture =
-        physicalBody->CreateFixture(std::string("fixtureBall"), fixtureDef);
-
-        // auto shape = Graphic::GetShape(fixture->GetFixture(), sf::Color(0,
-        // 200, 35)); node->InsertShape("MainCircle", shape);
-    });
-
-    // Baffle node
-    SNode *baffleNode = this->GetRootNode()->CreateChild(
-    std::string("Baffle"), [windowSize, physicalWorld](SNode *node) -> void {
-        b2Vec2 nodePos = Math::DrawCoordSToWorldCoordS(
-            sf::Vector2f(windowSize.x / 2 + 70, windowSize.y / 2));
-        node->SetPosition(nodePos);
-        b2Vec2 localWorldPos(0, 0);
-        b2BodyDef bodyDef;
-        bodyDef.type = b2BodyType::b2_kinematicBody;
-        bodyDef.position =
-        Math::WorldCoordSToPhysicalCoordS(nodePos + localWorldPos);
-        bodyDef.angle = 0;
-        bodyDef.bullet = true;
-        auto physicalBody =
-        node->CreatePhysicalBody(std::string("BaffleBody"), localWorldPos,
-                                 bodyDef, physicalWorld.get());
-        b2PolygonShape polygonShape;
-        // polygonShape.SetAsBox(3, 1, Math::WorldCoordSToPhysicalCoordS(nodePos
-        // + localWorldPos), 0);
-        polygonShape.SetAsBox(3, 1, b2Vec2(0, 0), 0);
-        b2FixtureDef fixtureDef;
-        fixtureDef.density = 1;
-        fixtureDef.friction = 0;
-        fixtureDef.restitution = 1;
-        fixtureDef.shape = &polygonShape;
-        auto fixture =
-        physicalBody->CreateFixture(std::string("fixtureBaffle"), fixtureDef);
-        // auto shape =
-        //   Graphic::GetShape(fixture->GetFixture(), sf::Color(0, 0, 125));
-        // auto shape = Graphic::GetShape(&polygonShape, bodyDef., sf::Color(0,
-        // 0, 125));
-        // node->InsertShape("MainRectangle", shape);
-    });
-
     GameObject * root = static_cast<GameObject *>(GetRootNode());
 
     {
@@ -355,6 +284,7 @@ void MainScene::init()
     b2Vec2 nodePos = Math::DrawCoordSToPhysicalCoords(sf::Vector2f(windowSize.x / 2, windowSize.y / 2));
     //Gun * gunNode = new Gun(std::string("Gun"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
     Person * personNode = new Person(std::string("person"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
+    personNode->init();
     personNode->equip(ItemFactory::generateItem(std::string("ArcWelding")));
 
     Bag * bag = static_cast<Bag *>(ItemFactory::generateItem(std::string("bag1")));
@@ -376,8 +306,6 @@ void MainScene::init()
     auto camera_pos = this->getCamera().get()->getView().getCenter();
     Log::setLevel(LOG_LEVEL_INFO);
     Log::printLog("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
-    Log::printLog("baffleNodePos:%f, %f\n", baffleNode->GetPosition().x,
-                  baffleNode->GetPosition().y);
     Log::printLog("gunPos:%f, %f\n", personNode->GetPosition().x, personNode->GetPosition().y);
     auto size_view = this->getCamera().get()->getView().getSize();
     Log::printLog("Size:%f, %f\n", size_view.x, size_view.y);
@@ -396,47 +324,13 @@ void MainScene::init()
         Log::printLog("I:%f, %f\n", result.x, result.y);
     }
 
-    SubscribeEventIml(
-        E_NODEUPDATEEND,
-    [](EventKey key, EventData &data, EventSender *sender) -> void {
-        using namespace slt::NodeUpdateBegin;
-        //b2Vec2 pos = baffleNode->GetPosition();
-    },
-    baffleNode, baffleNode->GetName());
-
-    SubscribeEventIml(
-        E_NODEUPDATEBEGIN,
-    [](EventKey key, EventData &data, EventSender *sender) -> void {
-        using namespace slt::NodeUpdateBegin;
-        // printf("Sub1:EventName:%s,EventType:%ld\n",
-        // slt::EventNameRegistrar::GetEventName(key).c_str(),
-        // (long)data[P_TYPE]);
-    },
-    ballNode, ballNode->GetName());
-
-    SubscribeEventIml(
-        E_NODEUPDATEEND,
-    [](EventKey key, EventData &data, EventSender *sender) -> void {
-        using namespace slt::NodeUpdateEnd;
-        // printf("Sub1:EventName:%s,EventType:%ld\n",
-        // slt::EventNameRegistrar::GetEventName(key).c_str(),
-        // (long)data[P_TYPE]);
-    },
-    ballNode, ballNode->GetName());
-
-    ballNode->pushUpdateCallBack([this, windowSize](SNode *node) -> void {
-        //b2Vec2 pos = node->GetPosition();
-        // node->GetPhysicalBody()->GetBody()->SetAwake(true);
-        // node->GetPhysicalBody()->GetBody()->ApplyForceToCenter(b2Vec2(0, 1),
-        // true);
-        // printf("Ball:Pos:%f, %f\n", pos.x, pos.y);
-    });
-
-    baffleNode->pushUpdateCallBack([](SNode *node) -> void {
-        // printf("Baffle:Pos:%f, %f\n", pos.x, pos.y);
-    });
-
-    // this->getCamera().get()->setTrack(baffleNode, true);
+    //SubscribeEventIml(
+        //E_NODEUPDATEEND,
+    //[](EventKey key, EventData &data, EventSender *sender) -> void {
+        //using namespace slt::NodeUpdateBegin;
+        ////b2Vec2 pos = baffleNode->GetPosition();
+    //},
+    //baffleNode, baffleNode->GetName());
 
     physicalWorld->onBeginContact([](b2Contact *contact) -> void {
         void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().data[0];
@@ -485,142 +379,31 @@ void MainScene::init()
 
     });
 
-    float force = 5;
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::Escape, 0, []() -> void { Graphic::Close(); });
 
-    // bind key callBack
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::W, [personNode, force]() -> void {
-        // printf("Move:Left\n");
-        // baffleNode->move(b2Vec2(-2, 0));
-        //personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-force, 0), true);
-        personNode->move(0, force);
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::S, [personNode, force]() -> void {
-        // printf("Move:Right\n");
-        //personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(force, 0), true);
-        // baffleNode->move(b2Vec2(2, 0));
-        personNode->move(1, force);
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::A, [personNode, force]() -> void {
-        // printf("Move:Up\n");
-        // baffleNode->move(b2Vec2(0, 2));
-        //personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0, force), true);
-        personNode->move(2, force);
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::D, [personNode, force]() -> void {
-        // printf("Move:Down\n");
-        // baffleNode->move(b2Vec2(0, -2));
-        //personNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0, -force), true);
-        personNode->move(3, force);
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::R, [personNode]() -> void {
-        if (personNode->handP())
-        {
-            if (personNode->getHand()->getTypeName() == std::string("Weapon")) {
-                Gun * gun = static_cast<Gun*>(personNode->getHand());
-                if (!gun->isLoadFull()) {
-                    Bag * bag = personNode->getBag();
-                    std::vector<Item *> bullets = bag->getItem(std::string("bullet1"), 30);
-                    for (int i = 0; i < (int)bullets.size(); i++) {
-                        gun->loadBullet(static_cast<BulletI *>(bullets[i]));
-                    }
-                }
-            } else if (personNode->getHand()->getTypeName() == std::string("Tool")) {
-                Tool * tool = static_cast<Tool*>(personNode->getHand());
-                if (tool->getName() == "ArcWelding") {
-                    ArcWelding * arcWelding = static_cast<ArcWelding *>(tool);
-                    auto generateEntity = arcWelding->m_generateEntity;
-                    entityData * generateData = EntityFactory::getEntityData(generateEntity);
-                    Log::setLevel(LOG_LEVEL_INFO);
-                    if (generateData->angle == 360) {
-                        generateData->angle = 90;
-                        Log::printLog("gui\n");
-                    } else {
-                        generateData->angle += 90;
-                        Log::printLog("increase\n");
-                    }
-                    Log::printLog("[%s]data:%d\n", generateEntity.c_str(), generateData->angle);
-                }
-            }
-        }
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::E, [personNode, physicalWorld]() -> void {
-        personNode->useFace(physicalWorld.get());
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Tab, [personNode, physicalWorld]() -> void {
-        personNode->SetDrawUi(!personNode->GetDrawUi());
-    });
-    Graphic::insertMouseClickCallBack(
-    sf::Mouse::Left, [personNode, physicalWorld](sf::Vector2i pos) -> void {
-        //printf("Left:MousePos:%d, %d\n", pos.x, pos.y);
-        //Temporary
-        if (!Graphic::isMouseInWindow())
-        {
-            sf::Vector2f coordPos = Graphic::PixelToCoords(pos);
-            personNode->useHand(Math::DrawCoordSToPhysicalCoords(coordPos));
-        }
-    });
-
-    Graphic::insertMouseClickCallBack(sf::Mouse::Right, [personNode](sf::Vector2i pos) -> void {
-        if (!Graphic::isMouseInWindow())
-        {
-            sf::Vector2f coordPos = Graphic::PixelToCoords(pos);
-            personNode->rightClick(Math::DrawCoordSToWorldCoordS(coordPos));
-        }
-    });
-
-    // Shoot bullet
-    // Graphic::insertKeyCallBack(
-    //     sf::Keyboard::Key::Space,
-    // [gunNode, windowSize, physicalWorld, this]() -> void {
-    //     gunNode->fire(GetRootNode(), physicalWorld.get());
-    // });
-
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::Escape, []() -> void { Graphic::Close(); });
-
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::H,
-    [this]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::H, 0, [this]() -> void {
         // printf("Move:Left\n");
         this->getCamera().get()->move(-2, 0);
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::L,
-    [this]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::L, 0, [this]() -> void {
         // printf("Move:Right\n");
         this->getCamera().get()->move(2, 0);
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::J,
-    [this]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::J, 0, [this]() -> void {
         // printf("Move:Up\n");
         this->getCamera().get()->move(0, 2);
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::K,
-    [this]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::K, 0, [this]() -> void {
         // printf("Move:Down\n");
         this->getCamera().get()->move(0, -2);
     });
-    Graphic::insertKeyCallBack(
-    sf::Keyboard::Key::P, [this, baffleNode, ballNode]() -> void {
-        auto pos_view = this->getCamera().get()->getView().getCenter();
-        auto size_view = this->getCamera().get()->getView().getSize();
-        Log::setLevel(LOG_LEVEL_INFO);
-        Log::printLog("viewPos:%f, %f;Size:%f, %f\n", pos_view.x, pos_view.y,
-                      size_view.x, size_view.y);
-        auto pos_baffle = baffleNode->GetPosition();
-        Log::printLog("bafflePos:%f, %f\n", pos_baffle.x, pos_baffle.y);
-        auto linearVelocity =
-        ballNode->GetPhysicalBody()->GetBody()->GetLinearVelocity();
-        Log::printLog("ballNodeSpedd:%f\n", linearVelocity.Length());
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::F, [this, ballNode]() -> void {
-        ballNode->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(
-            b2Vec2(0, -10), true);
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::N, [this]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::N, 0, [this]() -> void {
         this->getCamera()->zoom(1.1f);
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::B, [this]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::B, 0, [this]() -> void {
         this->getCamera()->zoom(1.0f);
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::M, [this]() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::M, 0, [this]() -> void {
         this->getCamera()->zoom(0.9f);
     });
     // Graphic::insertKeyCallBack(sf::Keyboard::Key::G, [this, gunNode]() -> void {
@@ -639,10 +422,10 @@ void MainScene::init()
             }
         }
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::C, []() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::C, 0, []() -> void {
         Log::setDrawUi();
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::V, []() -> void {
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::V, 0, []() -> void {
         Script::setDrawUi();
     });
     DEFUN_NONE("hello", []() -> void {
@@ -672,23 +455,13 @@ void MainScene::DrawUiSelf()
 void MainScene::UpdateSelf(sf::Time &dt)
 {
 
-    //printf("RunUpdae\n");
-    //auto pos = this->GetRootNode()->GetChild("Gun")->GetPosition();
     b2Vec2 pos(0, 0);
-    auto ballPos = this->GetRootNode()->GetChild("Ball")->GetPosition();
-    // auto pixel_pos = Graphic::getInstance()->worldToPixel(sf::Vector2f(pos.x,
-    // pos.y)); auto pixel_pos = Math::WorldCoordSToDrawCoordS(pos);
-    // Graphic::getInstance()->getCamera(std::string("Main")).get()->setPosition(sf::Vector2f(pixel_pos.x,
-    // pixel_pos.y));
-    // Graphic::getInstance()->getCamera(std::string("Main")).get()->setSize(sf::Vector2f(800.f,
-    // 700.f));
+    auto personPos = this->GetRootNode()->GetChild("person")->GetPosition();
     auto g = this->GetPhysicalWorld().get()->GetGravity();
     auto text = new sf::Text();
     text->setFont(*ResourceManager::GetFont("yudit"));
-    text->setString(std::string("gunPos:") + std::to_string(pos.x) + ", " +
-                    std::to_string(pos.y) + "\n" + "G:" + std::to_string(g.x) +
-                    "," + std::to_string(g.y) + "\n" + std::string("BallPos") +
-                    std::to_string(ballPos.x) + ", " + std::to_string(ballPos.y));
+    text->setString("G:" + std::to_string(g.x) + "," + std::to_string(g.y) + "\n" +
+                    "personPos" + std::to_string(personPos.x) + ", " + std::to_string(personPos.y));
     text->setCharacterSize(24); // in pixels, not points!
     text->setFillColor(sf::Color::Red);
     text->setPosition(10.f, 20.f);

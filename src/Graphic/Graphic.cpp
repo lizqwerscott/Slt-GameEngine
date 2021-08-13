@@ -90,19 +90,20 @@ sf::Color Graphic::changeColor(b2Color color)
 void Graphic::applyKeyCallBack(sf::Keyboard::Key key)
 {
     if (graphic->m_keyCallBacks.find(key) != graphic->m_keyCallBacks.end()) {
-        graphic->m_keyCallBacks[key]();
+        for (auto callBack : graphic->m_keyCallBacks[key]) {
+            callBack.second();
+        }
     }
 }
 
-void Graphic::insertKeyCallBack(sf::Keyboard::Key key,
-                                std::function<void(void)> keyCallBack)
+void Graphic::insertKeyCallBack(sf::Keyboard::Key key, unsigned int sender, std::function<void(void)> keyCallBack)
 {
-    graphic->m_keyCallBacks[key] = keyCallBack;
+    graphic->m_keyCallBacks[key][sender] = keyCallBack;
 }
 
-void Graphic::deleteKeyCallBack(sf::Keyboard::Key key)
+void Graphic::deleteKeyCallBack(sf::Keyboard::Key key, unsigned int sender)
 {
-    graphic->m_keyCallBacks.erase(key);
+    graphic->m_keyCallBacks[key].erase(sender);
 }
 
 void Graphic::insertMouseWheelCallBack(

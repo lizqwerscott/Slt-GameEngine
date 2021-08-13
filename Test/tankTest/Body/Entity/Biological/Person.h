@@ -22,6 +22,8 @@ public:
     Person(std::string name, GameObject * parent, PhysicalWorld * world, b2Vec2 nodePos = b2Vec2(0, 0));
     ~Person();
 public:
+    virtual void init() override;
+public:
     void useHand(b2Vec2 mouseClick);
     void rightClick(b2Vec2 mouseClick);
     bool handP() {return m_tHand != nullptr;}

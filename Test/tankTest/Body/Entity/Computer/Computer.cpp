@@ -1,5 +1,6 @@
 #include "Computer.h"
 #include "../Thruster/Thruster.h"
+#include "../Biological/Person.h"
 
 Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double hp) :
     Entity(name, "Computer", parent, nodePos, hp)
@@ -12,6 +13,17 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
     computer->setSmooth(true);
 
     m_mainShape = CreateRectangleShape(b2Vec2(1, 1), computer);
+
+    cl_object (*_push)(cl_object computerId, cl_object id, cl_object force) = [](cl_object computerId, cl_object id, cl_object force) -> cl_object {
+        int _cId = ecl_to_int32_t(computerId);
+        int _id = ecl_to_int32_t(id);
+        int _force = ecl_to_int32_t(force);
+        Log::setLevel(LOG_LEVEL_INFO);
+        Log::printLog("%d, %d, %d\n", _cId, _id, _force);
+        Computer::push(_cId, _id, _force);
+        return ECL_NIL;
+    };
+    DEFUN("pushShip", _push, 3);
 
     Clear();
     memset(m_inputBuf, 0, sizeof(m_inputBuf));
@@ -51,6 +63,19 @@ void Computer::DrawUiSelf()
         if (ImGui::Button("Options"))
             ImGui::OpenPopup("Options");
         ImGui::Separator();
+        float force = 10;
+        if (ImGui::Button("Up")) {
+            move(0, force);
+        }
+        if (ImGui::Button("Down")) {
+            move(1, force);
+        }
+        if (ImGui::Button("Left")) {
+            move(2, force);
+        }
+        if (ImGui::Button("Right")) {
+            move(3, force);
+        }
         if (ImGui::Button("Push")) {
             for (auto thruster : m_thrusters) {
                 thruster->increaseThrust(10);
@@ -130,6 +155,10 @@ void Computer::DrawUiSelf()
     }
 }
 
+void Computer::move(int direction, float force)
+{
+}
+
 void Computer::addLog(const char *fmt, ...)
 {
     int old_size = m_buf.size();
@@ -148,4 +177,47 @@ void Computer::Clear()
     m_buf.clear();
     m_lineOffsets.clear();
     m_lineOffsets.push_back(0);
+}
+
+void Computer::UpdateSelf(sf::Time &dt)
+{
+}
+
+Computer * Computer::findSelf(int id)
+{
+    auto entity = static_cast<Entity *>(SceneManager::GetRunScene()->GetRootNode()->GetChild(id));
+    if (entity != nullptr && entity->m_typeName == std::string("Computer")) {
+        return static_cast<Computer *>(entity);
+    } else {
+        return nullptr;
+    }
+}
+
+cl_object Computer::getThrusters()
+{
+}
+
+void Computer::push(int computerId, int id, int force)
+{
+    Computer * computer = Computer::findSelf(computerId);
+    if (computer != nullptr) {
+        auto thrusters = computer->m_thrusters;
+        auto iter = find_if(thrusters.begin(), thrusters.end(), [id](Thruster * item) -> bool {
+            return item->GetId() == (unsigned int)id;
+        });
+
+        if (iter != thrusters.end()) {
+            Thruster * thruster = *iter;
+            thruster->setThrust(force);
+            thruster->push();
+        }
+    }
+}
+
+//void Computer::move(int direction, float force)
+//{
+//}
+
+void Computer::rotate(float angle)
+{
 }

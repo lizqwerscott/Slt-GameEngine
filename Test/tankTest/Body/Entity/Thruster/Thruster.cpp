@@ -3,7 +3,8 @@
 Thruster::Thruster(std::string name, GameObject * parent, b2Vec2 size, float maxThrust, b2Vec2 nodePos, double hp) :
     Entity(name, "Thruster", parent, nodePos, hp),
     m_thrust(0),
-    m_maxThrust(maxThrust)
+    m_maxThrust(maxThrust),
+    m_pushDirection(b2Vec2(0, 1))
 {
     this->m_isDrawUi = false;
 
@@ -11,6 +12,13 @@ Thruster::Thruster(std::string name, GameObject * parent, b2Vec2 size, float max
     thruster->setSmooth(true);
 
     m_mainShape = CreateRectangleShape(size, thruster);
+}
+
+void Thruster::setThrust(float thrust)
+{
+    if (m_thrust <= m_maxThrust && m_thrust >= 0) {
+        m_thrust = thrust;
+    }
 }
 
 void Thruster::increaseThrust(float step)
@@ -34,12 +42,11 @@ void Thruster::push()
 
 void Thruster::UpdateSelf(sf::Time &dt)
 {
+    float angle = m_physicalBody->GetBody()->GetAngle();
+    b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));
+    m_pushDirection = mat.Solve(m_pushDirection);
     if (m_isPush) {
-        b2Vec2 back(0, 1);
-        float angle = m_physicalBody->GetBody()->GetAngle();
-        b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));
-        b2Vec2 then = mat.Solve(back);
-        m_physicalBody->GetBody()->ApplyForceToCenter(b2Vec2(then.x * m_thrust, then.y * m_thrust), true);
+        m_physicalBody->GetBody()->ApplyForceToCenter(b2Vec2(m_pushDirection.x * m_thrust, m_pushDirection.y * m_thrust), true);
         Log::printLog("push ....\n");
     }
 }

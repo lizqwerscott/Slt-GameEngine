@@ -9,12 +9,15 @@ public:
     ArcWelding(std::string name, double volume, double quality);
     virtual ~ArcWelding() {}
 public:
+    void connectEntity(Entity * e1, Entity * e2, PhysicalWorld * world);
+public:
     virtual void use(Person * person, PhysicalWorld * world) override;
     virtual void rightClick(Person * person, b2Vec2 pos, PhysicalWorld * world) override;
 public:
     virtual void drawT(Person * person) override;
 public:
     std::string m_generateEntity;
+    bool m_isAutoConnect = false;
 };
 
 #endif /* ARCWELDING_H */

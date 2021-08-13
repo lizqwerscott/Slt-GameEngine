@@ -5,6 +5,31 @@
 ArcWelding::ArcWelding(std::string name, double volume, double quality) :
     Tool(name, volume, quality)
 {
+    Graphic::insertKeyCallBack(sf::Keyboard::G, 0, [this]() -> void {
+        m_isAutoConnect = !m_isAutoConnect;
+        Log::setLevel(LOG_LEVEL_INFO);
+        if (m_isAutoConnect)
+        {
+            Log::printLog("auto connect is open\n");
+
+        } else
+        {
+            Log::printLog("auto connect is close\n");
+        }
+    });
+}
+
+void ArcWelding::connectEntity(Entity * e1, Entity * e2, PhysicalWorld * world)
+{
+    if (e1 != nullptr && e2 != nullptr) {
+        Log::printLog("contacts:---------\n");
+        b2Vec2 contactCenterPos = e2->GetPosition();
+        Log::printLog("finally min: %s, %f, %f\n", e2->GetName().c_str(), contactCenterPos.x, contactCenterPos.y);
+        //Contact
+        b2WeldJointDef joinDef;
+        joinDef.Initialize(e1->m_physicalBody->GetBody(), e2->m_physicalBody->GetBody(), b2Vec2(0, 0));
+        world->CreateJoint(&joinDef);
+    }
 }
 
 void ArcWelding::use(Person *person, PhysicalWorld *world)
@@ -13,13 +38,17 @@ void ArcWelding::use(Person *person, PhysicalWorld *world)
     if (person->isHaveSelected()) {
         b2Vec2 pos = person->getMousePos();
         Entity * faceEntity = person->getFaceEntity();
-        Log::printLog("Together generate: %s, pos: %f, %f \n", m_generateEntity.c_str(), pos.x, pos.y);
-        EntityFactory::generateEntity(m_generateEntity, pos, faceEntity);
+        auto entity = EntityFactory::generateEntity(m_generateEntity, pos, faceEntity);
+        Log::printLog("Together generate: %s, %u, pos: %f, %f \n", m_generateEntity.c_str(), entity->GetId(), pos.x, pos.y);
+        if (m_isAutoConnect) {
+            //Connect entity and faceEntity
+            connectEntity(faceEntity, entity, world);
+        }
 
     } else {
         b2Vec2 pos = person->getMousePos();
-        Log::printLog("Alone generate: %s, pos: %f, %f \n", m_generateEntity.c_str(), pos.x, pos.y);
-        EntityFactory::generateEntity(m_generateEntity, pos);
+        auto entity = EntityFactory::generateEntity(m_generateEntity, pos);
+        Log::printLog("Alone generate: %s, %u, pos: %f, %f \n", m_generateEntity.c_str(), entity->GetId(), pos.x, pos.y);
     }
 }
 
@@ -55,12 +84,7 @@ void ArcWelding::rightClick(Person * person, b2Vec2 pos, PhysicalWorld * world)
         Log::printLog("contacts:---------\n");
         Log::printLog("click pos: %f, %f\n", pos.x, pos.y);
         if (contantEntity != nullptr) {
-            b2Vec2 contactCenterPos = contantEntity->GetPosition();
-            Log::printLog("finally min: %s, %f, %f\n", contantEntity->GetName().c_str(), contactCenterPos.x, contactCenterPos.y);
-            //Contact
-            b2WeldJointDef joinDef;
-            joinDef.Initialize(fixture->GetBody(), contantEntity->m_physicalBody->GetBody(), b2Vec2(0, 0));
-            world->CreateJoint(&joinDef);
+            connectEntity(entity, contantEntity, world);
         }
     }
 }

@@ -59,6 +59,7 @@ Entity * EntityFactory::generateEntity(std::string name, b2Vec2 pos, Entity * ma
     Entity * entity = nullptr;
     if (iter != entityFactory->m_entityMap.end()) {
         entity = iter->second->init(pos, mainEntity);
+        entity->init();
     } else {
         Log::setLevel(LOG_LEVEL_ERROR);
         Log::printLog("[EntityFactory]:cant 't find it:%s\n", name.c_str());
