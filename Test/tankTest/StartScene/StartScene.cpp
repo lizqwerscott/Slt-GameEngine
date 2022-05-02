@@ -17,9 +17,10 @@ StartScene * StartScene::create()
 
 void StartScene::init()
 {
+    ResourceManager::setResourcePath(std::string("/home/lizqwer/MyProject/Slt-GameEngine/resource/"));
     ResourceManager::LoadFontFromFile("yudit.ttf", "yudit");
     ImGui::GetIO().Fonts->Clear();
-    ImGui::GetIO().Fonts->AddFontFromFileTTF("/home/lizqwer/project/Slt-GameEngine/resource/font/yudit.ttf", 30.f);
+    ImGui::GetIO().Fonts->AddFontFromFileTTF("/home/lizqwer/MyProject/Slt-GameEngine/resource/font/yudit.ttf", 30.f);
     ImGui::SFML::UpdateFontTexture();
 }
 

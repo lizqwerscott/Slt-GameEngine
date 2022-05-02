@@ -17,7 +17,7 @@ namespace slt
 class ResourceManager
 {
 public:
-    static void init(std::string resourcePath);
+    static void init(std::string resourcePath = "");
     static void Destory();
 public:
     static std::string getResourcePath();

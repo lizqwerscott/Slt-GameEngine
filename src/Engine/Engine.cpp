@@ -14,7 +14,7 @@ using namespace slt;
 
 Engine::Engine()
 {
-    ResourceManager::init(std::string("/home/lizqwer/project/Slt-GameEngine/resource/"));
+    ResourceManager::init();
     SceneManager::init();
     Log::Create();
     Script::Create();
