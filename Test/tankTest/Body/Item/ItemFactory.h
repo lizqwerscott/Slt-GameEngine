@@ -8,7 +8,8 @@ class ItemFactory
 public:
     static void addItem(std::string name, std::function<Item * ()> map);
     static void removeEntity(std::string name);
-    static Item * generateItem(std::string name);
+    //static Item * generateItem(std::string name);
+    static Item * generateItem(const std::string &name);
 public:
     static std::vector<std::string> getAll();
 public:

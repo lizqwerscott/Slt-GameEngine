@@ -5,6 +5,7 @@
 #include "../Body/Entity/AllEntity.h"
 
 #include "../Body/ItemTManager.h"
+#include "ResourceManager/ResourceManager.h"
 
 #define random(a, b) (rand() % (b - a + 1) + a)
 
@@ -286,7 +287,8 @@ void MainScene::init()
     //Gun * gunNode = new Gun(std::string("Gun"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
     Person * personNode = new Person(std::string("person"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
     personNode->init();
-    personNode->equip(ItemFactory::generateItem(std::string("ArcWelding")));
+    personNode->equip(ItemFactory::generateItem("ArcWelding"));
+    //personNode->equip(ItemFactory::generateItem("CuttingMachine"));
 
     Bag * bag = static_cast<Bag *>(ItemFactory::generateItem(std::string("bag1")));
     for (int i = 0; i < 100; i++) {

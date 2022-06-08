@@ -38,7 +38,22 @@ void ItemFactory::removeEntity(std::string name)
     }
 }
 
+/*
 Item * ItemFactory::generateItem(std::string name)
+{
+    auto iter = itemFactory->m_itemMap.find(name);
+    Item * item = nullptr;
+    if (iter != itemFactory->m_itemMap.end()) {
+        item = iter->second();
+    } else {
+        Log::setLevel(LOG_LEVEL_ERROR);
+        Log::printLog("[ItemFactory]:can't find it:%s\n", name.c_str());
+    }
+    return item;
+}
+*/
+
+Item * ItemFactory::generateItem(const std::string &name)
 {
     auto iter = itemFactory->m_itemMap.find(name);
     Item * item = nullptr;
