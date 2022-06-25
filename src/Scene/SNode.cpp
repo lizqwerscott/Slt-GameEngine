@@ -152,6 +152,11 @@ float SNode::GetAngle()
     return m_physicalBody->GetBody()->GetAngle();
 }
 
+void SNode::SetAngle(float angle)
+{
+    this->m_physicalBody->GetBody()->SetTransform(this->GetPosition(), angle);
+}
+
 void SNode::move(b2Vec2 posOffset)
 {
     this->SetPosition(this->m_position + posOffset);

@@ -94,38 +94,30 @@ void ArcWelding::drawT(Person * person)
     auto data = EntityFactory::getEntityData(m_generateEntity);
     auto faceEntity = person->getFaceEntity();
     if (faceEntity != nullptr) {
-	auto faceEntityData = EntityFactory::getEntityData(faceEntity->GetName());
-        auto nodePos = PhysicalWorld::generateNodePos(faceEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
+        auto nodePos = PhysicalWorld::generateNodePos(faceEntity->m_physicalBody, data->getSize());
         Log::setLevel(LOG_LEVEL_INFO);
         //Log::printLog("nodePos, %f, %f\n", nodePos.x, nodePos.y);
         b2AABB aabb;
         b2Vec2 size = data->getSize();
         aabb.upperBound = b2Vec2(-size.x, size.y) + nodePos;
         aabb.lowerBound = b2Vec2(size.x, -size.y) + nodePos;
-        //Graphic::getInstance()->DrawAABB(&aabb, b2Color(127, 255, 0));
+        Graphic::getInstance()->DrawAABB(&aabb, b2Color(127, 255, 0));
 
-        {
-            b2Vec2 vertices[4];
-            float angle = faceEntity->GetAngle();
-            b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));
-
-            b2Vec2 upLeft = mat.Solve(b2Vec2(-size.x, size.y));
-            b2Vec2 upRight = mat.Solve(b2Vec2(size.x, size.y));
-            b2Vec2 downLeft = mat.Solve(b2Vec2(-size.x, -size.y));
-            b2Vec2 downRight = mat.Solve(b2Vec2(size.x, -size.y));
-
-	    vertices[0] = upLeft + nodePos;
-	    vertices[1] = upRight + nodePos;
-	    vertices[2] = downRight + nodePos;
-	    vertices[3] = downLeft + nodePos;
-
-	    Graphic::getInstance()->DrawPolygon(vertices, 4, b2Color(255, 62, 150));
+	{
+	b2Vec2 vertices[4];
+        float angle = Math::degreeToRad(faceEntity->GetAngle());
+        b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));
+	
+	b2Vec2 upLeft = mat.Solve(b2Vec2(-size.x, size.y));
+	b2Vec2 upRight = mat.Solve(b2Vec2(-size.x, size.y));
+	b2Vec2 downLeft = mat.Solve(b2Vec2(-size.x, size.y));
+	b2Vec2 downRight = mat.Solve(b2Vec2(-size.x, size.y));
 	    
-        }
-
-        Log::printLog("faceEntityAngle: %f\n", faceEntity->GetAngle());
-
-	float angle = faceEntity->GetAngle();
+	}
+	
+	Log::printLog("faceEntityAngle: %f\n", faceEntity->GetAngle());
+	
+        float angle = Math::degreeToRad(faceEntity->GetAngle());
         b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));
         b2Vec2 vertices[2];
         b2Vec2 up = mat.Solve(b2Vec2(0, 1));

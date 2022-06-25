@@ -42,6 +42,7 @@ public:
     b2Vec2 GetPosition();
     void SetPosition(b2Vec2 pos);
     float GetAngle();
+    void SetAngle(float angle);
     void move(b2Vec2 posOffset);
 public:
     std::shared_ptr<sf::Sprite> CreateSprite(std::string name);

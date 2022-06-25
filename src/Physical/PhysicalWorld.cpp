@@ -51,15 +51,19 @@ b2FixtureDef PhysicalWorld::generateFixtureDef(b2Shape *shape, float density, fl
     return fixtureDef;
 }
 
-b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 size)
+b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Vec2 size)
 {
     b2Vec2 nodePos;
     b2Vec2 mousePos = Graphic::getMousePositionP();
+    float faceBodyAngle = body->GetBody()->GetAngle();
     b2Vec2 mainPos = body->GetPosition();
-    b2AABB aabb = body->GetFixture()->m_fixture->GetAABB(0);
+    // b2AABB aabb = body->GetFixture()->m_fixture->GetAABB(0);
 
-    float width = abs(aabb.upperBound.x - mainPos.x);
-    float height = abs(aabb.upperBound.y - mainPos.y);
+    // float width = abs(aabb.upperBound.x - mainPos.x);
+    // float height = abs(aabb.upperBound.y - mainPos.y);
+    float width = bodySize.x;
+    float height = bodySize.y;
+    
     b2Vec2 v = mousePos - mainPos;
     float mAngle;
     if (v.x == 0) {
@@ -67,11 +71,17 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 size)
     } else {
         mAngle = atan(v.y / v.x);
     }
+    // mAngle += faceBodyAngle;
+
+    // Log::setLevel(LOG_LEVEL_INFO);
+    // Log::printLog("upperBound, %f, %f\n", width, height);
+    // Log::printLog("Size, %f, %f\n", size.x, size.y);
+    // Log::printLog("MainPos:%f, %f\n", mainPos.x, mainPos.y);
+    // Log::printLog("v: %f, %f\n", v.x, v.y);
+    // Log::printLog("mAngle:%f degree\n", Math::radToDegree(mAngle));
+    // Log::printLog("faceBodyAngle:%f\n", faceBodyAngle);
+
     float distance = 0;
-    Log::setLevel(LOG_LEVEL_INFO);
-    //Log::printLog("upperBound, %f, %f\n", width, height);
-    //Log::printLog("Size, %f, %f\n", size.x, size.y);
-    //Log::printLog("MainPos:%f, %f\n", mainPos.x, mainPos.y);
     if (abs(mAngle) <= (PI / 4)) {
         float mouseHeight = mousePos.y - mainPos.y;
         if (abs(mouseHeight) <= 0.1 || (abs(size.y - height) <= 0.1)) {
@@ -103,8 +113,12 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 size)
             //Log::printLog("Down\n");
         }
     }
-    //Log::printLog("NodePos:%f, %f\n", nodePos.x, nodePos.y);
-    return nodePos;
+    Log::printLog("NodePos:%f, %f\n", nodePos.x, nodePos.y);
+    //Calculate the coordinates rotating object after.
+    b2Vec2 newNode = Math::rotatingVector(nodePos, faceBodyAngle, mainPos);
+    Log::printLog("NewPos:%f, %f\n", newNode.x, newNode.y);
+    return newNode;
+    // return nodePos;
 }
 
 void PhysicalWorld::setDebugDraw(bool isOpen)

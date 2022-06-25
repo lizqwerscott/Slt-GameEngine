@@ -243,3 +243,11 @@ Math::LinesIntersection(b2Vec2 p1, b2Vec2 p2, b2Vec2 q1, b2Vec2 q2)
 
     return result;
 }
+
+const b2Vec2 Math::rotatingVector(b2Vec2 p, float angle, b2Vec2 originCoordinates)
+{
+    b2Mat22 rotationMatrix;
+    rotationMatrix.Set(b2Vec2(cos(angle), sin(angle)), b2Vec2(-sin(angle), cos(angle)));
+    b2Vec2 relativePos = p - originCoordinates;
+    return rotationMatrix.Solve(relativePos) + originCoordinates;
+}

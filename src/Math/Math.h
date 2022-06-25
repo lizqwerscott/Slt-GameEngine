@@ -75,7 +75,8 @@ public:
     static bool PointInLine(b2Vec2 point, b2Vec2 start, b2Vec2 end);
     static bool LinesIntersectionP(b2Vec2 p1, b2Vec2 p2, b2Vec2 q1, b2Vec2 q2);
     static const b2Vec2 LinesIntersection(b2Vec2 p1, b2Vec2 p2, b2Vec2 q1, b2Vec2 q2);
-private:
+    static const b2Vec2 rotatingVector(b2Vec2 p, float angle, b2Vec2 originCoordinates = b2Vec2(0, 0));
+    private:
     float SLTOMETER_UNIT = 1;
     float SLTTOPIXEL_UNIT = 10;
     sf::Vector2u m_windowSize;
