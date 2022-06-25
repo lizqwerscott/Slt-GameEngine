@@ -101,21 +101,21 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
     Log::printLog("rightDown:%f degree\n", Math::radToDegree(rightDown));
 
     float mouseWidth = 0;
-    float radWidth = abs(bodySize.x - size.x) / (PI / 4);
+    float radWidth = bodySize.x / (PI / 4);
     float mouseHeight = 0;
-    float radHeight = abs(bodySize.y - size.y) / (PI / 4);
+    float radHeight = bodySize.y / (PI / 4);
     // in entity right
     if (mAngle >= rightDown || mAngle <= rightUp) {
         Log::printLog("Right=====\n");
         distance = width + size.x;
         if (abs(size.y - height) > 0.1) {
-            float runAngle = 0;
-            if (mAngle >= rightDown) {
-                runAngle = mAngle - rightDown;
-            } else {
-                runAngle = mAngle;
-            }
-            mouseHeight = radHeight * runAngle - size.y;
+	    float runAngle = 0;
+	    if (mAngle >= rightDown) {
+		runAngle = mAngle - rightDown;
+	    } else {
+		runAngle = mAngle;
+	    }
+	    mouseHeight = radHeight * runAngle;
         }
         nodePos = mainPos + b2Vec2(distance, mouseHeight);
     }
@@ -123,32 +123,29 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
     if (mAngle > rightUp && mAngle <= leftUp) {
         Log::printLog("Up=====\n");
         distance = height + size.y;
-        if (abs(size.x - width) > 0.1) {
-            // float runAngle = mAngle - rightUp;
-	    float runAngle = leftUp - mAngle;
-            mouseWidth = radWidth * runAngle - size.x;
-        }
+    if (abs(size.x - width) <= 0.1) {
+	    float runAngle = mAngle - rightUp;
+	    mouseWidth = radWidth * runAngle;
+    }
         nodePos = mainPos + b2Vec2(mouseWidth, distance);
     }
     //in entity left
     if (mAngle > leftUp && mAngle <= leftDown) {
         Log::printLog("Left=====\n");
         distance = width + size.x;
-        if (abs(size.y - height) > 0.1) {
-            // float runAngle = mAngle - leftUp;
-	    float runAngle = leftDown - mAngle;
-            mouseHeight = radHeight * runAngle - size.y;
-        }
+	if (abs(size.y - height) > 0.1) {
+	    float runAngle = mAngle - leftUp;
+	    mouseHeight = radHeight * runAngle;
+	}
         nodePos = mainPos + b2Vec2(-distance, mouseHeight);
     }
     //in entity down
     if (mAngle > leftDown && mAngle < rightDown) {
         Log::printLog("Down=====\n");
         distance = height + size.y;
-        if (abs(size.x - width) > 0.1) {
-            float runAngle = mAngle - leftDown;
-	    mouseWidth = radWidth * runAngle - size.x;
-        }
+	if (abs(size.y - height))
+	float runAngle = mAngle - leftDown;
+	mouseWidth = radWidth * runAngle;
         nodePos = mainPos + b2Vec2(mouseWidth, -distance);
     }
 
