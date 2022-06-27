@@ -9,6 +9,7 @@ struct entityData {
     entityData(const std::string &_name, b2Vec2 _size) :
         name(_name), size(_size)
     {
+
     }
     b2Vec2 getSize()
     {

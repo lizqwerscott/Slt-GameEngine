@@ -57,8 +57,6 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
     float faceBodyAngle = body->GetBody()->GetAngle();
     b2Vec2 mainPos = body->GetPosition();
 
-    // b2Vec2 mousePosL = Graphic::getMousePositionP();
-    // b2Vec2 mousePos = Math::rotatingVector(mousePosL, -faceBodyAngle, mainPos);
     b2Vec2 mousePos = Graphic::getMousePositionP();
     // b2AABB aabb = body->GetFixture()->m_fixture->GetAABB(0);
 
@@ -69,12 +67,6 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
 
     b2Vec2 v = mousePos - mainPos;
     float mAngle;
-    // if (v.x == 0) {
-    //     mAngle = PI / 2;
-    // } else {
-    //     mAngle = atan(v.y / v.x);
-    // }
-    // mAngle -= faceBodyAngle;
     mAngle = acos(v.x / v.Length());
     if (v.y <= 0) {
         mAngle = (PI - mAngle) + PI;
@@ -94,11 +86,6 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
     float leftUp = rightUp + (PI / 2);
     float leftDown = leftUp + (PI / 2);
     float rightDown = leftDown + (PI / 2);
-
-    Log::printLog("rightUp:%f degree\n", Math::radToDegree(rightUp));
-    Log::printLog("leftUp:%f degree\n", Math::radToDegree(leftUp));
-    Log::printLog("leftDown:%f degree\n", Math::radToDegree(leftDown));
-    Log::printLog("rightDown:%f degree\n", Math::radToDegree(rightDown));
 
     float mouseWidth = 0;
     float radWidth = abs(bodySize.x - size.x) / (PI / 4);
@@ -124,7 +111,6 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
         Log::printLog("Up=====\n");
         distance = height + size.y;
         if (abs(size.x - width) > 0.1) {
-            // float runAngle = mAngle - rightUp;
 	    float runAngle = leftUp - mAngle;
             mouseWidth = radWidth * runAngle - size.x;
         }
@@ -135,7 +121,6 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
         Log::printLog("Left=====\n");
         distance = width + size.x;
         if (abs(size.y - height) > 0.1) {
-            // float runAngle = mAngle - leftUp;
 	    float runAngle = leftDown - mAngle;
             mouseHeight = radHeight * runAngle - size.y;
         }
@@ -152,48 +137,11 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
         nodePos = mainPos + b2Vec2(mouseWidth, -distance);
     }
 
-
-    // if (abs(mAngle) <= (PI / 4)) {
-    //     float mouseHeight = mousePos.y - mainPos.y;
-    //     if (abs(mouseHeight) <= 0.1 || (abs(size.y - height) <= 0.1)) {
-    //         mouseHeight = 0;
-    //     }
-    //     distance += width + size.x;
-    //     if (v.x >= 0) {
-    //         //mousPos in right
-    // 	    Log::setLevel(LOG_LEVEL_INFO);
-    // 	    Log::printLog("mouseHeight, %f\n", mouseHeight);
-    // 	    Log::printLog("distance, %f\n", distance);
-    // 	    Log::printLog("---------------\n");
-    //         nodePos = mainPos + b2Vec2(distance, mouseHeight);
-    //         //Log::printLog("Right\n");
-    //     } else {
-    //         //mousPos in left
-    //         nodePos = mainPos + b2Vec2(-distance, mouseHeight);
-    //         //Log::printLog("Left\n");
-    //     }
-    // } else {
-    //     float mouseWidth = mousePos.x - mainPos.x;
-    //     if (abs(mouseWidth) <= 0.1 || (abs(size.x - width) <= 0.1)) {
-    //         mouseWidth = 0;
-    //     }
-    //     distance += height + size.y;
-    //     if (v.y >=0) {
-    //         //mousPos in up
-    //         nodePos = mainPos + b2Vec2(mouseWidth, distance);
-    //         //Log::printLog("Up\n");
-    //     } else {
-    //         //mousPos in down
-    //         nodePos = mainPos + b2Vec2(mouseWidth, -distance);
-    //         //Log::printLog("Down\n");
-    //     }
-    // }
     Log::printLog("NodePos:%f, %f\n", nodePos.x, nodePos.y);
     //Calculate the coordinates rotating object after.
     b2Vec2 newNode = Math::rotatingVector(nodePos, -faceBodyAngle, mainPos);
     Log::printLog("NewPos:%f, %f\n", newNode.x, newNode.y);
     return newNode;
-    // return nodePos;
 }
 
 void PhysicalWorld::setDebugDraw(bool isOpen)

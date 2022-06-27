@@ -6,6 +6,7 @@
 #include "Bullet/Bullet.h"
 #include "Computer/Computer.h"
 #include "Cube/Cube.h"
+#include "CubeWire/CubeWire.h"
 #include "Seat/Seat.h"
 #include "Thruster/Thruster.h"
-
+#include "Generator/Generator.h"

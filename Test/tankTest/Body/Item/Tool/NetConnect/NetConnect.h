@@ -3,7 +3,7 @@
 
 #include "../Tool.h"
 
-class NetConnect : public Tool
+class NetConnect : public Tool 
 {
 public:
     NetConnect(std::string name, double volume, double quality);

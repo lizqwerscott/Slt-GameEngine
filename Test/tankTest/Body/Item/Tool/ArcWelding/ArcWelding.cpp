@@ -96,8 +96,9 @@ void ArcWelding::drawT(Person * person)
     if (faceEntity != nullptr) {
 	auto faceEntityData = EntityFactory::getEntityData(faceEntity->GetName());
         auto nodePos = PhysicalWorld::generateNodePos(faceEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
-        Log::setLevel(LOG_LEVEL_INFO);
-        //Log::printLog("nodePos, %f, %f\n", nodePos.x, nodePos.y);
+        // Log::setLevel(LOG_LEVEL_INFO);
+        // Log::printLog("faceEntityName: %s\n", faceEntity->GetName().c_str());
+        // Log::printLog("faceEntityTypeName: %s\n", faceEntity->m_typeName.c_str());
         b2AABB aabb;
         b2Vec2 size = data->getSize();
         aabb.upperBound = b2Vec2(-size.x, size.y) + nodePos;
