@@ -6,6 +6,11 @@ set(MAIN_SRC_LIST
     Body/ItemTManager.cpp
     Body/BoxBase.cpp
     Body/ToolBox.cpp
+    Body/Net/Net.cpp
+    Body/Net/NetManager.cpp
+    Body/Net/NetEnergy/NetEnergy.cpp
+    Body/Net/NetGenerator/NetGenerator.cpp
+    Body/Net/NetUse/NetUse.cpp
 
     Body/Entity/Box/Box.cpp
     Body/Entity/Entity.cpp

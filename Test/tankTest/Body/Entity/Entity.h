@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include "../GameObject.h"
+#include "../Net/Net.h"
 
 using namespace slt;
 
@@ -20,6 +21,8 @@ public:
     bool m_isControl = false;
     bool m_isConnect = false;
     std::string m_typeName;
+
+    Net * m_net = nullptr;
 };
 
 #endif /* ENTITY_H */

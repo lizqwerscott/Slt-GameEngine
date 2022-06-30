@@ -1,6 +1,7 @@
 #include "ArcWelding.h"
 #include "../../../Entity/Biological/Person.h"
 #include "../../../Entity/EntityFactory.h"
+#include "../../../Net/Net.h"
 
 ArcWelding::ArcWelding(std::string name, double volume, double quality) :
     Tool(name, volume, quality)
@@ -29,6 +30,10 @@ void ArcWelding::connectEntity(Entity * e1, Entity * e2, PhysicalWorld * world)
         b2WeldJointDef joinDef;
         joinDef.Initialize(e1->m_physicalBody->GetBody(), e2->m_physicalBody->GetBody(), b2Vec2(0, 0));
         world->CreateJoint(&joinDef);
+	if (e1->m_net != nullptr && e2->m_net != nullptr) {
+	    Log::printLog("Connect net\n");
+	    Net::connectAnother(e1->m_net, e2->m_net);
+	}
     }
 }
 
@@ -62,8 +67,7 @@ void ArcWelding::rightClick(Person * person, b2Vec2 pos, PhysicalWorld * world)
         //Find the nearest body
         Entity * contantEntity = nullptr;
         b2Vec2 faceCenterPos = entity->GetPosition();
-        float minLength = 10000;
-        Log::setLevel(LOG_LEVEL_INFO);
+        float minLength = 10000; Log::setLevel(LOG_LEVEL_INFO);
         Log::printLog("facePos: %f, %f\n", faceCenterPos.x, faceCenterPos.y);
         Log::printLog("contacts:---------\n");
         for (auto item : m_contants) {
@@ -99,13 +103,14 @@ void ArcWelding::drawT(Person * person)
         // Log::setLevel(LOG_LEVEL_INFO);
         // Log::printLog("faceEntityName: %s\n", faceEntity->GetName().c_str());
         // Log::printLog("faceEntityTypeName: %s\n", faceEntity->m_typeName.c_str());
-        b2AABB aabb;
+        // b2AABB aabb;
         b2Vec2 size = data->getSize();
-        aabb.upperBound = b2Vec2(-size.x, size.y) + nodePos;
-        aabb.lowerBound = b2Vec2(size.x, -size.y) + nodePos;
+        // aabb.upperBound = b2Vec2(-size.x, size.y) + nodePos;
+        // aabb.lowerBound = b2Vec2(size.x, -size.y) + nodePos;
         //Graphic::getInstance()->DrawAABB(&aabb, b2Color(127, 255, 0));
 
         {
+	    // Draw generate entity.
             b2Vec2 vertices[4];
             float angle = faceEntity->GetAngle();
             b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));
@@ -124,7 +129,7 @@ void ArcWelding::drawT(Person * person)
 	    
         }
 
-        Log::printLog("faceEntityAngle: %f\n", faceEntity->GetAngle());
+        // Log::printLog("faceEntityAngle: %f\n", faceEntity->GetAngle());
 
 	float angle = faceEntity->GetAngle();
         b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));

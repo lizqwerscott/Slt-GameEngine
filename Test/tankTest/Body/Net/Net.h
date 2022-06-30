@@ -2,11 +2,21 @@
 #define NET_H
 //Resource Net or other
 
+#include <vector>
+#include <string>
+
 class Net
 {
 public:
-    Net();
+    Net(const std::string &_typename);
     virtual ~Net();
+public:
+    static void connectAnother(Net * net1, Net * net2);
+public:
+    bool containNetp(Net * net);
+public:
+    std::vector<Net *> m_connectNets;
+    std::string m_typename;
 };
 
 #endif /* NET_H */

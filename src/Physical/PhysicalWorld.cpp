@@ -72,14 +72,14 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
         mAngle = (PI - mAngle) + PI;
     }
 
-    Log::setLevel(LOG_LEVEL_INFO);
-    Log::printLog("----------------------\n");
-    Log::printLog("upperBound, %f, %f\n", width, height);
-    Log::printLog("Size, %f, %f\n", size.x, size.y);
-    Log::printLog("MainPos:%f, %f\n", mainPos.x, mainPos.y);
-    Log::printLog("v: %f, %f\n", v.x, v.y);
-    Log::printLog("mAngle:%f degree\n", Math::radToDegree(mAngle));
-    Log::printLog("faceBodyAngle:%f\n", faceBodyAngle);
+    // Log::setLevel(LOG_LEVEL_INFO);
+    // Log::printLog("----------------------\n");
+    // Log::printLog("upperBound, %f, %f\n", width, height);
+    // Log::printLog("Size, %f, %f\n", size.x, size.y);
+    // Log::printLog("MainPos:%f, %f\n", mainPos.x, mainPos.y);
+    // Log::printLog("v: %f, %f\n", v.x, v.y);
+    // Log::printLog("mAngle:%f degree\n", Math::radToDegree(mAngle));
+    // Log::printLog("faceBodyAngle:%f\n", faceBodyAngle);
 
     float distance = 0;
     float rightUp = (PI / 4) + faceBodyAngle;
@@ -93,7 +93,7 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
     float radHeight = abs(bodySize.y - size.y) / (PI / 4);
     // in entity right
     if (mAngle >= rightDown || mAngle <= rightUp) {
-        Log::printLog("Right=====\n");
+        // Log::printLog("Right=====\n");
         distance = width + size.x;
         if (abs(size.y - height) > 0.1) {
             float runAngle = 0;
@@ -108,7 +108,7 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
     }
     //in entity up
     if (mAngle > rightUp && mAngle <= leftUp) {
-        Log::printLog("Up=====\n");
+        // Log::printLog("Up=====\n");
         distance = height + size.y;
         if (abs(size.x - width) > 0.1) {
 	    float runAngle = leftUp - mAngle;
@@ -118,7 +118,7 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
     }
     //in entity left
     if (mAngle > leftUp && mAngle <= leftDown) {
-        Log::printLog("Left=====\n");
+        // Log::printLog("Left=====\n");
         distance = width + size.x;
         if (abs(size.y - height) > 0.1) {
 	    float runAngle = leftDown - mAngle;
@@ -128,7 +128,7 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
     }
     //in entity down
     if (mAngle > leftDown && mAngle < rightDown) {
-        Log::printLog("Down=====\n");
+        // Log::printLog("Down=====\n");
         distance = height + size.y;
         if (abs(size.x - width) > 0.1) {
             float runAngle = mAngle - leftDown;
@@ -137,10 +137,10 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
         nodePos = mainPos + b2Vec2(mouseWidth, -distance);
     }
 
-    Log::printLog("NodePos:%f, %f\n", nodePos.x, nodePos.y);
+    // Log::printLog("NodePos:%f, %f\n", nodePos.x, nodePos.y);
     //Calculate the coordinates rotating object after.
     b2Vec2 newNode = Math::rotatingVector(nodePos, -faceBodyAngle, mainPos);
-    Log::printLog("NewPos:%f, %f\n", newNode.x, newNode.y);
+    // Log::printLog("NewPos:%f, %f\n", newNode.x, newNode.y);
     return newNode;
 }
 
