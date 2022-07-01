@@ -2,8 +2,9 @@
 #define NET_H
 //Resource Net or other
 
-#include <vector>
-#include <string>
+#include <AllSub.h>
+
+using namespace slt;
 
 class Net
 {
@@ -14,6 +15,7 @@ public:
     static void connectAnother(Net * net1, Net * net2);
 public:
     bool containNetp(Net * net);
+    virtual void UpdateSelf(sf::Time &dt) {}
 public:
     std::vector<Net *> m_connectNets;
     std::string m_typename;

@@ -1,13 +1,11 @@
 #include "Generator.h"
-#include "../../Net/NetEnergy/NetEnergy.h"
+//#include "../../Net/NetEnergy/NetEnergy.h"
+#include "../../Net/NetGenerator/NetGenerator.h"
 
 Generator::Generator(std::string name, GameObject * parent, b2Vec2 size, b2Vec2 nodePos, double hp, float generatorSpeed, float energyMax) :
-    Entity(name, "Generator", parent, nodePos, hp),
-    m_generatorSpeed(generatorSpeed),
-    m_generatorEnergyMax(energyMax),
-    m_generatorEnergy(0)
+    Entity(name, "Generator", parent, nodePos, hp)
 {
-    this->m_net = new NetEnergy();
+    this->m_net = new NetGenerator(generatorSpeed, energyMax);
     this->m_isDrawUi = false;
 
     sf::Texture * generatorTexture = ResourceManager::GetTexture(std::string("generator"));
@@ -25,13 +23,7 @@ void Generator::onFace(Person *person)
 
 void Generator::UpdateSelf(sf::Time &dt)
 {
-    if (m_generatorEnergy <= m_generatorEnergyMax) {
-	Log::setLevel(LOG_LEVEL_INFO);
-	double step = dt.asSeconds() / 1 * m_generatorSpeed;
-	m_generatorEnergy += step;
-	// Log::printLog("dt: %lf\n", dt.asSeconds());
-	// Log::printLog("step: %lf, energy: %f\n", step, m_generatorEnergy);
-    }
+    this->m_net->UpdateSelf(dt);
 }
 
  void Generator::DrawUiSelf()
@@ -41,8 +33,9 @@ void Generator::UpdateSelf(sf::Time &dt)
 	 if (ImGui::Button("quit")) {
 	     this->m_isDrawUi = false;
 	 }
-	 ImGui::Text("Speed: %f", this->m_generatorSpeed);
-	 ImGui::Text("Energy: %f", this->m_generatorEnergy);
+	 auto netGenerator = static_cast<NetGenerator *>(this->m_net);
+	 ImGui::Text("Speed: %f", netGenerator->getSpeed());
+	 ImGui::Text("Energy: %f", netGenerator->getSaveEnergy());
 	 ImGui::End();
      }
  }

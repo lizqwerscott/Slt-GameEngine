@@ -2,13 +2,13 @@
 #include "../Thruster/Thruster.h"
 #include "../Biological/Person.h"
 #include "../Seat/Seat.h"
-#include "../../Net/NetEnergy/NetEnergy.h"
+#include "../../Net/NetUse/NetUse.h"
 
 Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double hp) :
-    Entity(name, "Computer", parent, nodePos, hp),
-    m_energyMax(10),
-    m_energy(0)
+    Entity(name, "Computer", parent, nodePos, hp)
 {
+    this->m_net = new NetUse(10, 1);
+
     this->m_isDrawUi = false;
     m_isControl = true;
     m_isConnect = true;
@@ -54,8 +54,6 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
             this->move(3, force);
         }
     });
-
-    this->m_net = new NetEnergy();
 }
 
 Computer::~Computer()
@@ -206,15 +204,7 @@ void Computer::move(int direction, float force)
 
 void Computer::UpdateSelf(sf::Time &dt)
 {
-    // use energy
-    if (m_energy >= 0) {
-	float step = dt.asSeconds() / 1 * 1;
-	m_energy -= step;
-    }
-    // get energy
-    if (this->m_energy <= this->m_energyMax) {
-	// this->m_energy += this->m_net->
-    }
+    this->m_net->UpdateSelf(dt);
 }
 
 Computer * Computer::findSelf(int id)

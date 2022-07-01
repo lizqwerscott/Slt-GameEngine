@@ -1,10 +1,10 @@
 #include "CubeWire.h"
-#include "../../Net/NetEnergy/NetEnergy.h"
+#include "../../Net/NetWire/NetWire.h"
 
 CubeWire::CubeWire(std::string name, GameObject * parent, b2Vec2 size, b2Vec2 nodePos, double hp) :
     Entity(name, "CubeWire", parent, nodePos, hp)
 {
-    this->m_net = new NetEnergy();
+    this->m_net = new NetWire();
     this->m_isDrawUi = false;
 
     sf::Texture * tieWireTexture = ResourceManager::GetTexture(std::string("wireTie"));

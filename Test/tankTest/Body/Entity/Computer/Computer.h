@@ -31,9 +31,6 @@ public:
 
     //static void move(int direction, float force);
     static void rotate(float angle);
-public:
-    float m_energyMax;
-    float m_energy;
 };
 
 #endif /* COMPUTER_H */

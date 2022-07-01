@@ -1,12 +1,19 @@
 #include "NetEnergy.h"
 #include <algorithm>
 
-NetEnergy::NetEnergy() : Net("Energy")
+NetEnergy::NetEnergy(std::string typeName) :
+    Net("Energy"),
+    m_energyTypeName(typeName)
 {
     
 }
 
 NetEnergy::~NetEnergy()
+{
+    
+}
+
+void NetEnergy::UpdateSelf(sf::Time &dt)
 {
     
 }

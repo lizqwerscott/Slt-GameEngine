@@ -13,10 +13,6 @@ public:
 public:
     virtual void UpdateSelf(sf::Time &dt) override;
     virtual void DrawUiSelf() override;
-private:
-    float m_generatorSpeed;
-    float m_generatorEnergyMax;
-    float m_generatorEnergy;
 };
 
 #endif

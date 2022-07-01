@@ -6,11 +6,15 @@
 class NetEnergy : public Net
 {
 public:
-    NetEnergy();
+    NetEnergy(std::string typeName);
     virtual ~NetEnergy();
+public:
+    virtual void UpdateSelf(sf::Time &dt) override;
 public:
     float getEnergy(NetEnergy * root = nullptr);
     float runNode(std::vector<NetEnergy *> searchs);
+public:
+    std::string m_energyTypeName;
 };
 
 #endif

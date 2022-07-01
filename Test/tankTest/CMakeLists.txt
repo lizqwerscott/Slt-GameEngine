@@ -11,6 +11,7 @@ set(MAIN_SRC_LIST
     Body/Net/NetEnergy/NetEnergy.cpp
     Body/Net/NetGenerator/NetGenerator.cpp
     Body/Net/NetUse/NetUse.cpp
+    Body/Net/NetWire/NetWire.cpp
 
     Body/Entity/Box/Box.cpp
     Body/Entity/Entity.cpp
