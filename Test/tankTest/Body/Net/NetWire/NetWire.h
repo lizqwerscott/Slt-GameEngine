@@ -8,6 +8,8 @@ class NetWire : public NetEnergy
 public:
     NetWire();
     virtual ~NetWire();
+public:
+    virtual float getEnergy(float needEnergy) override;
 };
 
 #endif

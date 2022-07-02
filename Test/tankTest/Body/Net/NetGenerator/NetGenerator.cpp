@@ -1,10 +1,8 @@
 #include "NetGenerator.h"
 
 NetGenerator::NetGenerator(float generatorSpeed, float energyMax) :
-    NetEnergy("NetGneerator"),
-    m_generatorSpeed(generatorSpeed),
-    m_generatorEnergyMax(energyMax),
-    m_generatorEnergy(0)
+    NetEnergy("NetGenerator", energyMax),
+    m_generatorSpeed(generatorSpeed)
 {
     
 }
@@ -16,12 +14,22 @@ NetGenerator::~NetGenerator()
 
 void NetGenerator::UpdateSelf(sf::Time &dt)
 {
-    if (m_generatorEnergy <= m_generatorEnergyMax) {
+    if (this->m_energy <= this->m_energyMax) {
 	Log::setLevel(LOG_LEVEL_INFO);
 	double step = dt.asSeconds() / 1 * m_generatorSpeed;
-	m_generatorEnergy += step;
+	this->increaseEnergy(step);
 	// Log::printLog("dt: %lf\n", dt.asSeconds());
 	// Log::printLog("step: %lf, energy: %f\n", step, m_generatorEnergy);
+    }
+}
+
+float NetGenerator::getEnergy(float needEnergy)
+{
+    if (needEnergy <= this->m_energy) {
+	this->m_energy -= needEnergy;
+	return needEnergy;
+    } else {
+	return 0;
     }
 }
 
@@ -30,12 +38,3 @@ float NetGenerator::getSpeed()
     return this->m_generatorSpeed;
 }
 
-float NetGenerator::getMax()
-{
-    return this->m_generatorEnergyMax;
-}
-
-float NetGenerator::getSaveEnergy()
-{
-    return this->m_generatorEnergy;
-}

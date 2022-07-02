@@ -10,10 +10,9 @@ public:
     virtual ~NetUse();
 public:
     virtual void UpdateSelf(sf::Time &dt) override;
+    virtual float getEnergy(float needEnergy) override;
 private:
     float m_energyUseSpeed;
-    float m_energyMax;
-    float m_energy;
 };
 
 #endif

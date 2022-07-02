@@ -10,14 +10,11 @@ public:
     virtual ~NetGenerator();
 public:
     virtual void UpdateSelf(sf::Time &dt) override;
+    virtual float getEnergy(float needEnergy) override;
 public:
     float getSpeed();
-    float getMax();
-    float getSaveEnergy();
 private:
     float m_generatorSpeed;
-    float m_generatorEnergyMax;
-    float m_generatorEnergy;
 };
 
 
