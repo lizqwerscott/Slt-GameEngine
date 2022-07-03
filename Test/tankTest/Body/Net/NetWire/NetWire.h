@@ -1,15 +1,13 @@
 #ifndef NETWIRE_H
 #define NETWIRE_H
 
-#include "../NetEnergy/NetEnergy.h"
+#include "../Net.h"
 
-class NetWire : public NetEnergy
+class NetWire : public Net
 {
 public:
     NetWire();
     virtual ~NetWire();
-public:
-    virtual float getEnergy(float needEnergy) override;
 };
 
 #endif

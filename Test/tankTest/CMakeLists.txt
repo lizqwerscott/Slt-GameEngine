@@ -11,6 +11,8 @@ set(MAIN_SRC_LIST
     Body/Net/NetEnergy/NetEnergy.cpp
     Body/Net/NetGenerator/NetGenerator.cpp
     Body/Net/NetUse/NetUse.cpp
+    Body/Net/NetEnergyWire/NetEnergyWire.cpp
+    
     Body/Net/NetWire/NetWire.cpp
 
     Body/Entity/Box/Box.cpp
@@ -20,6 +22,7 @@ set(MAIN_SRC_LIST
     Body/Entity/Biological/Person.cpp
     Body/Entity/Cube/Cube.cpp
     Body/Entity/CubeWire/CubeWire.cpp
+    Body/Entity/CubeEnergyWire/CubeEnergyWire.cpp
     Body/Entity/Thruster/Thruster.cpp
     Body/Entity/Computer/Computer.cpp
     Body/Entity/Seat/Seat.cpp
