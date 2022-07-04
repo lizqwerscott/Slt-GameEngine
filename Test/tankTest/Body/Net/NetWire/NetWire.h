@@ -1,9 +1,9 @@
 #ifndef NETWIRE_H
 #define NETWIRE_H
 
-#include "../Net.h"
+#include "../NetControl/NetControl.h"
 
-class NetWire : public Net
+class NetWire : public NetControl
 {
 public:
     NetWire();

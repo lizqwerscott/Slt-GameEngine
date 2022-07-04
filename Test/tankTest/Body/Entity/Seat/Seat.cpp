@@ -45,3 +45,8 @@ void Seat::DrawSelf()
     }
 }
 
+bool Seat::isHavePerson()
+{
+    return this->m_person != nullptr;
+}
+

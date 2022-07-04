@@ -3,6 +3,8 @@
 
 #include "../GameObject.h"
 #include "../Net/Net.h"
+#include "../Net/NetControl/NetControl.h"
+#include "../Net/NetEnergy/NetEnergy.h"
 
 using namespace slt;
 
@@ -22,7 +24,8 @@ public:
     bool m_isConnect = false;
     std::string m_typeName;
 
-    Net * m_net = nullptr;
+    NetEnergy * m_netEnergy = nullptr;
+    NetControl * m_netControl = nullptr;
 };
 
 #endif /* ENTITY_H */

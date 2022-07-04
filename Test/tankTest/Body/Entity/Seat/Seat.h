@@ -13,6 +13,8 @@ public:
     virtual void UpdateSelf(sf::Time &dt) override;
     virtual void DrawSelf() override;
 public:
+    bool isHavePerson();
+public:
     Person * m_person = nullptr;
     b2Vec2 m_pos;
 };

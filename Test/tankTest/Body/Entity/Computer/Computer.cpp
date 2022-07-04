@@ -3,11 +3,13 @@
 #include "../Biological/Person.h"
 #include "../Seat/Seat.h"
 #include "../../Net/NetUse/NetUse.h"
+#include "../../Net/NetControlDevice/NetControlDevice.h"
 
 Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double hp) :
     Entity(name, "Computer", parent, nodePos, hp)
 {
-    this->m_net = new NetUse(10, 1);
+    this->m_netEnergy = new NetUse(10, 1);
+    this->m_netControl = new NetControlDevice();
 
     this->m_isDrawUi = false;
     m_isControl = true;
@@ -31,25 +33,25 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
 
     float force = 90;
     Graphic::insertKeyCallBack(sf::Keyboard::Key::W, GetId(), [force, this]() -> void {
-        if (m_seat != nullptr && m_seat->m_person != nullptr)
+        if (m_seat != nullptr && m_seat->isHavePerson())
         {
             this->move(0, force);
         }
     });
     Graphic::insertKeyCallBack(sf::Keyboard::Key::S, GetId(), [force, this]() -> void {
-        if (m_seat != nullptr && m_seat->m_person != nullptr)
+        if (m_seat != nullptr && m_seat->isHavePerson())
         {
             this->move(1, force);
         }
     });
     Graphic::insertKeyCallBack(sf::Keyboard::Key::A, GetId(), [force, this]() -> void {
-        if (m_seat != nullptr && m_seat->m_person != nullptr)
+        if (m_seat != nullptr && m_seat->isHavePerson())
         {
             this->move(2, force);
         }
     });
     Graphic::insertKeyCallBack(sf::Keyboard::Key::D, GetId(), [force, this]() -> void {
-        if (m_seat != nullptr && m_seat->m_person != nullptr)
+        if (m_seat != nullptr && m_seat->isHavePerson())
         {
             this->move(3, force);
         }
@@ -198,13 +200,12 @@ void Computer::move(int direction, float force)
     default:
         break;
     }
-
-
 }
 
 void Computer::UpdateSelf(sf::Time &dt)
 {
-    this->m_net->UpdateSelf(dt);
+    this->m_netEnergy->UpdateSelf(dt);
+    this->m_netControl->UpdateSelf(dt);
 }
 
 Computer * Computer::findSelf(int id)

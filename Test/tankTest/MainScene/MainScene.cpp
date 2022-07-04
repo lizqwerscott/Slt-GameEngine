@@ -61,6 +61,7 @@ void MainScene::init()
     ResourceManager::LoadTextureFromFile("generator.png", "generator");
     ResourceManager::LoadTextureFromFile("wireTie.png", "wireTie");
     ResourceManager::LoadTextureFromFile("energyTie.png", "energyTie");
+    ResourceManager::LoadTextureFromFile("energyCWire.png", "energyCWire");
     
     // Wall node
     this->GetRootNode()->CreateChild(
@@ -283,6 +284,34 @@ void MainScene::init()
 
             auto entity = new CubeEnergyWire(data->name, root, data->size, pos, 50);
             entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeEnergyWireBody", "CubeEnergyWireFixture");
+            return entity;
+        };
+        EntityFactory::addEntity(data);
+    }
+    
+    {
+        entityData * data = new entityData("cubeEnergyCWire", b2Vec2(1, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+            b2Vec2 nodePos = pos;
+            float angle = 0.0f;
+            if (mainEntity != nullptr)
+            {
+		angle = mainEntity->GetAngle();
+		auto faceEntityData = EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
+            }
+            b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
+
+            b2PolygonShape polygonShape;
+            polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
+            b2FixtureDef fixtureDef;
+            fixtureDef.density = 0.5;
+            fixtureDef.friction = 0.2;
+            fixtureDef.restitution = 1;
+            fixtureDef.shape = &polygonShape;
+
+            auto entity = new CubeEnergyCWire(data->name, root, data->size, pos, 50);
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeEnergyCWireBody", "CubeEnergyCWireFixture");
             return entity;
         };
         EntityFactory::addEntity(data);

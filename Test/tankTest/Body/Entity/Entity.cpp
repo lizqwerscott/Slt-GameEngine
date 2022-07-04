@@ -7,7 +7,18 @@ Entity::Entity(std::string name, const std::string &typeName, GameObject * paren
     this->SetPosition(nodePos);
 }
 
-Entity::~Entity() {}
+Entity::~Entity()
+{
+    if (this->m_netControl != nullptr) {
+	delete this->m_netControl;
+	this->m_netControl = nullptr;
+    }
+
+    if (this->m_netEnergy != nullptr) {
+	delete this->m_netEnergy;
+	this->m_netEnergy = nullptr;
+    }
+}
 
 void Entity::initPhysical(b2BodyDef bodyDef, b2FixtureDef fixtureDef, PhysicalWorld * world, const std::string &bodyName, const std::string &fixtureName)
 {

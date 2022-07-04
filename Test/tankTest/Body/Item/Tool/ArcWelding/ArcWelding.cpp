@@ -30,10 +30,15 @@ void ArcWelding::connectEntity(Entity * e1, Entity * e2, PhysicalWorld * world)
         b2WeldJointDef joinDef;
         joinDef.Initialize(e1->m_physicalBody->GetBody(), e2->m_physicalBody->GetBody(), b2Vec2(0, 0));
         world->CreateJoint(&joinDef);
-	if (e1->m_net != nullptr && e2->m_net != nullptr) {
+	if (e1->m_netEnergy != nullptr && e2->m_netEnergy != nullptr) {
 	    Log::printLog("Connect net\n");
-	    Net::connectAnother(e1->m_net, e2->m_net);
+	    Net::connectAnother(e1->m_netEnergy, e2->m_netEnergy);
 	}
+	if (e1->m_netControl != nullptr && e2->m_netControl != nullptr) {
+	    Log::printLog("Connect net\n");
+	    Net::connectAnother(e1->m_netControl, e2->m_netControl);
+	}
+
     }
 }
 

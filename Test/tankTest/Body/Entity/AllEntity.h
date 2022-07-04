@@ -8,6 +8,7 @@
 #include "Cube/Cube.h"
 #include "CubeWire/CubeWire.h"
 #include "CubeEnergyWire/CubeEnergyWire.h"
+#include "CubeEnergyCWire/CubeEnergyCWire.h"
 #include "Seat/Seat.h"
 #include "Thruster/Thruster.h"
 #include "Generator/Generator.h"
