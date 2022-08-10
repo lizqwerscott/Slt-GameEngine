@@ -1,8 +1,8 @@
 #include "MainScene.h"
+#include "../Body/Entity/AllEntity.h"
+#include "../Body/Item/AllItem.h"
 #include <cstdlib>
 #include <ctime>
-#include "../Body/Item/AllItem.h"
-#include "../Body/Entity/AllEntity.h"
 
 #include "../Body/ItemTManager.h"
 #include "ResourceManager/ResourceManager.h"
@@ -44,12 +44,12 @@ void MainScene::init()
     ItemTManager::Create();
     EntityFactory::Create();
     ItemFactory::Create();
-    auto physicalWorld =
-        this->CreatePhysicalWorld(std::string("World"), false, b2Vec2(0.0f, 0.0f));
+    auto physicalWorld = this->CreatePhysicalWorld(std::string("World"), false,
+                         b2Vec2(0.0f, 0.0f));
     sf::Vector2u windowSize = Graphic::getWindowSize();
     Log::setLevel(LOG_LEVEL_INFO);
     Log::printLog("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
-    //ResourceManager::LoadFontFromFile("yudit.ttf", "yudit");
+    // ResourceManager::LoadFontFromFile("yudit.ttf", "yudit");
     ResourceManager::LoadFontFromFile("odokai.ttf", "odokai");
     ResourceManager::LoadTextureFromFile("tiepG.png", "tie");
     ResourceManager::LoadTextureFromFile("person.png", "person");
@@ -62,7 +62,7 @@ void MainScene::init()
     ResourceManager::LoadTextureFromFile("wireTie.png", "wireTie");
     ResourceManager::LoadTextureFromFile("energyTie.png", "energyTie");
     ResourceManager::LoadTextureFromFile("energyCWire.png", "energyCWire");
-    
+
     // Wall node
     this->GetRootNode()->CreateChild(
     std::string("Wall"), [windowSize, physicalWorld](SNode *node) -> void {
@@ -131,90 +131,112 @@ void MainScene::init()
         physicalBody->CreateFixture(std::string("RightWall"), rightfixtureDef);
     });
 
-    GameObject * root = static_cast<GameObject *>(GetRootNode());
+    GameObject *root = static_cast<GameObject *>(GetRootNode());
 
     {
-        entityData * data = new entityData("box1", b2Vec2(2, 2));
-        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        entityData *data = new entityData("box1", b2Vec2(2, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos,
+        Entity *mainEntity) -> Entity * {
             b2Vec2 nodePos = pos;
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-		angle = mainEntity->GetAngle();
-		auto faceEntityData = EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
+                angle = mainEntity->GetAngle();
+                auto faceEntityData =
+                EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
+                        faceEntityData->getSize(),
+                        data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
             b2PolygonShape polygonShape;
             polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
-            b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
+            b2FixtureDef fixtureDef =
+            PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
 
             auto entity = new Box(data->name, root, 100, 100, pos, 100);
-            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "BoxBody", "BoxFixture");
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "BoxBody",
+                                 "BoxFixture");
             return entity;
         };
         EntityFactory::addEntity(data);
     }
 
     {
-        entityData * data = new entityData("computer", b2Vec2(1, 1));
-        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        entityData *data = new entityData("computer", b2Vec2(1, 1));
+        data->init = [root, physicalWorld, data](b2Vec2 pos,
+        Entity *mainEntity) -> Entity * {
             b2Vec2 nodePos = pos;
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-		angle = mainEntity->GetAngle();
-		auto faceEntityData = EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
+                angle = mainEntity->GetAngle();
+                auto faceEntityData =
+                EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
+                        faceEntityData->getSize(),
+                        data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
             b2PolygonShape polygonShape;
             polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
-            b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
+            b2FixtureDef fixtureDef =
+            PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
 
             auto entity = new Computer(data->name, root, nodePos);
-            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "ComputerBody", "ComputerFixture");
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(),
+                                 "ComputerBody", "ComputerFixture");
             return entity;
         };
         EntityFactory::addEntity(data);
     }
 
     {
-        entityData * data = new entityData("seat", b2Vec2(1, 3));
-        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        entityData *data = new entityData("seat", b2Vec2(1, 3));
+        data->init = [root, physicalWorld, data](b2Vec2 pos,
+        Entity *mainEntity) -> Entity * {
             b2Vec2 nodePos = pos;
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-		angle = mainEntity->GetAngle();
-		auto faceEntityData = EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
+                angle = mainEntity->GetAngle();
+                auto faceEntityData =
+                EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
+                        faceEntityData->getSize(),
+                        data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
             b2PolygonShape polygonShape;
             polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
-            b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
+            b2FixtureDef fixtureDef =
+            PhysicalWorld::generateFixtureDef(&polygonShape, 0.5, 0.2, 1);
 
             auto entity = new Seat(data->name, root, nodePos);
-            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "SeatBody", "SeatFixture");
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "SeatBody",
+                                 "SeatFixture");
             return entity;
         };
         EntityFactory::addEntity(data);
     }
 
     {
-        entityData * data = new entityData("cubeLittle", b2Vec2(1, 1));
-        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        entityData *data = new entityData("cubeLittle", b2Vec2(1, 1));
+        data->init = [root, physicalWorld, data](b2Vec2 pos,
+        Entity *mainEntity) -> Entity * {
             b2Vec2 nodePos = pos;
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-		angle = mainEntity->GetAngle();
-		auto faceEntityData = EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
+                angle = mainEntity->GetAngle();
+                auto faceEntityData =
+                EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
+                        faceEntityData->getSize(),
+                        data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -227,22 +249,27 @@ void MainScene::init()
             fixtureDef.shape = &polygonShape;
 
             auto entity = new Cube(data->name, root, data->size, pos, 50);
-            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeBody", "CubeFixture");
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeBody",
+                                 "CubeFixture");
             return entity;
         };
         EntityFactory::addEntity(data);
     }
-    
+
     {
-        entityData * data = new entityData("cubeWire", b2Vec2(1, 2));
-        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        entityData *data = new entityData("cubeWire", b2Vec2(1, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos,
+        Entity *mainEntity) -> Entity * {
             b2Vec2 nodePos = pos;
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-		angle = mainEntity->GetAngle();
-		auto faceEntityData = EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
+                angle = mainEntity->GetAngle();
+                auto faceEntityData =
+                EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
+                        faceEntityData->getSize(),
+                        data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -255,22 +282,27 @@ void MainScene::init()
             fixtureDef.shape = &polygonShape;
 
             auto entity = new CubeWire(data->name, root, data->size, pos, 50);
-            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeWireBody", "CubeWireFixture");
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(),
+                                 "CubeWireBody", "CubeWireFixture");
             return entity;
         };
         EntityFactory::addEntity(data);
     }
 
     {
-        entityData * data = new entityData("cubeEnergyWire", b2Vec2(1, 2));
-        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        entityData *data = new entityData("cubeEnergyWire", b2Vec2(1, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos,
+        Entity *mainEntity) -> Entity * {
             b2Vec2 nodePos = pos;
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-		angle = mainEntity->GetAngle();
-		auto faceEntityData = EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
+                angle = mainEntity->GetAngle();
+                auto faceEntityData =
+                EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
+                        faceEntityData->getSize(),
+                        data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -283,22 +315,27 @@ void MainScene::init()
             fixtureDef.shape = &polygonShape;
 
             auto entity = new CubeEnergyWire(data->name, root, data->size, pos, 50);
-            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeEnergyWireBody", "CubeEnergyWireFixture");
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(),
+                                 "CubeEnergyWireBody", "CubeEnergyWireFixture");
             return entity;
         };
         EntityFactory::addEntity(data);
     }
-    
+
     {
-        entityData * data = new entityData("cubeEnergyCWire", b2Vec2(1, 2));
-        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        entityData *data = new entityData("cubeEnergyCWire", b2Vec2(1, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos,
+        Entity *mainEntity) -> Entity * {
             b2Vec2 nodePos = pos;
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-		angle = mainEntity->GetAngle();
-		auto faceEntityData = EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
+                angle = mainEntity->GetAngle();
+                auto faceEntityData =
+                EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
+                        faceEntityData->getSize(),
+                        data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -311,69 +348,83 @@ void MainScene::init()
             fixtureDef.shape = &polygonShape;
 
             auto entity = new CubeEnergyCWire(data->name, root, data->size, pos, 50);
-            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeEnergyCWireBody", "CubeEnergyCWireFixture");
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(),
+                                 "CubeEnergyCWireBody", "CubeEnergyCWireFixture");
             return entity;
         };
         EntityFactory::addEntity(data);
     }
 
     {
-	entityData * data = new entityData("Generator", b2Vec2(2, 2));
-	data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        entityData *data = new entityData("Generator", b2Vec2(2, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos,
+        Entity *mainEntity) -> Entity * {
             b2Vec2 nodePos = pos;
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
                 // angle = Math::degreeToRad(data->angle);
-		angle = mainEntity->GetAngle();
+                angle = mainEntity->GetAngle();
                 Log::setLevel(LOG_LEVEL_INFO);
                 Log::printLog("angle:%f\n", angle);
-		auto faceEntityData = EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
+                auto faceEntityData =
+                EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
+                        faceEntityData->getSize(),
+                        data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
             b2PolygonShape polygonShape;
             polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
-            b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape);
+            b2FixtureDef fixtureDef =
+            PhysicalWorld::generateFixtureDef(&polygonShape);
 
             auto entity = new Generator(data->name, root, data->size, pos, 30);
-            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "GeneratorBody", "GeneratorFixture");
-            return entity;
-	};
-	EntityFactory::addEntity(data);
-    }
-
-    {
-        entityData  * data = new entityData("thrusterLittle", b2Vec2(1, 2));
-        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
-            b2Vec2 nodePos = pos;
-            float angle = 0.0f;
-            if (mainEntity != nullptr)
-            {
-                // angle = Math::degreeToRad(data->angle);
-		angle = mainEntity->GetAngle();
-                Log::setLevel(LOG_LEVEL_INFO);
-                Log::printLog("angle:%f\n", angle);
-		auto faceEntityData = EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
-            }
-            b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
-
-            b2PolygonShape polygonShape;
-            polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
-            b2FixtureDef fixtureDef = PhysicalWorld::generateFixtureDef(&polygonShape);
-
-            auto entity = new Thruster(data->name, root, data->size, 100, pos, 45);
-            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeBody", "CubeFixture");
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(),
+                                 "GeneratorBody", "GeneratorFixture");
             return entity;
         };
         EntityFactory::addEntity(data);
     }
 
     {
-        entityData * data = new entityData("bullet", b2Vec2(0.2, 0.2));
-        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity * mainEntity) -> Entity * {
+        entityData *data = new entityData("thrusterLittle", b2Vec2(1, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos,
+        Entity *mainEntity) -> Entity * {
+            b2Vec2 nodePos = pos;
+            float angle = 0.0f;
+            if (mainEntity != nullptr)
+            {
+                // angle = Math::degreeToRad(data->angle);
+                angle = mainEntity->GetAngle();
+                Log::setLevel(LOG_LEVEL_INFO);
+                Log::printLog("angle:%f\n", angle);
+                auto faceEntityData =
+                EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
+                        faceEntityData->getSize(),
+                        data->getSize());
+            }
+            b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
+
+            b2PolygonShape polygonShape;
+            polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
+            b2FixtureDef fixtureDef =
+            PhysicalWorld::generateFixtureDef(&polygonShape);
+
+            auto entity = new Thruster(data->name, root, data->size, 100, pos, 45);
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeBody",
+                                 "CubeFixture");
+            return entity;
+        };
+        EntityFactory::addEntity(data);
+    }
+
+    {
+        entityData *data = new entityData("bullet", b2Vec2(0.2, 0.2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos,
+        Entity *mainEntity) -> Entity * {
             return new Bullet(data->name, root, physicalWorld.get(), pos);
         };
         EntityFactory::addEntity(data);
@@ -404,58 +455,63 @@ void MainScene::init()
     });
 
     // Gun node
-    b2Vec2 nodePos = Math::DrawCoordSToPhysicalCoords(sf::Vector2f(windowSize.x / 2, windowSize.y / 2));
-    //Gun * gunNode = new Gun(std::string("Gun"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
-    Person * personNode = new Person(std::string("person"), static_cast<GameObject *>(GetRootNode()), physicalWorld.get(), nodePos);
+    b2Vec2 nodePos = Math::DrawCoordSToPhysicalCoords(
+                         sf::Vector2f(windowSize.x / 2, windowSize.y / 2));
+    // Gun * gunNode = new Gun(std::string("Gun"), static_cast<GameObject
+    // *>(GetRootNode()), physicalWorld.get(), nodePos);
+    Person *personNode = new Person(std::string("person"),
+                                    static_cast<GameObject *>(GetRootNode()),
+                                    physicalWorld.get(), nodePos);
     personNode->init();
     personNode->equip(ItemFactory::generateItem("ArcWelding"));
-    //personNode->equip(ItemFactory::generateItem("CuttingMachine"));
+    // personNode->equip(ItemFactory::generateItem("CuttingMachine"));
 
-    Bag * bag = static_cast<Bag *>(ItemFactory::generateItem(std::string("bag1")));
+    Bag *bag = static_cast<Bag *>(ItemFactory::generateItem(std::string("bag1")));
     for (int i = 0; i < 100; i++) {
         bag->addItem(ItemFactory::generateItem(std::string("bullet1")));
     }
     personNode->wearBag(bag);
-    Gun * gun = static_cast<Gun *>(ItemFactory::generateItem(std::string("gun1")));
+    Gun *gun = static_cast<Gun *>(ItemFactory::generateItem(std::string("gun1")));
     bag->addItem(gun);
     bag->addItem(ItemFactory::generateItem(std::string("CuttingMachine")));
     bag->addItem(ItemFactory::generateItem(std::string("NetConnect")));
 
-    Box * boxNode = static_cast<Box *>(EntityFactory::generateEntity(std::string("box1"), b2Vec2(0, 10)));
+    Box *boxNode = static_cast<Box *>(
+                       EntityFactory::generateEntity(std::string("box1"), b2Vec2(0, 10)));
     boxNode->SetAngle(0.25 * b2_pi);
     boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
     boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
     boxNode->addItem(ItemFactory::generateItem(std::string("gun1")));
 
-
     auto camera_pos = this->getCamera().get()->getView().getCenter();
     Log::setLevel(LOG_LEVEL_INFO);
     Log::printLog("ViewPos:%f, %f\n", camera_pos.x, camera_pos.y);
-    Log::printLog("gunPos:%f, %f\n", personNode->GetPosition().x, personNode->GetPosition().y);
+    Log::printLog("gunPos:%f, %f\n", personNode->GetPosition().x,
+                  personNode->GetPosition().y);
     auto size_view = this->getCamera().get()->getView().getSize();
     Log::printLog("Size:%f, %f\n", size_view.x, size_view.y);
     getCamera().get()->setTrack(personNode, true);
 
     {
-        //b2Vec2 p1(1, 5), p2(3, 3);
-        //if (Math::PointInLine(b2Vec2(2, 4), p1, p2)) {
-        //Log::printLog("Yes\n");
-        //} else {
-        //Log::printLog("No\n");
-        //}
+        // b2Vec2 p1(1, 5), p2(3, 3);
+        // if (Math::PointInLine(b2Vec2(2, 4), p1, p2)) {
+        // Log::printLog("Yes\n");
+        // } else {
+        // Log::printLog("No\n");
+        // }
         b2Vec2 p1(1, 5), p2(3, 3);
         b2Vec2 q1(0, 0), q2(10, 10);
         b2Vec2 result = Math::LinesIntersection(p1, p2, q1, q2);
         Log::printLog("I:%f, %f\n", result.x, result.y);
     }
 
-    //SubscribeEventIml(
-        //E_NODEUPDATEEND,
+    // SubscribeEventIml(
+    // E_NODEUPDATEEND,
     //[](EventKey key, EventData &data, EventSender *sender) -> void {
-        //using namespace slt::NodeUpdateBegin;
-        ////b2Vec2 pos = baffleNode->GetPosition();
+    // using namespace slt::NodeUpdateBegin;
+    ////b2Vec2 pos = baffleNode->GetPosition();
     //},
-    //baffleNode, baffleNode->GetName());
+    // baffleNode, baffleNode->GetName());
 
     physicalWorld->onBeginContact([](b2Contact *contact) -> void {
         void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().data[0];
@@ -488,23 +544,25 @@ void MainScene::init()
             PhysicalBody *bodyB = static_cast<PhysicalBody *>(userDataB);
             std::string::size_type resultA = bodyA->GetName().find("BulletBody");
             std::string::size_type resultB = bodyB->GetName().find("BulletBody");
-            Bullet * bulletNode = nullptr;
+            Bullet *bulletNode = nullptr;
             if (resultA != std::string::npos) {
-                bulletNode = static_cast<Bullet *>(bodyA->GetBody()->GetUserData().data[1]);
+                bulletNode =
+                static_cast<Bullet *>(bodyA->GetBody()->GetUserData().data[1]);
             }
 
             if (resultB != std::string::npos) {
-                bulletNode = static_cast<Bullet *>(bodyB->GetBody()->GetUserData().data[1]);
+                bulletNode =
+                    static_cast<Bullet *>(bodyB->GetBody()->GetUserData().data[1]);
             }
             if (bulletNode != nullptr) {
                 bulletNode->setHp(0);
             }
-            //GetRootNode()->DeleteChild(bulletNode->GetName());
+            // GetRootNode()->DeleteChild(bulletNode->GetName());
         }
-
     });
 
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::Escape, 0, []() -> void { Graphic::Close(); });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::Escape, 0,
+                               []() -> void { Graphic::Close(); });
 
     Graphic::insertKeyCallBack(sf::Keyboard::Key::H, 0, [this]() -> void {
         // printf("Move:Left\n");
@@ -531,8 +589,10 @@ void MainScene::init()
     Graphic::insertKeyCallBack(sf::Keyboard::Key::M, 0, [this]() -> void {
         this->getCamera()->zoom(0.9f);
     });
-    // Graphic::insertKeyCallBack(sf::Keyboard::Key::G, [this, gunNode]() -> void {
-    //     auto pos = this->GetRootNode()->GetChild(std::string("Gun"))->GetPosition();
+    // Graphic::insertKeyCallBack(sf::Keyboard::Key::G, [this, gunNode]() -> void
+    // {
+    //     auto pos =
+    //     this->GetRootNode()->GetChild(std::string("Gun"))->GetPosition();
     //     printf("gunNode:%f %f\n", pos.x, pos.y);
     // });
     Graphic::insertMouseWheelCallBack(
@@ -547,12 +607,10 @@ void MainScene::init()
             }
         }
     });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::C, 0, []() -> void {
-        Log::setDrawUi();
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::V, 0, []() -> void {
-        Script::setDrawUi();
-    });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::C, 0,
+                               []() -> void { Log::setDrawUi(); });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::V, 0,
+                               []() -> void { Script::setDrawUi(); });
     DEFUN_NONE("hello", []() -> void {
         Log::setLevel(LOG_LEVEL_INFO);
         Log::printLog("print\n");
@@ -564,7 +622,8 @@ void MainScene::init()
         return ECL_T;
     };
     DEFUN("AddLog", _print, 1);
-    cl_object (*generateEntity)(cl_object, int, int) = [](cl_object name, int x, int y) -> cl_object {
+    cl_object (*generateEntity)(cl_object, int, int) = [](cl_object name, int x,
+    int y) -> cl_object {
         Log::setLevel(LOG_LEVEL_INFO);
         std::string nameC = Script::clToString(name);
         Log::printLog("EntityName:%s, %f, %f\n", nameC.c_str(), x, y);
@@ -592,8 +651,9 @@ void MainScene::UpdateSelf(sf::Time &dt)
     auto g = this->GetPhysicalWorld().get()->GetGravity();
     auto text = new sf::Text();
     text->setFont(*ResourceManager::GetFont("yudit"));
-    text->setString("G:" + std::to_string(g.x) + "," + std::to_string(g.y) + "\n" +
-                    "personPos" + std::to_string(personPos.x) + ", " + std::to_string(personPos.y));
+    text->setString("G:" + std::to_string(g.x) + "," + std::to_string(g.y) +
+                    "\n" + "personPos" + std::to_string(personPos.x) + ", " +
+                    std::to_string(personPos.y));
     text->setCharacterSize(24); // in pixels, not points!
     text->setFillColor(sf::Color::Red);
     text->setPosition(10.f, 20.f);
@@ -609,6 +669,5 @@ void MainScene::UpdateSelf(sf::Time &dt)
     vertices[2] = b2Vec2(-10, 0);
     Graphic::getInstance()->DrawPolygon(&vertices[0], 3, b2Color(0, 1, 0));
     Graphic::getInstance()->DrawCircle(b2Vec2(0, 0), 2, b2Color(1, 0, 0));
-    Graphic::getInstance()->DrawPoint(b2Vec2(0, 0), 2, b2Color(0, 0, 0));
-    */
+    Graphic::getInstance()->DrawPoint(b2Vec2(0, 0), 2MainScene::~MainScene()  */
 }
