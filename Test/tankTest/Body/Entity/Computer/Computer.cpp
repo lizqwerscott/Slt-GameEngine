@@ -11,6 +11,8 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
     this->m_netEnergy = new NetUse(10, 1);
     this->m_netControl = new NetControlDevice();
 
+    auto device = static_cast<NetControlDevice *>(this->m_netControl);
+
     this->m_isDrawUi = false;
     m_isControl = true;
     m_isConnect = true;
@@ -30,6 +32,17 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
         return ECL_NIL;
     };
     DEFUN("pushShip", _push, 3);
+
+    cl_object (*_send)(cl_object computerId, cl_object data) = [](cl_object computerId, cl_object data) -> cl_object {
+	int _cId = ecl_to_int32_t(computerId);
+	std::string dataString = Script::clToString(data);
+
+	Computer::sendSignalString(_cId, dataString);
+
+	return ECL_NIL;
+    };
+
+    DEFUN("sendSignalString", _send, 2);
 
     float force = 90;
     Graphic::insertKeyCallBack(sf::Keyboard::Key::W, GetId(), [force, this]() -> void {
@@ -56,6 +69,12 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
             this->move(3, force);
         }
     });
+    Graphic::insertKeyCallBack(sf::Keyboard::Key::U, GetId(), [device, this]() -> void {
+	    DeviceSignalDataString data;
+	    data.sender = this;
+	    data.data = std::string("hello");
+	    device->sendSignal(data);
+	});
 }
 
 Computer::~Computer()
@@ -236,6 +255,18 @@ void Computer::push(int computerId, int id, int force)
             thruster->setThrust(force);
             thruster->push();
         }
+    }
+}
+
+void Computer::sendSignalString(int computerId, std::string data)
+{
+    Computer * computer = Computer::findSelf(computerId);
+    if (computer != nullptr) {
+	auto device = static_cast<NetControlDevice *>(computer->m_netControl);
+	DeviceSignalDataString dataString;
+	dataString.sender = computer;
+	dataString.data = data;
+	device->sendSignal(dataString);
     }
 }
 

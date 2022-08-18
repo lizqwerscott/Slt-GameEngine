@@ -4,12 +4,12 @@ NetUse::NetUse(float energyMax, float energyUseSpeed) :
     NetEnergy("NetUse", energyMax),
     m_energyUseSpeed(energyUseSpeed)
 {
-    
+
 }
 
 NetUse::~NetUse()
 {
-    
+
 }
 
 void NetUse::UpdateSelf(sf::Time &dt)
@@ -30,7 +30,7 @@ void NetUse::UpdateSelf(sf::Time &dt)
 	float step = this->getEnergy(this->m_energyMax - this->m_energy);
 	this->increaseEnergy(step);
     }
-    Log::printLog("Use:Energy: %f\n", this->m_energy);
+    // Log::printLog("Use:Energy: %f\n", this->m_energy);
 }
 
 float NetUse::getEnergy(float needEnergy)
@@ -38,4 +38,3 @@ float NetUse::getEnergy(float needEnergy)
     std::vector<NetEnergy *> searchs;
     return this->runNode(searchs, needEnergy);
 }
-

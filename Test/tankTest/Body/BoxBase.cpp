@@ -97,7 +97,8 @@ BoxBase::getItem(std::string name, int number)
         if (static_cast<int>(iter->second.size()) >= number) {
             for (int i = 0; i < number; i++) {
                 result.push_back(iter->second[i]);
-                iter->second.erase(iter->second.begin() + i);
+		iter->second.pop_back();
+                // iter->second.erase(iter->second.begin() + i);
             }
         }
     }
@@ -124,6 +125,7 @@ bool BoxBase::transferItem(ContainerBase * target, std::string name, int number)
                 add = target->addItem(iter->second[i]);
                 if (add) {
                     iter->second.erase(iter->second.begin() + i);
+		    // iter->second.pop_back();
                     this->m_nowQuality -= iter->second[i]->getQuality();
                     this->m_nowVolume -= iter->second[i]->getVolume();
                 } else {

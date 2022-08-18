@@ -1,4 +1,5 @@
 #include "Thruster.h"
+#include "../../Net/NetControlDevice/NetControlDevice.h"
 
 Thruster::Thruster(std::string name, GameObject * parent, b2Vec2 size, float maxThrust, b2Vec2 nodePos, double hp) :
     Entity(name, "Thruster", parent, nodePos, hp),
@@ -6,7 +7,14 @@ Thruster::Thruster(std::string name, GameObject * parent, b2Vec2 size, float max
     m_maxThrust(maxThrust),
     m_pushDirection(b2Vec2(0, 1))
 {
+    this->m_netControl = new NetControlDevice();
     this->m_isDrawUi = false;
+
+    auto device = static_cast<NetControlDevice *>(this->m_netControl);
+    device->subscribeRecive(DeviceSignalType::String, [this](DeviceSignalData &data) -> void {
+	    auto dataA = static_cast<DeviceSignalDataString &>(data);
+	    Log::printLog("Recive String: %s\n", dataA.data.c_str());
+	});
 
     sf::Texture * thruster = ResourceManager::GetTexture("thruster");
     thruster->setSmooth(true);
@@ -42,6 +50,7 @@ void Thruster::push()
 
 void Thruster::UpdateSelf(sf::Time &dt)
 {
+    this->m_netControl->UpdateSelf(dt);
     float angle = m_physicalBody->GetBody()->GetAngle();
     b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));
     m_pushDirection = mat.Solve(b2Vec2(0, 1));

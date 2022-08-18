@@ -467,11 +467,12 @@ void MainScene::init()
     // personNode->equip(ItemFactory::generateItem("CuttingMachine"));
 
     Bag *bag = static_cast<Bag *>(ItemFactory::generateItem(std::string("bag1")));
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 30; i++) {
         bag->addItem(ItemFactory::generateItem(std::string("bullet1")));
     }
     personNode->wearBag(bag);
     Gun *gun = static_cast<Gun *>(ItemFactory::generateItem(std::string("gun1")));
+    // personNode->equip(gun);
     bag->addItem(gun);
     bag->addItem(ItemFactory::generateItem(std::string("CuttingMachine")));
     bag->addItem(ItemFactory::generateItem(std::string("NetConnect")));

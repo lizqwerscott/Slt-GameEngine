@@ -23,7 +23,7 @@ ArcWelding::ArcWelding(std::string name, double volume, double quality) :
 void ArcWelding::connectEntity(Entity * e1, Entity * e2, PhysicalWorld * world)
 {
     if (e1 != nullptr && e2 != nullptr) {
-        Log::printLog("contacts:---------\n");
+        Log::printLog("contacts:--------\n");
         b2Vec2 contactCenterPos = e2->GetPosition();
         Log::printLog("finally min: %s, %f, %f\n", e2->GetName().c_str(), contactCenterPos.x, contactCenterPos.y);
         //Contact
@@ -31,11 +31,11 @@ void ArcWelding::connectEntity(Entity * e1, Entity * e2, PhysicalWorld * world)
         joinDef.Initialize(e1->m_physicalBody->GetBody(), e2->m_physicalBody->GetBody(), b2Vec2(0, 0));
         world->CreateJoint(&joinDef);
 	if (e1->m_netEnergy != nullptr && e2->m_netEnergy != nullptr) {
-	    Log::printLog("Connect net\n");
+	    Log::printLog("Connect Energy net\n");
 	    Net::connectAnother(e1->m_netEnergy, e2->m_netEnergy);
 	}
 	if (e1->m_netControl != nullptr && e2->m_netControl != nullptr) {
-	    Log::printLog("Connect net\n");
+	    Log::printLog("Connect Control net\n");
 	    Net::connectAnother(e1->m_netControl, e2->m_netControl);
 	}
 
@@ -131,7 +131,7 @@ void ArcWelding::drawT(Person * person)
 	    vertices[3] = downLeft + nodePos;
 
 	    Graphic::getInstance()->DrawPolygon(vertices, 4, b2Color(255, 62, 150));
-	    
+
         }
 
         // Log::printLog("faceEntityAngle: %f\n", faceEntity->GetAngle());

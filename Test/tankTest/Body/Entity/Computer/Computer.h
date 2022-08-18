@@ -28,6 +28,7 @@ public:
     static Computer * findSelf(int id);
     static cl_object getThrusters();
     static void push(int computerId, int id, int force);
+    static void sendSignalString(int computerId, std::string data);
 
     //static void move(int direction, float force);
     static void rotate(float angle);

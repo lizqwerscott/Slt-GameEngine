@@ -8,6 +8,8 @@ class NetWire : public NetControl
 public:
     NetWire();
     virtual ~NetWire();
+public:
+    void passSignal(NetControl * sendControl, DeviceSignalData &data);
 };
 
 #endif
