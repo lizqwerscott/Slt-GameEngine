@@ -60,13 +60,6 @@ void Script::signFunction(unsigned int id)
     rootNode->GetChild(id);
 }
 
-void Script::Strtrim(char *s)
-{
-    char* str_end = s + strlen(s);
-    while (str_end > s && str_end[-1] == ' ') str_end--;
-    *str_end = 0;
-}
-
 std::string Script::clToString(cl_object clStr)
 {
     std::string str;
@@ -75,6 +68,13 @@ std::string Script::clToString(cl_object clStr)
         str += (*(selV + i));
     }
     return str;
+}
+
+void Script::Strtrim(char *s)
+{
+    char* str_end = s + strlen(s);
+    while (str_end > s && str_end[-1] == ' ') str_end--;
+    *str_end = 0;
 }
 
 void Script::drawUi()
