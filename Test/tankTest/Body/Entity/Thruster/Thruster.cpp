@@ -1,5 +1,6 @@
 #include "Thruster.h"
 #include "../../Net/NetControlDevice/NetControlDevice.h"
+#include <nlohmann/json.hpp>
 
 Thruster::Thruster(std::string name, GameObject * parent, b2Vec2 size, float maxThrust, b2Vec2 nodePos, double hp) :
     Entity(name, "Thruster", parent, nodePos, hp),
@@ -11,10 +12,19 @@ Thruster::Thruster(std::string name, GameObject * parent, b2Vec2 size, float max
     this->m_isDrawUi = false;
 
     auto device = static_cast<NetControlDevice *>(this->m_netControl);
-    device->subscribeRecive(DeviceSignalType::String, [this](DeviceSignalData &data) -> void {
-	    auto dataA = static_cast<DeviceSignalDataString &>(data);
-	    Log::printLog("Recive String: %s\n", dataA.data.c_str());
+    device->subscribeRecive(DeviceSignalType::String, [this](DeviceSignal &signal) -> void {
+	    auto dataA = static_cast<DeviceSignalDataString *>(signal.data);
+	    Log::printLog("Recive String: %s\n", dataA->data.c_str());
+	    auto dataRes = static_cast<DeviceSignalDataString *>(signal.res);
+	    dataRes->data = "Yes";
 	});
+
+    device->subscribeRecive(DeviceSignalType::Json, [](DeviceSignal &data) -> void {
+	    // auto dataA = static_cast<DeviceSignalDataJson &>(data);
+	    // nlohmann::json jsonData = nlohmann::json::parse(dataA.data);
+	    // jsonData[""]
+	});
+
 
     sf::Texture * thruster = ResourceManager::GetTexture("thruster");
     thruster->setSmooth(true);

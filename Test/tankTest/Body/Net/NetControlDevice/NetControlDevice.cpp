@@ -16,7 +16,7 @@ void NetControlDevice::UpdateSelf(sf::Time &dt)
 
 }
 
-void NetControlDevice::sendSignal(DeviceSignalData & data)
+void NetControlDevice::sendSignal(DeviceSignal & data)
 {
     for (auto net : this->m_connectNets) {
 	if (net->m_typename == "NetControl") {
@@ -34,9 +34,9 @@ void NetControlDevice::sendSignal(DeviceSignalData & data)
     }
 }
 
-void NetControlDevice::reciveSignal(DeviceSignalData & data)
+void NetControlDevice::reciveSignal(DeviceSignal & data)
 {
-    auto funs = this->subscribeRecives[data.type];
+    auto funs = this->subscribeRecives[data.data->type];
     for (auto fun : funs) {
 	fun(data);
     }

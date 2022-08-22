@@ -9,7 +9,7 @@ public:
     NetWire();
     virtual ~NetWire();
 public:
-    void passSignal(NetControl * sendControl, DeviceSignalData &data);
+    void passSignal(NetControl * sendControl, DeviceSignal &data);
 };
 
 #endif

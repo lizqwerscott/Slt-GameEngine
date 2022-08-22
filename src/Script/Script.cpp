@@ -97,7 +97,7 @@ void Script::drawUi()
             char * s = _script->m_inputBuf;
             Strtrim(s);
             if (s[0]) {
-                lisp(s);
+                cl_object res = lisp(s);
             }
             strcpy(s, "");
             reclaim_focus = true;
@@ -116,4 +116,3 @@ void Script::setDrawUi()
 {
     _script->m_open = !_script->m_open;
 }
-

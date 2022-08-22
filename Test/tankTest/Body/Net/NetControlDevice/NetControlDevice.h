@@ -12,8 +12,8 @@ public:
 public:
     virtual void UpdateSelf(sf::Time &dt) override;
 public:
-    void sendSignal(DeviceSignalData &data);
-    void reciveSignal(DeviceSignalData &data);
+    void sendSignal(DeviceSignal &data);
+    void reciveSignal(DeviceSignal &data);
 public:
     void subscribeRecive(DeviceSignalType type, SignalReciveFunction fun);
 private:

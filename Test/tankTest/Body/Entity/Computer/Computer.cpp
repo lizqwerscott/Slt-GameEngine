@@ -70,10 +70,17 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
         }
     });
     Graphic::insertKeyCallBack(sf::Keyboard::Key::U, GetId(), [device, this]() -> void {
-	    DeviceSignalDataString data;
-	    data.sender = this;
-	    data.data = std::string("hello");
-	    device->sendSignal(data);
+	    DeviceSignal signal;
+	    signal.sender = this;
+	    DeviceSignalDataString dataString;
+	    dataString.data = "Hello";
+	    signal.data = &dataString;
+	    DeviceSignalDataString dataRecive;
+	    signal.res = &dataRecive;
+
+	    device->sendSignal(signal);
+
+	    Log::printLog("Computer: Send Recive %s\n", dataRecive.data.c_str());
 	});
 }
 
@@ -263,10 +270,15 @@ void Computer::sendSignalString(int computerId, std::string data)
     Computer * computer = Computer::findSelf(computerId);
     if (computer != nullptr) {
 	auto device = static_cast<NetControlDevice *>(computer->m_netControl);
+	DeviceSignal signal;
+	signal.sender = computer;
 	DeviceSignalDataString dataString;
-	dataString.sender = computer;
 	dataString.data = data;
-	device->sendSignal(dataString);
+	signal.data = &dataString;
+	DeviceSignalDataString dataRecive;
+	signal.res = &dataRecive;
+
+	device->sendSignal(signal);
     }
 }
 

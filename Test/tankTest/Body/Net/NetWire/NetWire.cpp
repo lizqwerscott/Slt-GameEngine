@@ -11,7 +11,7 @@ NetWire::~NetWire()
 
 }
 
-void NetWire::passSignal(NetControl * sendControl, DeviceSignalData & data)
+void NetWire::passSignal(NetControl * sendControl, DeviceSignal & signal)
 {
     for (auto net : this->m_connectNets) {
 	if (net->m_typename == "NetControl") {
@@ -19,11 +19,11 @@ void NetWire::passSignal(NetControl * sendControl, DeviceSignalData & data)
 	    if (control != sendControl) {
 		if (control->m_controlTypeName == "device") {
 		    auto device = static_cast<NetControlDevice *>(control);
-		    device->reciveSignal(data);
+		    device->reciveSignal(signal);
 		}
 		if (control->m_controlTypeName == "wrie") {
 		    auto wire = static_cast<NetWire *>(control);
-		    wire->passSignal(this, data);
+		    wire->passSignal(this, signal);
 		}
 
 	    }

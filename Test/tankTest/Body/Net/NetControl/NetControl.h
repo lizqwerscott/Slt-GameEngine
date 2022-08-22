@@ -8,13 +8,13 @@ class Entity;
 enum DeviceSignalType {
     Bool,
     String,
-    Number
+    Number,
+    Json
 };
 
 struct DeviceSignalData
 {
     DeviceSignalType type;
-    Entity * sender;
 };
 
 struct DeviceSignalDataBool : public DeviceSignalData
@@ -35,7 +35,20 @@ struct DeviceSignalDataNumber : public DeviceSignalData
     DeviceSignalDataNumber() { this->type = DeviceSignalType::Number; }
 };
 
-typedef std::function<void (DeviceSignalData &)> SignalReciveFunction;
+struct DeviceSignalDataJson : public DeviceSignalData
+{
+    std::string data;
+    DeviceSignalDataJson() { this->type = DeviceSignalType::Json; }
+};
+
+struct DeviceSignal
+{
+    Entity * sender = nullptr;
+    DeviceSignalData * data = nullptr;
+    DeviceSignalData * res = nullptr;
+};
+
+typedef std::function<void (DeviceSignal &)> SignalReciveFunction;
 
 
 class NetControl : public Net
