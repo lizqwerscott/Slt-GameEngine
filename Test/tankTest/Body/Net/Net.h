@@ -19,6 +19,8 @@ public:
 public:
     std::vector<Net *> m_connectNets;
     std::string m_typename;
+
+    std::function<void (Net *)> connectAnotherAfterCallBack;
 };
 
 #endif /* NET_H */

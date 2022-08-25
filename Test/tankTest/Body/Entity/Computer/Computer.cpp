@@ -5,17 +5,42 @@
 #include "../../Net/NetUse/NetUse.h"
 #include "../../Net/NetControlDevice/NetControlDevice.h"
 
+#include <nlohmann/json.hpp>
+
 Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double hp) :
     Entity(name, "Computer", parent, nodePos, hp)
 {
     this->m_netEnergy = new NetUse(10, 1);
-    this->m_netControl = new NetControlDevice();
+    this->m_netControl = new NetControlDevice(name + std::to_string(this->GetId()));
 
     auto device = static_cast<NetControlDevice *>(this->m_netControl);
 
-    this->m_isDrawUi = false;
+    device->subscribeRecive(
+	DeviceSignalType::Json,
+	[this](DeviceSignal &signal) -> void {
+	    auto data = static_cast<DeviceSignalDataJson *>(signal.data);
+	    nlohmann::json jsonData = nlohmann::json::parse(data->data);
+	    std::string command = jsonData["command"];
+	    if (command == "move") {
+		auto res = static_cast<DeviceSignalDataBool *>(signal.res);
+		int direction = jsonData["data"]["direction"];
+		int force = jsonData["data"]["force"];
+		this->move(direction, force);
+		Log::printLog("Move: direction: %d, force: %d\n", direction, force);
+		res->data = true;
+	    } else if (command == "thrusterInfo") {
+		auto res = static_cast<DeviceSignalDataBool *>(signal.res);
+		res->data = true;
+		this->addControl(signal.sender);
+	    } else {
+		std::string command = jsonData["command"];
+		Log::printLog("Computer not find this command: %s\n", command.c_str());
+	    }
+	});
+
     m_isControl = true;
     m_isConnect = true;
+    m_isDrawUi = false;
 
     sf::Texture * computer = ResourceManager::GetTexture("computer");
     computer->setSmooth(true);
@@ -44,31 +69,6 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
 
     DEFUN("sendSignalString", _send, 2);
 
-    float force = 90;
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::W, GetId(), [force, this]() -> void {
-        if (m_seat != nullptr && m_seat->isHavePerson())
-        {
-            this->move(0, force);
-        }
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::S, GetId(), [force, this]() -> void {
-        if (m_seat != nullptr && m_seat->isHavePerson())
-        {
-            this->move(1, force);
-        }
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::A, GetId(), [force, this]() -> void {
-        if (m_seat != nullptr && m_seat->isHavePerson())
-        {
-            this->move(2, force);
-        }
-    });
-    Graphic::insertKeyCallBack(sf::Keyboard::Key::D, GetId(), [force, this]() -> void {
-        if (m_seat != nullptr && m_seat->isHavePerson())
-        {
-            this->move(3, force);
-        }
-    });
     Graphic::insertKeyCallBack(sf::Keyboard::Key::U, GetId(), [device, this]() -> void {
 	    DeviceSignal signal;
 	    signal.sender = this;

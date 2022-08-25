@@ -1,7 +1,7 @@
 #include "NetControlDevice.h"
 #include "../NetWire/NetWire.h"
 
-NetControlDevice::NetControlDevice() : NetControl("device")
+NetControlDevice::NetControlDevice(std::string _id) : NetControl("device"), id(_id)
 {
 
 }
@@ -16,7 +16,7 @@ void NetControlDevice::UpdateSelf(sf::Time &dt)
 
 }
 
-void NetControlDevice::sendSignal(DeviceSignal & data)
+void NetControlDevice::sendSignal(DeviceSignal & data, std::string id)
 {
     for (auto net : this->m_connectNets) {
 	if (net->m_typename == "NetControl") {
@@ -28,7 +28,13 @@ void NetControlDevice::sendSignal(DeviceSignal & data)
 
 	    if (controlNet->m_controlTypeName == "device") {
 		auto device = static_cast<NetControlDevice *>(controlNet);
-		device->reciveSignal(data);
+		if (id == "ALL") {
+		    device->reciveSignal(data);
+		} else {
+		    if (device->id == id) {
+			device->reciveSignal(data);
+		    }
+		}
 	    }
 	}
     }

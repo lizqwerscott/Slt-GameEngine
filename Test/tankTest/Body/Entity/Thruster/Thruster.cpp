@@ -8,7 +8,7 @@ Thruster::Thruster(std::string name, GameObject * parent, b2Vec2 size, float max
     m_maxThrust(maxThrust),
     m_pushDirection(b2Vec2(0, 1))
 {
-    this->m_netControl = new NetControlDevice();
+    this->m_netControl = new NetControlDevice(name + std::to_string(this->GetId()));
     this->m_isDrawUi = false;
 
     auto device = static_cast<NetControlDevice *>(this->m_netControl);
@@ -19,12 +19,37 @@ Thruster::Thruster(std::string name, GameObject * parent, b2Vec2 size, float max
 	    dataRes->data = "Yes";
 	});
 
-    device->subscribeRecive(DeviceSignalType::Json, [](DeviceSignal &data) -> void {
-	    // auto dataA = static_cast<DeviceSignalDataJson &>(data);
-	    // nlohmann::json jsonData = nlohmann::json::parse(dataA.data);
-	    // jsonData[""]
+    device->subscribeRecive(DeviceSignalType::Json, [this](DeviceSignal &signal) -> void {
+	    auto dataA = static_cast<DeviceSignalDataJson *>(signal.data);
+	    nlohmann::json jsonData = nlohmann::json::parse(dataA->data);
+	    std::string command = jsonData["command"];
+	    if (command == "push") {
+		auto dataRes = static_cast<DeviceSignalDataBool *>(signal.res);
+	    } else if (command == "getInfo") {
+		// auto dataRes = static_cast<DeviceSignalDataJson *>(signal.res);
+		// nlohmann::json resData;
+		// resData["angle"] = this->GetAngle();
+	    } else {
+		Log::printLog("Thruster not find this command: %s\n", command.c_str());
+	    }
+
 	});
 
+    device->connectAnotherAfterCallBack = [this, device](Net * net2) -> void {
+	DeviceSignal signal;
+	signal.sender = this;
+
+	DeviceSignalDataJson data;
+	nlohmann::json jsonData;
+	jsonData["command"] = "thrusterInfo";
+	data.data = jsonData.dump();
+	signal.data = &data;
+
+	DeviceSignalDataBool res;
+	signal.res = &res;
+
+	device->sendSignal(signal);
+    };
 
     sf::Texture * thruster = ResourceManager::GetTexture("thruster");
     thruster->setSmooth(true);

@@ -14,6 +14,8 @@ public:
     virtual void DrawSelf() override;
 public:
     bool isHavePerson();
+private:
+    void move(int direction, float force);
 public:
     Person * m_person = nullptr;
     b2Vec2 m_pos;

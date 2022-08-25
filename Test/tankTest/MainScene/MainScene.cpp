@@ -51,6 +51,7 @@ void MainScene::init()
     Log::printLog("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
     // ResourceManager::LoadFontFromFile("yudit.ttf", "yudit");
     ResourceManager::LoadFontFromFile("odokai.ttf", "odokai");
+    
     ResourceManager::LoadTextureFromFile("tiepG.png", "tie");
     ResourceManager::LoadTextureFromFile("person.png", "person");
     ResourceManager::LoadTextureFromFile("box.png", "boxtie");
@@ -62,6 +63,7 @@ void MainScene::init()
     ResourceManager::LoadTextureFromFile("wireTie.png", "wireTie");
     ResourceManager::LoadTextureFromFile("energyTie.png", "energyTie");
     ResourceManager::LoadTextureFromFile("energyCWire.png", "energyCWire");
+    ResourceManager::LoadTextureFromFile("gyro.png", "gyro");
 
     // Wall node
     this->GetRootNode()->CreateChild(
@@ -479,7 +481,7 @@ void MainScene::init()
 
     Box *boxNode = static_cast<Box *>(
                        EntityFactory::generateEntity(std::string("box1"), b2Vec2(0, 10)));
-    boxNode->SetAngle(0.25 * b2_pi);
+    // boxNode->SetAngle(0.25 * b2_pi);
     boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
     boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
     boxNode->addItem(ItemFactory::generateItem(std::string("gun1")));
