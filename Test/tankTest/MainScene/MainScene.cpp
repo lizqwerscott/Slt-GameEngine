@@ -51,7 +51,7 @@ void MainScene::init()
     Log::printLog("WindowSize:%d, %d\n", windowSize.x, windowSize.y);
     // ResourceManager::LoadFontFromFile("yudit.ttf", "yudit");
     ResourceManager::LoadFontFromFile("odokai.ttf", "odokai");
-    
+
     ResourceManager::LoadTextureFromFile("tiepG.png", "tie");
     ResourceManager::LoadTextureFromFile("person.png", "person");
     ResourceManager::LoadTextureFromFile("box.png", "boxtie");
@@ -143,7 +143,7 @@ void MainScene::init()
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-                angle = mainEntity->GetAngle();
+                angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
                 nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
@@ -173,7 +173,7 @@ void MainScene::init()
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-                angle = mainEntity->GetAngle();
+                angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
                 nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
@@ -203,7 +203,7 @@ void MainScene::init()
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-                angle = mainEntity->GetAngle();
+                angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
                 nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
@@ -233,7 +233,7 @@ void MainScene::init()
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-                angle = mainEntity->GetAngle();
+                angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
                 nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
@@ -266,7 +266,7 @@ void MainScene::init()
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-                angle = mainEntity->GetAngle();
+                angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
                 nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
@@ -299,7 +299,7 @@ void MainScene::init()
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-                angle = mainEntity->GetAngle();
+                angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
                 nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
@@ -332,7 +332,7 @@ void MainScene::init()
             float angle = 0.0f;
             if (mainEntity != nullptr)
             {
-                angle = mainEntity->GetAngle();
+                angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
                 nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
@@ -366,7 +366,7 @@ void MainScene::init()
             if (mainEntity != nullptr)
             {
                 // angle = Math::degreeToRad(data->angle);
-                angle = mainEntity->GetAngle();
+                angle = mainEntity->GetAngle() + data->getAngle();
                 Log::setLevel(LOG_LEVEL_INFO);
                 Log::printLog("angle:%f\n", angle);
                 auto faceEntityData =
@@ -399,7 +399,7 @@ void MainScene::init()
             if (mainEntity != nullptr)
             {
                 // angle = Math::degreeToRad(data->angle);
-                angle = mainEntity->GetAngle();
+                angle = mainEntity->GetAngle() + data->getAngle();
                 Log::setLevel(LOG_LEVEL_INFO);
                 Log::printLog("angle:%f\n", angle);
                 auto faceEntityData =
@@ -418,6 +418,38 @@ void MainScene::init()
             auto entity = new Thruster(data->name, root, data->size, 100, pos, 45);
             entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "CubeBody",
                                  "CubeFixture");
+            return entity;
+        };
+        EntityFactory::addEntity(data);
+    }
+
+    {
+        entityData *data = new entityData("gyro", b2Vec2(2, 2));
+        data->init = [root, physicalWorld, data](b2Vec2 pos, Entity *mainEntity) -> Entity * {
+            b2Vec2 nodePos = pos;
+            float angle = 0.0f;
+            if (mainEntity != nullptr)
+            {
+                // angle = Math::degreeToRad(data->angle);
+                angle = mainEntity->GetAngle() + data->getAngle();
+                Log::setLevel(LOG_LEVEL_INFO);
+                Log::printLog("angle:%f\n", angle);
+                auto faceEntityData =
+                EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
+                        faceEntityData->getSize(),
+                        data->getSize());
+            }
+            b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
+
+            b2PolygonShape polygonShape;
+            polygonShape.SetAsBox(data->size.x, data->size.y, b2Vec2(0, 0), 0);
+            b2FixtureDef fixtureDef =
+            PhysicalWorld::generateFixtureDef(&polygonShape);
+
+            auto entity = new Gyro(data->name, root, data->size, pos, 45);
+            entity->initPhysical(bodyDef, fixtureDef, physicalWorld.get(), "GyroBody",
+                                 "GyroFixture");
             return entity;
         };
         EntityFactory::addEntity(data);
@@ -481,7 +513,7 @@ void MainScene::init()
 
     Box *boxNode = static_cast<Box *>(
                        EntityFactory::generateEntity(std::string("box1"), b2Vec2(0, 10)));
-    // boxNode->SetAngle(0.25 * b2_pi);
+    boxNode->SetAngle(0.25 * b2_pi);
     boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
     boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
     boxNode->addItem(ItemFactory::generateItem(std::string("gun1")));

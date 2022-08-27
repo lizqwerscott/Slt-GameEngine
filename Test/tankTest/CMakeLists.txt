@@ -29,6 +29,8 @@ set(MAIN_SRC_LIST
     Body/Entity/Thruster/Thruster.cpp
     Body/Entity/Computer/Computer.cpp
     Body/Entity/Seat/Seat.cpp
+    Body/Entity/Gyro/Gyro.cpp
+
     Body/Entity/Generator/Generator.cpp
     Body/Entity/EntityFactory.cpp
 

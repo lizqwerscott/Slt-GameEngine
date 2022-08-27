@@ -102,13 +102,7 @@ void Person::init()
                     auto generateEntity = arcWelding->m_generateEntity;
                     entityData * generateData = EntityFactory::getEntityData(generateEntity);
                     Log::setLevel(LOG_LEVEL_INFO);
-                    if (generateData->angle == 360) {
-                        generateData->angle = 90;
-                        Log::printLog("gui\n");
-                    } else {
-                        generateData->angle += 90;
-                        Log::printLog("increase\n");
-                    }
+		    generateData->increaseAngle();
                     Log::printLog("[%s]data:%d\n", generateEntity.c_str(), generateData->angle);
                 }
             }

@@ -3,7 +3,7 @@
 
 #include "Entity.h"
 
-#define factoryFun std::function<Entity * (b2Vec2 pos, Entity * mainEntity)> 
+#define factoryFun std::function<Entity * (b2Vec2 pos, Entity * mainEntity)>
 
 struct entityData {
     entityData(const std::string &_name, b2Vec2 _size) :
@@ -14,11 +14,23 @@ struct entityData {
     b2Vec2 getSize()
     {
         b2Vec2 _size = this->size;
-        if (angle == 90 || angle == 270) {
-            _size = b2Vec2(size.y, size.x);
-        }
+	if (angle == 90 || angle == 270) {
+	    _size = b2Vec2(size.y, size.x);
+	}
         return _size;
     }
+    void increaseAngle()
+	{
+	    if (this->angle == 270) {
+		this->angle = 0;
+	    } else {
+		this->angle += 90;
+	    }
+	}
+    float getAngle()
+	{
+	    return Math::degreeToRad(this->angle);
+	}
     std::string name;
     b2Vec2 size;
     int angle = 0;

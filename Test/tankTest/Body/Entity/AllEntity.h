@@ -12,3 +12,4 @@
 #include "Seat/Seat.h"
 #include "Thruster/Thruster.h"
 #include "Generator/Generator.h"
+#include "Gyro/Gyro.h"

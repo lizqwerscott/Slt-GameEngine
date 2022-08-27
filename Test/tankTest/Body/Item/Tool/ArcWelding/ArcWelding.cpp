@@ -118,6 +118,7 @@ void ArcWelding::drawT(Person * person)
 	    // Draw generate entity.
             b2Vec2 vertices[4];
             float angle = faceEntity->GetAngle();
+
             b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));
 
             b2Vec2 upLeft = mat.Solve(b2Vec2(-size.x, size.y));
