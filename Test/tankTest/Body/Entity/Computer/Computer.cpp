@@ -1,5 +1,6 @@
 #include "Computer.h"
 #include "../Thruster/Thruster.h"
+#include "../Gyro/Gyro.h"
 #include "../Biological/Person.h"
 #include "../Seat/Seat.h"
 #include "../../Net/NetUse/NetUse.h"
@@ -8,7 +9,8 @@
 #include <nlohmann/json.hpp>
 
 Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double hp) :
-    Entity(name, "Computer", parent, nodePos, hp)
+    Entity(name, "Computer", parent, nodePos, hp),
+    gyro(nullptr)
 {
     this->m_netEnergy = new NetUse(10, 1);
     this->m_netControl = new NetControlDevice(name + std::to_string(this->GetId()));
@@ -32,6 +34,20 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
 		auto res = static_cast<DeviceSignalDataBool *>(signal.res);
 		res->data = true;
 		this->addControl(signal.sender);
+	    } else if (command == "gyroInfo") {
+		auto res = static_cast<DeviceSignalDataBool *>(signal.res);
+		res->data = true;
+		if (signal.sender->m_typeName == "Gyro" && this->gyro == nullptr) {
+		    auto _gyro = static_cast<Gyro *>(signal.sender);
+		    this->gyro = _gyro;
+		}
+	    } else if (command == "seatInfo") {
+		auto res = static_cast<DeviceSignalDataBool *>(signal.res);
+		res->data = true;
+		if (signal.sender->m_typeName == "Seat" && this->m_seat == nullptr) {
+		    auto seat = static_cast<Seat *>(signal.sender);
+		    this->m_seat = seat;
+		}
 	    } else {
 		std::string command = jsonData["command"];
 		Log::printLog("Computer not find this command: %s\n", command.c_str());
@@ -232,6 +248,11 @@ void Computer::UpdateSelf(sf::Time &dt)
 {
     this->m_netEnergy->UpdateSelf(dt);
     this->m_netControl->UpdateSelf(dt);
+    if (this->gyro != nullptr) {
+	if (m_seat != nullptr) {
+	    this->gyro->start = m_seat->isHavePerson();
+	}
+    }
 }
 
 Computer * Computer::findSelf(int id)

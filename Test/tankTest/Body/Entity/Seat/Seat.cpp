@@ -12,6 +12,25 @@ Seat::Seat(std::string name, GameObject * parent, b2Vec2 nodePos, double hp) :
     sf::Texture * seat = ResourceManager::GetTexture("seat");
     seat->setSmooth(true);
 
+    auto device = static_cast<NetControlDevice *>(this->m_netControl);
+
+    device->connectAnotherAfterCallBack = [this, device](Net * net2) -> void {
+	DeviceSignal signal;
+	signal.sender = this;
+
+	DeviceSignalDataJson data;
+	nlohmann::json jsonData;
+	jsonData["command"] = "seatInfo";
+	data.data = jsonData.dump();
+	signal.data = &data;
+
+	DeviceSignalDataBool res;
+	signal.res = &res;
+
+	device->sendSignal(signal);
+
+    };
+
     m_mainShape = CreateRectangleShape(b2Vec2(1, 3), seat);
     Graphic::insertKeyCallBack(
 	sf::Keyboard::Key::T, GetId(),

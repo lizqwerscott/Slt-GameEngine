@@ -58,10 +58,7 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
     b2Vec2 mainPos = body->GetPosition();
 
     b2Vec2 mousePos = Graphic::getMousePositionP();
-    // b2AABB aabb = body->GetFixture()->m_fixture->GetAABB(0);
 
-    // float width = abs(aabb.upperBound.x - mainPos.x);
-    // float height = abs(aabb.upperBound.y - mainPos.y);
     float width = bodySize.x;
     float height = bodySize.y;
 
@@ -120,6 +117,7 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
     if (mAngle > leftUp && mAngle <= leftDown) {
         // Log::printLog("Left=====\n");
         distance = width + size.x;
+        // Log::printLog("width: %f, %f, %f\n", width, size.x, distance);
         if (abs(size.y - height) > 0.1) {
 	    float runAngle = leftDown - mAngle;
             mouseHeight = radHeight * runAngle - size.y;

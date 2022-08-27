@@ -146,9 +146,7 @@ void MainScene::init()
                 angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
-                        faceEntityData->getSize(),
-                        data->getSize());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -176,9 +174,7 @@ void MainScene::init()
                 angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
-                        faceEntityData->getSize(),
-                        data->getSize());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -206,9 +202,7 @@ void MainScene::init()
                 angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
-                        faceEntityData->getSize(),
-                        data->getSize());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -236,9 +230,7 @@ void MainScene::init()
                 angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
-                        faceEntityData->getSize(),
-                        data->getSize());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -269,9 +261,7 @@ void MainScene::init()
                 angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
-                        faceEntityData->getSize(),
-                        data->getSize());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -302,9 +292,7 @@ void MainScene::init()
                 angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
-                        faceEntityData->getSize(),
-                        data->getSize());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -335,9 +323,7 @@ void MainScene::init()
                 angle = mainEntity->GetAngle() + data->getAngle();
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
-                        faceEntityData->getSize(),
-                        data->getSize());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -371,9 +357,7 @@ void MainScene::init()
                 Log::printLog("angle:%f\n", angle);
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
-                        faceEntityData->getSize(),
-                        data->getSize());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -402,11 +386,8 @@ void MainScene::init()
                 angle = mainEntity->GetAngle() + data->getAngle();
                 Log::setLevel(LOG_LEVEL_INFO);
                 Log::printLog("angle:%f\n", angle);
-                auto faceEntityData =
-                EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
-                        faceEntityData->getSize(),
-                        data->getSize());
+                auto faceEntityData = EntityFactory::getEntityData(mainEntity->GetName());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -436,9 +417,7 @@ void MainScene::init()
                 Log::printLog("angle:%f\n", angle);
                 auto faceEntityData =
                 EntityFactory::getEntityData(mainEntity->GetName());
-                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody,
-                        faceEntityData->getSize(),
-                        data->getSize());
+                nodePos = PhysicalWorld::generateNodePos(mainEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
             }
             b2BodyDef bodyDef = PhysicalWorld::generateBodyDef(nodePos, angle);
 
@@ -513,7 +492,7 @@ void MainScene::init()
 
     Box *boxNode = static_cast<Box *>(
                        EntityFactory::generateEntity(std::string("box1"), b2Vec2(0, 10)));
-    boxNode->SetAngle(0.25 * b2_pi);
+    // boxNode->SetAngle(0.25 * b2_pi);
     boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
     boxNode->addItem(ItemFactory::generateItem(std::string("bullet1")));
     boxNode->addItem(ItemFactory::generateItem(std::string("gun1")));

@@ -11,13 +11,23 @@ struct entityData {
     {
 
     }
-    b2Vec2 getSize()
+    b2Vec2 getSize(float _angle = -9898)
     {
-        b2Vec2 _size = this->size;
-	if (angle == 90 || angle == 270) {
-	    _size = b2Vec2(size.y, size.x);
+	auto wucha = [](float angle1, float angle2, float wuc = 0.1) -> bool {
+	    return abs(angle1 - angle2) <= 0.1;
+	};
+
+	b2Vec2 _size = this->size;
+	if (_angle == -9898) {
+	    if (angle == 90 || angle == 270) {
+		_size = b2Vec2(size.y, size.x);
+	    }
+	} else {
+	    if (wucha(_angle, PI / 2) || wucha(_angle, PI * 3 / 2)) {
+		_size = b2Vec2(size.y, size.x);
+	    }
 	}
-        return _size;
+	return _size;
     }
     void increaseAngle()
 	{

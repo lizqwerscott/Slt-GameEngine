@@ -104,12 +104,14 @@ void ArcWelding::drawT(Person * person)
     auto faceEntity = person->getFaceEntity();
     if (faceEntity != nullptr) {
 	auto faceEntityData = EntityFactory::getEntityData(faceEntity->GetName());
-        auto nodePos = PhysicalWorld::generateNodePos(faceEntity->m_physicalBody, faceEntityData->getSize(), data->getSize());
+	auto faceEntitySize = faceEntityData->getSize();
+        auto nodePos = PhysicalWorld::generateNodePos(faceEntity->m_physicalBody, faceEntitySize, data->getSize());
         // Log::setLevel(LOG_LEVEL_INFO);
         // Log::printLog("faceEntityName: %s\n", faceEntity->GetName().c_str());
         // Log::printLog("faceEntityTypeName: %s\n", faceEntity->m_typeName.c_str());
         // b2AABB aabb;
         b2Vec2 size = data->getSize();
+
         // aabb.upperBound = b2Vec2(-size.x, size.y) + nodePos;
         // aabb.lowerBound = b2Vec2(size.x, -size.y) + nodePos;
         //Graphic::getInstance()->DrawAABB(&aabb, b2Color(127, 255, 0));
@@ -118,6 +120,10 @@ void ArcWelding::drawT(Person * person)
 	    // Draw generate entity.
             b2Vec2 vertices[4];
             float angle = faceEntity->GetAngle();
+	    // Log::printLog("face angle: %f\n", angle);
+	    // auto a = faceEntityData->getSize();
+	    // auto b = faceEntityData->getSize(faceEntity->GetAngle());
+	    // Log::printLog("last:: %f, %f, then:: %f, %f\n", a.x, a.y, b.x, b.y);
 
             b2Mat22 mat(cos(angle), sin(angle), -sin(angle), cos(angle));
 

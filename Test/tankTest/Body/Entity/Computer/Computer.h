@@ -6,6 +6,7 @@
 
 class Thruster;
 class Seat;
+class Gyro;
 
 class Computer : public Entity
 {
@@ -32,6 +33,8 @@ public:
 
     //static void move(int direction, float force);
     static void rotate(float angle);
+private:
+    Gyro * gyro;
 };
 
 #endif /* COMPUTER_H */
