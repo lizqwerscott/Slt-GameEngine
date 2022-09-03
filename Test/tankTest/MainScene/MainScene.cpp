@@ -405,7 +405,7 @@ void MainScene::init()
     }
 
     {
-        entityData *data = new entityData("gyro", b2Vec2(2, 2));
+        entityData *data = new entityData("gyro", b2Vec2(1, 1));
         data->init = [root, physicalWorld, data](b2Vec2 pos, Entity *mainEntity) -> Entity * {
             b2Vec2 nodePos = pos;
             float angle = 0.0f;
