@@ -63,28 +63,6 @@ Computer::Computer(std::string name, GameObject * parent, b2Vec2 nodePos, double
 
     m_mainShape = CreateRectangleShape(b2Vec2(1, 1), computer);
 
-    cl_object (*_push)(cl_object computerId, cl_object id, cl_object force) = [](cl_object computerId, cl_object id, cl_object force) -> cl_object {
-        int _cId = ecl_to_int32_t(computerId);
-        int _id = ecl_to_int32_t(id);
-        int _force = ecl_to_int32_t(force);
-        Log::setLevel(LOG_LEVEL_INFO);
-        Log::printLog("%d, %d, %d\n", _cId, _id, _force);
-        Computer::push(_cId, _id, _force);
-        return ECL_NIL;
-    };
-    DEFUN("pushShip", _push, 3);
-
-    cl_object (*_send)(cl_object computerId, cl_object data) = [](cl_object computerId, cl_object data) -> cl_object {
-	int _cId = ecl_to_int32_t(computerId);
-	std::string dataString = Script::clToString(data);
-
-	Computer::sendSignalString(_cId, dataString);
-
-	return ECL_NIL;
-    };
-
-    DEFUN("sendSignalString", _send, 2);
-
     Graphic::insertKeyCallBack(sf::Keyboard::Key::U, GetId(), [device, this]() -> void {
 	    DeviceSignal signal;
 	    signal.sender = this;
@@ -173,7 +151,7 @@ void Computer::DrawUiSelf()
             }
         }
         if (ImGui::Button("LoadScripts")) {
-            Script::lisp("(load \"/home/lizqwer/project/Slt-GameEngine/Test/tankTest/Scripts/test.lisp\")");
+            // Script::lisp("(load \"/home/lizqwer/project/Slt-GameEngine/Test/tankTest/Scripts/test.lisp\")");
         }
         ImGui::End();
     }
@@ -263,10 +241,6 @@ Computer * Computer::findSelf(int id)
     } else {
         return nullptr;
     }
-}
-
-cl_object Computer::getThrusters()
-{
 }
 
 void Computer::push(int computerId, int id, int force)

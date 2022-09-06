@@ -625,26 +625,6 @@ void MainScene::init()
                                []() -> void { Log::setDrawUi(); });
     Graphic::insertKeyCallBack(sf::Keyboard::Key::V, 0,
                                []() -> void { Script::setDrawUi(); });
-    DEFUN_NONE("hello", []() -> void {
-        Log::setLevel(LOG_LEVEL_INFO);
-        Log::printLog("print\n");
-    })
-    cl_object (*_print)(cl_object) = [](cl_object fmt) -> cl_object {
-        Log::setLevel(LOG_LEVEL_INFO);
-        std::string fmtC = Script::clToString(fmt);
-        Log::printLog(fmtC.c_str());
-        return ECL_T;
-    };
-    DEFUN("AddLog", _print, 1);
-    cl_object (*generateEntity)(cl_object, int, int) = [](cl_object name, int x,
-    int y) -> cl_object {
-        Log::setLevel(LOG_LEVEL_INFO);
-        std::string nameC = Script::clToString(name);
-        Log::printLog("EntityName:%s, %f, %f\n", nameC.c_str(), x, y);
-        EntityFactory::generateEntity(nameC, b2Vec2(x, y));
-        return ECL_NIL;
-    };
-    DEFUN("generateEntity", generateEntity, 3);
 }
 
 void MainScene::DrawUiSelf()

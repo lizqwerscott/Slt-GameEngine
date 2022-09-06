@@ -32,6 +32,21 @@ Gyro::Gyro(std::string name, GameObject * parent, b2Vec2 size, b2Vec2 nodePos, d
     gyro->setSmooth(true);
 
     m_mainShape = CreateRectangleShape(size, gyro);
+
+    // Graphic::insertKeyCallBack(
+    // 	sf::Keyboard::Key::Q,
+    // 	GetId(),
+    // 	[this]() -> void {
+    // 	    // this->GetPhysicalBody()->GetBody()->ApplyTorque(10, true);
+    // 	    rotate(-10);
+    // 	});
+    // Graphic::insertKeyCallBack(
+    // 	sf::Keyboard::Key::E,
+    // 	GetId(),
+    // 	[this]() -> void {
+    // 	    // this->GetPhysicalBody()->GetBody()->ApplyTorque(-10, true);
+    // 	    rotate(10);
+    // 	});
 }
 
 Gyro::~Gyro()
@@ -41,7 +56,7 @@ Gyro::~Gyro()
 
 void Gyro::UpdateSelf(sf::Time & dt)
 {
-    if (start) {
+    if (false) {
 	b2Vec2 mousePos = Graphic::getMousePositionP();
 
 	b2Vec2 mainPos = this->GetPosition();

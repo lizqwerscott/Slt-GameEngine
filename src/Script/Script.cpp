@@ -13,12 +13,12 @@ using namespace slt;
 
 Script::Script()
 {
-    memset(m_inputBuf, 0, sizeof(m_inputBuf));
+    //memset(m_inputBuf, 0, sizeof(m_inputBuf));
 }
 
 Script::~Script()
 {
-    cl_shutdown();
+    //cl_shutdown();
 }
 
 Script * _script = nullptr;
@@ -40,34 +40,6 @@ void Script::Destory()
 
 void Script::init(int argc, char *argv[])
 {
-    cl_boot(argc, argv);
-    lisp("(load \"/home/lizqwer/project/Slt-GameEngine/Test/tankTest/Scripts/initrc.lisp\")");
-    void (*_printLog)(cl_object str) = [](cl_object str) -> void {
-        std::string strS = Script::clToString(str);
-        Log::printLog(strS.c_str());
-    };
-    DEFUN("printLog", _printLog, 1);
-}
-
-cl_object Script::lisp(const std::string &call)
-{
-    return cl_safe_eval(c_string_to_object(call.c_str()), ECL_NIL, ECL_NIL);
-}
-
-void Script::signFunction(unsigned int id)
-{
-    auto rootNode = SceneManager::GetRunScene()->GetRootNode();
-    rootNode->GetChild(id);
-}
-
-std::string Script::clToString(cl_object clStr)
-{
-    std::string str;
-    ecl_character * selV = clStr->string.self;
-    for (int i = 0; i < (int)clStr->string.dim; i++) {
-        str += (*(selV + i));
-    }
-    return str;
 }
 
 void Script::Strtrim(char *s)
@@ -97,7 +69,6 @@ void Script::drawUi()
             char * s = _script->m_inputBuf;
             Strtrim(s);
             if (s[0]) {
-                cl_object res = lisp(s);
             }
             strcpy(s, "");
             reclaim_focus = true;
