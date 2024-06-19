@@ -528,8 +528,8 @@ void MainScene::init()
     // baffleNode, baffleNode->GetName());
 
     physicalWorld->onBeginContact([](b2Contact *contact) -> void {
-        void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().data[0];
-        void *userDataB = contact->GetFixtureB()->GetBody()->GetUserData().data[0];
+        void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().user_data0;
+        void *userDataB = contact->GetFixtureB()->GetBody()->GetUserData().user_data0;
         if (userDataA && userDataB)
         {
             PhysicalBody *bodyA = static_cast<PhysicalBody *>(userDataA);
@@ -550,8 +550,8 @@ void MainScene::init()
     });
 
     physicalWorld->onEndContact([this](b2Contact *contact) -> void {
-        void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().data[0];
-        void *userDataB = contact->GetFixtureB()->GetBody()->GetUserData().data[0];
+        void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().user_data0;
+        void *userDataB = contact->GetFixtureB()->GetBody()->GetUserData().user_data0;
         if (userDataA && userDataB)
         {
             PhysicalBody *bodyA = static_cast<PhysicalBody *>(userDataA);
@@ -561,12 +561,12 @@ void MainScene::init()
             Bullet *bulletNode = nullptr;
             if (resultA != std::string::npos) {
                 bulletNode =
-                static_cast<Bullet *>(bodyA->GetBody()->GetUserData().data[1]);
+                static_cast<Bullet *>(bodyA->GetBody()->GetUserData().user_data0);
             }
 
             if (resultB != std::string::npos) {
                 bulletNode =
-                    static_cast<Bullet *>(bodyB->GetBody()->GetUserData().data[1]);
+                    static_cast<Bullet *>(bodyB->GetBody()->GetUserData().user_data0);
             }
             if (bulletNode != nullptr) {
                 bulletNode->setHp(0);

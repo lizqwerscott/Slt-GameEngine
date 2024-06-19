@@ -28,7 +28,7 @@ void CuttingMachine::rightClick(Person *person, b2Vec2 pos, PhysicalWorld *world
     Log::printLog("facePos: %f, %f\n", faceCenterPos.x, faceCenterPos.y);
     Log::printLog("joint:---------\n");
     for (b2JointEdge * j = body->GetJointList(); j; j = j->next) {
-        void * userData = j->other->GetUserData().data[1];
+        void * userData = j->other->GetUserData().user_data1;
         if (userData) {
             Entity * entityContant = static_cast<Entity * >(userData);
             if (entityContant != person) {
@@ -53,4 +53,3 @@ void CuttingMachine::rightClick(Person *person, b2Vec2 pos, PhysicalWorld *world
         world->DestroyJoint(joint);
     }
 }
-

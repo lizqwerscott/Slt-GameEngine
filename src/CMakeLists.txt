@@ -33,7 +33,7 @@ set(Tool_SRC_LIST 	${Memory_SRC_LIST}
 				  	Engine/Engine.cpp
 				  	Application.cpp )
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
 
 add_compile_options(-g -Wall -std=c++11)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)

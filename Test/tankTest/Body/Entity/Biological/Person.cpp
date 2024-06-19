@@ -22,15 +22,14 @@ Person::Person(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     bodyDef.bullet = true;
 
     b2CircleShape circleShape;
-    //b2PolygonShape polygonShape;
 
     circleShape.m_p = b2Vec2(0, 0);
     circleShape.m_radius = 1; // radius
+
     b2FixtureDef fixtureDef;
-    fixtureDef.density = 1;
+    fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.3;
     fixtureDef.restitution = 1;
-    //fixtureDef.shape = &polygonShape;
     fixtureDef.shape = &circleShape;
     initPhysical(bodyDef, fixtureDef, world, "PersonBody", "PersonFixture");
 
@@ -102,7 +101,7 @@ void Person::init()
                     auto generateEntity = arcWelding->m_generateEntity;
                     entityData * generateData = EntityFactory::getEntityData(generateEntity);
                     Log::setLevel(LOG_LEVEL_INFO);
-		    generateData->increaseAngle();
+                    generateData->increaseAngle();
                     Log::printLog("[%s]data:%d\n", generateEntity.c_str(), generateData->angle);
                 }
             }
