@@ -15,7 +15,11 @@ PhysicalBody::PhysicalBody(std::string name, b2Vec2 localWorldPos, b2BodyDef bod
 {
     //Create Body
     this->m_body = world->CreateBody(&bodyDef);
-    m_body->GetUserData().user_data0 = this;
+    for (int i = 0; i < 5; i++) {
+        datas[i] = 0;
+    }
+    datas[0] = reinterpret_cast<uintptr_t>(this);
+    m_body->GetUserData().pointer = reinterpret_cast<uintptr_t>(datas);
 }
 
 PhysicalBody::~PhysicalBody()

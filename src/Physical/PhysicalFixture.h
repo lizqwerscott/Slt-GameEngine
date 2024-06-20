@@ -16,6 +16,7 @@ public:
 public:
     b2FixtureDef m_fixtureDef;
     b2Fixture * m_fixture;
+    uintptr_t datas[5];
 };
 }
 

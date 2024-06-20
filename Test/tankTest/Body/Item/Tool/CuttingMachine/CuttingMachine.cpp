@@ -1,5 +1,7 @@
 #include "CuttingMachine.h"
 #include "../../../Entity/Biological/Person.h"
+#include "utils.h"
+#include <cstdint>
 
 CuttingMachine::CuttingMachine(std::string name, double volume, double quality) :
     Tool(name, volume, quality)
@@ -28,9 +30,9 @@ void CuttingMachine::rightClick(Person *person, b2Vec2 pos, PhysicalWorld *world
     Log::printLog("facePos: %f, %f\n", faceCenterPos.x, faceCenterPos.y);
     Log::printLog("joint:---------\n");
     for (b2JointEdge * j = body->GetJointList(); j; j = j->next) {
-        void * userData = j->other->GetUserData().user_data1;
-        if (userData) {
-            Entity * entityContant = static_cast<Entity * >(userData);
+        uintptr_t userData = user_data_convert(j->other->GetUserData().pointer, 1);
+        if (userData != 0) {
+            Entity * entityContant = reinterpret_cast<Entity * >(userData);
             if (entityContant != person) {
                 b2Vec2 contactCenterPos = entityContant->GetPosition();
                 Log::printLog("joint:%s, %f, %f\n", entityContant->GetName().c_str(), contactCenterPos.x, contactCenterPos.y);

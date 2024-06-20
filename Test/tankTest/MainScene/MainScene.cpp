@@ -1,6 +1,7 @@
 #include "MainScene.h"
 #include "../Body/Entity/AllEntity.h"
 #include "../Body/Item/AllItem.h"
+#include <cstdint>
 #include <cstdlib>
 #include <ctime>
 
@@ -528,12 +529,12 @@ void MainScene::init()
     // baffleNode, baffleNode->GetName());
 
     physicalWorld->onBeginContact([](b2Contact *contact) -> void {
-        void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().user_data0;
-        void *userDataB = contact->GetFixtureB()->GetBody()->GetUserData().user_data0;
-        if (userDataA && userDataB)
+        uintptr_t userDataA = user_data_convert(contact->GetFixtureA()->GetBody()->GetUserData().pointer, 0);
+        uintptr_t userDataB = user_data_convert(contact->GetFixtureB()->GetBody()->GetUserData().pointer, 0);
+        if (userDataA != 0 && userDataB != 0)
         {
-            PhysicalBody *bodyA = static_cast<PhysicalBody *>(userDataA);
-            PhysicalBody *bodyB = static_cast<PhysicalBody *>(userDataB);
+            PhysicalBody *bodyA = reinterpret_cast<PhysicalBody *>(userDataA);
+            PhysicalBody *bodyB = reinterpret_cast<PhysicalBody *>(userDataB);
             std::string::size_type resultA = bodyA->GetName().find("Bullet");
             std::string::size_type resultB = bodyB->GetName().find("Bullet");
             Log::setLevel(LOG_LEVEL_INFO);
@@ -550,23 +551,23 @@ void MainScene::init()
     });
 
     physicalWorld->onEndContact([this](b2Contact *contact) -> void {
-        void *userDataA = contact->GetFixtureA()->GetBody()->GetUserData().user_data0;
-        void *userDataB = contact->GetFixtureB()->GetBody()->GetUserData().user_data0;
-        if (userDataA && userDataB)
+        uintptr_t userDataA = user_data_convert(contact->GetFixtureA()->GetBody()->GetUserData().pointer, 0);
+        uintptr_t userDataB = user_data_convert(contact->GetFixtureB()->GetBody()->GetUserData().pointer, 0);
+        if (userDataA != 0 && userDataB != 0)
         {
-            PhysicalBody *bodyA = static_cast<PhysicalBody *>(userDataA);
-            PhysicalBody *bodyB = static_cast<PhysicalBody *>(userDataB);
+            PhysicalBody *bodyA = reinterpret_cast<PhysicalBody *>(userDataA);
+            PhysicalBody *bodyB = reinterpret_cast<PhysicalBody *>(userDataB);
             std::string::size_type resultA = bodyA->GetName().find("BulletBody");
             std::string::size_type resultB = bodyB->GetName().find("BulletBody");
             Bullet *bulletNode = nullptr;
             if (resultA != std::string::npos) {
                 bulletNode =
-                static_cast<Bullet *>(bodyA->GetBody()->GetUserData().user_data0);
+                    reinterpret_cast<Bullet *>(user_data_convert(bodyA->GetBody()->GetUserData().pointer, 0));
             }
 
             if (resultB != std::string::npos) {
                 bulletNode =
-                    static_cast<Bullet *>(bodyB->GetBody()->GetUserData().user_data0);
+                    reinterpret_cast<Bullet *>(user_data_convert(bodyB->GetBody()->GetUserData().pointer, 0));
             }
             if (bulletNode != nullptr) {
                 bulletNode->setHp(0);

@@ -4,6 +4,7 @@
 #include <box2d/box2d.h>
 #include "../Object.h"
 #include <memory>
+#include <vector>
 
 namespace slt
 {
@@ -28,6 +29,7 @@ private:
     b2Body * m_body;
     b2Vec2 m_localWorldPos;
     std::map<std::string, std::shared_ptr<PhysicalFixture>> m_physicalFixtures;
+    uintptr_t datas[5];
 };
 }
 

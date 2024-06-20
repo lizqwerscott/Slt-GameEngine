@@ -1,4 +1,6 @@
 #include "Entity.h"
+#include "utils.h"
+#include <cstdint>
 
 Entity::Entity(std::string name, const std::string &typeName, GameObject * parent, b2Vec2 nodePos, double hp) :
     GameObject(name, parent, hp),
@@ -24,6 +26,6 @@ void Entity::initPhysical(b2BodyDef bodyDef, b2FixtureDef fixtureDef, PhysicalWo
 {
     auto physicalBody = CreatePhysicalBody(bodyName, b2Vec2(0, 0), bodyDef, world);
     auto fixture = physicalBody->CreateFixture(fixtureName, fixtureDef);
-    physicalBody->GetBody()->GetUserData().user_data1 = (static_cast<void*>(this));
-    fixture->m_fixture->GetUserData().user_data1 = (static_cast<void*>(this));
+    user_data_set(physicalBody->GetBody()->GetUserData().pointer, 1, reinterpret_cast<uintptr_t>(this));
+    user_data_set(fixture->m_fixture->GetUserData().pointer, 1, reinterpret_cast<uintptr_t>(this));
 }

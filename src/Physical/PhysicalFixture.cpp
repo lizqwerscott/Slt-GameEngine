@@ -9,7 +9,11 @@ using namespace slt;
 PhysicalFixture::PhysicalFixture(std::string name, b2FixtureDef fixtureDef, b2Body * body)
     : Object(name), m_fixture(nullptr)
 {
-    fixtureDef.userData.user_data0 = this;
+    for (int i = 0; i < 5; i++) {
+        datas[i] = 0;
+    }
+    datas[0] = reinterpret_cast<uintptr_t>(this);
+    fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(datas);
     this->m_fixture = body->CreateFixture(&fixtureDef);
 }
 

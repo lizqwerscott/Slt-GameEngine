@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <iostream>
 
+#include "utils.h"
 #include "Math/Math.h"
 #include "Log/Log.h"
 #include "Script/Script.h"

@@ -2,6 +2,7 @@
 #define PERSON_H
 
 #include "Biological.h"
+#include "utils.h"
 
 class Item;
 //class Clothes;
@@ -114,7 +115,7 @@ public:
 public:
     float ReportFixture(b2Fixture * fixture, const b2Vec2& point, const b2Vec2& normal, float fraction)
     {
-        Entity * entity = static_cast<Entity *>(fixture->GetUserData().user_data1);
+        Entity * entity = reinterpret_cast<Entity *>(user_data_convert(fixture->GetUserData().pointer, 1));
         m_person->m_faceFixture = fixture;
         m_person->m_faceEntity = entity;
         m_person->m_faceFraction = fraction;

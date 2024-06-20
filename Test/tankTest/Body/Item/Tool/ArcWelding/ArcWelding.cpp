@@ -76,9 +76,9 @@ void ArcWelding::rightClick(Person * person, b2Vec2 pos, PhysicalWorld * world)
         Log::printLog("facePos: %f, %f\n", faceCenterPos.x, faceCenterPos.y);
         Log::printLog("contacts:---------\n");
         for (auto item : m_contants) {
-            void * userData = item->GetUserData().user_data1;
-            if (userData) {
-                Entity * entityContant = static_cast<Entity * >(userData);
+            uintptr_t userData = user_data_convert(item->GetUserData().pointer, 1);
+            if (userData != 0) {
+                Entity * entityContant = reinterpret_cast<Entity * >(userData);
                 if (entityContant != person) {
                     b2Vec2 contactCenterPos = entityContant->GetPosition();
                     Log::printLog("contan:%s, %f, %f\n", entityContant->GetName().c_str(), contactCenterPos.x, contactCenterPos.y);
