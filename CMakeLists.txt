@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Test/tankTest)
-add_subdirectory(${PROJECT_SOURCE_DIR}/Test/tempTest)
 
 set(CMAKE_BUILD_TYPE "Debug")
 

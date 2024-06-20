@@ -19,6 +19,8 @@ public:
     void initPhysical(b2BodyDef bodyDef, b2FixtureDef fixtureDef, PhysicalWorld * world, const std::string &bodyName = "MainBody", const std::string &fixtureName = "MainFixture");
 public:
     virtual void onFace(Person * person) {}
+    virtual void onContact(Entity * entity) {}
+    virtual void onEndContact(Entity * entity) {}
 public:
     bool m_isControl = false;
     bool m_isConnect = false;

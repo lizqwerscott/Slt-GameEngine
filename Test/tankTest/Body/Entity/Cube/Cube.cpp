@@ -10,3 +10,11 @@ Cube::Cube(std::string name, GameObject * parent, b2Vec2 size, b2Vec2 nodePos, d
 
     m_mainShape = CreateRectangleShape(size, tieTexture);
 }
+
+void Cube::onContact(Entity *entity)
+{
+}
+
+void Cube::onEndContact(Entity *entity)
+{
+}

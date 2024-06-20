@@ -10,6 +10,8 @@ public:
     virtual ~Cube() {}
 public:
     virtual void onFace(Person * person) {}
+    void onContact(Entity *entity) override;
+    void onEndContact(Entity *entity) override;
 };
 
 #endif /* CUBE_H */

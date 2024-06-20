@@ -2,6 +2,7 @@
 #include "../Body/Entity/AllEntity.h"
 #include "../Body/Item/AllItem.h"
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <ctime>
 
@@ -89,8 +90,8 @@ void MainScene::init()
                                    sf::Vector2f(windowSize.x / 2, 0)));
         b2PolygonShape upPolygonShape;
         upPolygonShape.SetAsBox(
-            Math::PixelToMeter(windowSize.x / 2), 1,
-            Math::WorldCoordSToPhysicalCoordS(upLocalWorldPos), 0);
+                          Math::PixelToMeter(windowSize.x / 2), 1,
+                          Math::WorldCoordSToPhysicalCoordS(upLocalWorldPos), 0);
         upfixtureDef.shape = &upPolygonShape;
         physicalBody->CreateFixture(std::string("UpWall"), upfixtureDef);
         // Down Wall
@@ -102,8 +103,8 @@ void MainScene::init()
                                      sf::Vector2f(windowSize.x / 2, windowSize.y)));
         b2PolygonShape downPolygonShape;
         downPolygonShape.SetAsBox(
-            Math::PixelToMeter(windowSize.x / 2), 1,
-            Math::WorldCoordSToPhysicalCoordS(downLocalWorldPos), 0);
+                            Math::PixelToMeter(windowSize.x / 2), 1,
+                            Math::WorldCoordSToPhysicalCoordS(downLocalWorldPos), 0);
         downfixtureDef.shape = &downPolygonShape;
         physicalBody->CreateFixture(std::string("DwonWall"), downfixtureDef);
         // Left Wall
@@ -115,8 +116,8 @@ void MainScene::init()
                                      sf::Vector2f(0, windowSize.y / 2)));
         b2PolygonShape leftPolygonShape;
         leftPolygonShape.SetAsBox(
-            1, Math::PixelToMeter(windowSize.y / 2),
-            Math::WorldCoordSToPhysicalCoordS(leftLocalWorldPos), 0);
+                            1, Math::PixelToMeter(windowSize.y / 2),
+                            Math::WorldCoordSToPhysicalCoordS(leftLocalWorldPos), 0);
         leftfixtureDef.shape = &leftPolygonShape;
         physicalBody->CreateFixture(std::string("LeftWall"), leftfixtureDef);
         // Right Wall
@@ -128,8 +129,8 @@ void MainScene::init()
                                       sf::Vector2f(windowSize.x, windowSize.y / 2)));
         b2PolygonShape rightPolygonShape;
         rightPolygonShape.SetAsBox(
-            1, Math::PixelToMeter(windowSize.y / 2),
-            Math::WorldCoordSToPhysicalCoordS(rightLocalWorldPos), 0);
+                             1, Math::PixelToMeter(windowSize.y / 2),
+                             Math::WorldCoordSToPhysicalCoordS(rightLocalWorldPos), 0);
         rightfixtureDef.shape = &rightPolygonShape;
         physicalBody->CreateFixture(std::string("RightWall"), rightfixtureDef);
     });
@@ -535,17 +536,13 @@ void MainScene::init()
         {
             PhysicalBody *bodyA = reinterpret_cast<PhysicalBody *>(userDataA);
             PhysicalBody *bodyB = reinterpret_cast<PhysicalBody *>(userDataB);
-            std::string::size_type resultA = bodyA->GetName().find("Bullet");
-            std::string::size_type resultB = bodyB->GetName().find("Bullet");
-            Log::setLevel(LOG_LEVEL_INFO);
-            Log::printLog("ContantA:Name:%s\n", bodyA->GetName().c_str());
-            Log::printLog("ContantB:Name:%s\n", bodyB->GetName().c_str());
-
-            if (resultA != std::string::npos) {
-            }
-
-            if (resultB != std::string::npos) {
-                ;
+            uintptr_t entityUserDataA =user_data_convert(bodyA->GetBody()->GetUserData().pointer, 1);
+            uintptr_t entityUserDataB =user_data_convert(bodyB->GetBody()->GetUserData().pointer, 1);
+            if (entityUserDataA != 0 && entityUserDataB != 0) {
+                Entity *entityA = reinterpret_cast<Entity *>(entityUserDataA);
+                Entity *entityB =reinterpret_cast<Entity *>(entityUserDataB);
+                entityA->onContact(entityB);
+                entityB->onContact(entityA);
             }
         }
     });
@@ -557,22 +554,14 @@ void MainScene::init()
         {
             PhysicalBody *bodyA = reinterpret_cast<PhysicalBody *>(userDataA);
             PhysicalBody *bodyB = reinterpret_cast<PhysicalBody *>(userDataB);
-            std::string::size_type resultA = bodyA->GetName().find("BulletBody");
-            std::string::size_type resultB = bodyB->GetName().find("BulletBody");
-            Bullet *bulletNode = nullptr;
-            if (resultA != std::string::npos) {
-                bulletNode =
-                    reinterpret_cast<Bullet *>(user_data_convert(bodyA->GetBody()->GetUserData().pointer, 0));
+            uintptr_t entityUserDataA =user_data_convert(bodyA->GetBody()->GetUserData().pointer, 1);
+            uintptr_t entityUserDataB =user_data_convert(bodyB->GetBody()->GetUserData().pointer, 1);
+            if (entityUserDataA != 0 && entityUserDataB != 0) {
+                Entity *entityA = reinterpret_cast<Entity *>(entityUserDataA);
+                Entity *entityB =reinterpret_cast<Entity *>(entityUserDataB);
+                entityA->onEndContact(entityB);
+                entityB->onEndContact(entityA);
             }
-
-            if (resultB != std::string::npos) {
-                bulletNode =
-                    reinterpret_cast<Bullet *>(user_data_convert(bodyB->GetBody()->GetUserData().pointer, 0));
-            }
-            if (bulletNode != nullptr) {
-                bulletNode->setHp(0);
-            }
-            // GetRootNode()->DeleteChild(bulletNode->GetName());
         }
     });
 

@@ -26,8 +26,20 @@ Bullet::Bullet(std::string name, GameObject * parent, PhysicalWorld * world, b2V
     m_mainShape = CreateRectangleShape(b2Vec2(0.2, 0.2), bulletTexture);
 }
 
+void Bullet::onContact(Entity *entity)
+{
+    
+
+}
+
+void Bullet::onEndContact(Entity *entity)
+{
+    this->setHp(0);
+    Log::printLog("Remove bullet: %d\n", GetId());
+    GetParent()->DeleteChild(GetId());
+}
+
 void Bullet::setInitSpeed(b2Vec2 speed)
 {
     this->GetPhysicalBody()->GetBody()->ApplyLinearImpulseToCenter(speed, true);
 }
-
