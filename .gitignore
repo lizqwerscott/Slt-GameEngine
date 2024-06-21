@@ -3,3 +3,4 @@ Debug/
 .ccls*
 compile_commands.json
 .cache
+.xmake
