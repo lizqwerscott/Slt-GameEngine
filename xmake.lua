@@ -40,7 +40,7 @@ local src_files = {
 }
 
 target("slt")
-   set_kind("shared")
+   set_kind("static")
    set_basename("slt")
    add_headerfiles("include/(**.h)")
    add_files(src_files)
