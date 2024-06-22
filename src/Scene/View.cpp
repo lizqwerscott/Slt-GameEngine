@@ -1,5 +1,5 @@
-#include "View.h"
-#include "../Math/QuadTree.h"
+#include "slt/Scene/View.h"
+#include "slt/Math/QuadTree.h"
 
 using namespace slt;
 
@@ -13,13 +13,13 @@ View::~View()
 
 }
 
-void 
+void
 View::Update()
 {
 	;
 }
 
-void 
+void
 View::Draw()
 {
 

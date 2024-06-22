@@ -5,8 +5,8 @@
  * @Last Modified time: 2018-06-19 12:40:08
  */
 
-#include "SceneManager.h"
-#include "Scene.h"
+#include "slt/Scene/SceneManager.h"
+#include "slt/Scene/Scene.h"
 #include <iostream>
 
 using namespace slt;

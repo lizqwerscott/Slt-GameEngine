@@ -2,8 +2,8 @@
 #define LOG_H
 
 #include <string>
-#include "../Graphic/UI/imgui.h"
-#include "../Graphic/UI/imgui-SFML.h"
+#include "../imgui/imgui.h"
+#include "../imgui/imgui-SFML.h"
 
 class b2Vec2;
 

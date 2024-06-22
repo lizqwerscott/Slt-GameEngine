@@ -2,12 +2,12 @@
  *Edit by lscott at 2018 8 16 16::22
  *PhysicWorld
  */
-#include "PhysicalWorld.h"
-#include "../Graphic/Graphic.h"
-#include "PhysicalBody.h"
-#include "PhysicalFixture.h"
-#include "../Log/Log.h"
-#include "../Math/Math.h"
+#include "slt/Physical/PhysicalWorld.h"
+#include "slt/Graphic/Graphic.h"
+#include "slt/Physical/PhysicalBody.h"
+#include "slt/Physical/PhysicalFixture.h"
+#include "slt/Log/Log.h"
+#include "slt/Math/Math.h"
 
 using namespace slt;
 

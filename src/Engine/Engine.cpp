@@ -1,14 +1,14 @@
-#include "Engine.h"
+#include "slt/Engine/Engine.h"
 
-#include "../Graphic/Graphic.h"
-#include "../Scene/SceneManager.h"
-#include "../ResourceManager/ResourceManager.h"
-#include "../Scene/Scene.h"
-#include "../MemoryManager/PoolManager.h"
-#include "../MemoryManager/AutoreleasePool.h"
-#include "../Math/Math.h"
-#include "../Log/Log.h"
-#include "../Script/Script.h"
+#include "slt/Graphic/Graphic.h"
+#include "slt/Scene/SceneManager.h"
+#include "slt/ResourceManager/ResourceManager.h"
+#include "slt/Scene/Scene.h"
+#include "slt/MemoryManager/PoolManager.h"
+#include "slt/MemoryManager/AutoreleasePool.h"
+#include "slt/Math/Math.h"
+#include "slt/Log/Log.h"
+#include "slt/Script/Script.h"
 
 using namespace slt;
 

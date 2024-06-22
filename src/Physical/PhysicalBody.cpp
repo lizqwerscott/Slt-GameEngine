@@ -3,10 +3,10 @@
  *
 */
 
-#include "PhysicalBody.h"
-#include "../Math/Math.h"
-#include "PhysicalFixture.h"
-#include "../Log/Log.h"
+#include "slt/Physical/PhysicalBody.h"
+#include "slt/Math/Math.h"
+#include "slt/Physical/PhysicalFixture.h"
+#include "slt/Log/Log.h"
 
 using namespace slt;
 

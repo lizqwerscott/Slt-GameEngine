@@ -1,8 +1,8 @@
-#include "Log.h"
+#include "slt/Log/Log.h"
 #include <cstdio>
 #include <ctime>
 
-#include "../AllSub.h"
+#include "slt/AllSub.h"
 
 using namespace slt;
 

@@ -15,8 +15,8 @@
 
 #include "Engine/Engine.h"
 
-#include "Graphic/UI/imgui.h"
-#include "Graphic/UI/imgui-SFML.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui-SFML.h"
 
 #include "Graphic/Camera.h"
 #include "Graphic/Graphic.h"

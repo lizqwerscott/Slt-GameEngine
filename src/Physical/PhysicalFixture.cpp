@@ -2,7 +2,7 @@
  *Edit by lscott at 2018 8 19 11:18
 */
 
-#include "PhysicalFixture.h"
+#include "slt/Physical/PhysicalFixture.h"
 
 using namespace slt;
 

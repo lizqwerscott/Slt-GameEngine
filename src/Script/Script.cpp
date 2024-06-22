@@ -1,13 +1,13 @@
-#include "Script.h"
+#include "slt/Script/Script.h"
 
 #include <string>
 
-#include "../Graphic/UI/imgui.h"
-#include "../Graphic/UI/imgui-SFML.h"
+#include "slt/imgui/imgui.h"
+#include "slt/imgui/imgui-SFML.h"
 
-#include "../Log/Log.h"
+#include "slt/Log/Log.h"
 
-#include "../AllSub.h"
+#include "slt/AllSub.h"
 
 using namespace slt;
 

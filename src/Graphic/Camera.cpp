@@ -1,6 +1,6 @@
-#include "Camera.h"
-#include "../Scene/SNode.h"
-#include "Graphic.h"
+#include "slt/Graphic/Camera.h"
+#include "slt/Scene/SNode.h"
+#include "slt/Graphic/Graphic.h"
 
 using namespace slt;
 

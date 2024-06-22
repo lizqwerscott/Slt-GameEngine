@@ -1,10 +1,10 @@
-#include "Graphic.h"
-#include "../Math/Math.h"
-#include "../Physical/PhysicalWorld.h"
-#include "../Scene/View.h"
-#include "Camera.h"
-#include "UI/imgui.h"
-#include "UI/imgui-SFML.h"
+#include "slt/Graphic/Graphic.h"
+#include "slt/Math/Math.h"
+#include "slt/Physical/PhysicalWorld.h"
+#include "slt/Scene/View.h"
+#include "slt/Graphic/Camera.h"
+#include "slt/imgui/imgui.h"
+#include "slt/imgui/imgui-SFML.h"
 
 #include <iostream>
 

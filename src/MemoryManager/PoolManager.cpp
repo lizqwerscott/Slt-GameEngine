@@ -1,9 +1,9 @@
 /*
 *Edit by lscott at 2018.8.7 18"44
  */
-#include "PoolManager.h"
-#include "Ref.h"
-#include "AutoreleasePool.h"
+#include "slt/MemoryManager/PoolManager.h"
+#include "slt/MemoryManager/Ref.h"
+#include "slt/MemoryManager/AutoreleasePool.h"
 
 using namespace slt;
 
@@ -64,4 +64,3 @@ void PoolManager::remove(AutoreleasePool *pool) {
         _releasePoolMap.erase(it);
     }
 }
-

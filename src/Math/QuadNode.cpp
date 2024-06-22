@@ -1,4 +1,4 @@
-#include "QuadNode.h"
+#include "slt/Math/QuadNode.h"
 
 using namespace slt;
 

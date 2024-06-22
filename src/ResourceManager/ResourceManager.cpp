@@ -6,8 +6,8 @@
 */
 
 #include <cstdlib>
-#include "ResourceManager.h"
-#include "../Log/Log.h"
+#include "slt/ResourceManager/ResourceManager.h"
+#include "slt/Log/Log.h"
 
 using namespace slt;
 

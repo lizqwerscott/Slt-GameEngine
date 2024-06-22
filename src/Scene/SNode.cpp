@@ -1,9 +1,11 @@
-#include "SNode.h"
-#include "../Graphic/Graphic.h"
+#include "slt/Scene/SNode.h"
+
 #include <cstdio>
-#include "../Physical/PhysicalBody.h"
-#include "../ResourceManager/ResourceManager.h"
-#include "../Log/Log.h"
+
+#include "slt/Graphic/Graphic.h"
+#include "slt/Physical/PhysicalBody.h"
+#include "slt/ResourceManager/ResourceManager.h"
+#include "slt/Log/Log.h"
 
 using namespace slt;
 

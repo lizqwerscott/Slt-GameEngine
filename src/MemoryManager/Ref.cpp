@@ -3,9 +3,9 @@
 *memort manager
  */
 
-#include "Ref.h"
-#include "PoolManager.h"
-#include "AutoreleasePool.h"
+#include "slt/MemoryManager/Ref.h"
+#include "slt/MemoryManager/PoolManager.h"
+#include "slt/MemoryManager/AutoreleasePool.h"
 
 using namespace slt;
 
@@ -40,7 +40,7 @@ Ref * Ref::autorelease(std::string &name)
     return this;
 }
 
-unsigned int 
+unsigned int
 Ref::getReferenceCount() const
 {
     return this->_referenceCount;

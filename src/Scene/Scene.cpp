@@ -5,11 +5,11 @@
  * @Last Modified time: 2018-06-18 17:01:19
  */
 
-#include "Scene.h"
-#include "../Graphic/Graphic.h"
-#include "../Physical/PhysicalWorld.h"
-#include "../Graphic/Camera.h"
-#include "SNode.h"
+#include "slt/Scene/Scene.h"
+#include "slt/Graphic/Graphic.h"
+#include "slt/Physical/PhysicalWorld.h"
+#include "slt/Graphic/Camera.h"
+#include "slt/Scene/SNode.h"
 #include <iostream>
 
 using namespace slt;

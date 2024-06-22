@@ -1,13 +1,14 @@
-#include "EventManager.h"
-#include "Event.h"
-#include "EventHandler.h"
-#include "EventHandlerIml.h"
-#include "EventSender.h"
-#include "EventReciver.h"
-#include "../Math/Math.h"
-#include "../Log/Log.h"
 #include <memory>
 #include <functional>
+
+#include "slt/Event/EventManager.h"
+#include "slt/Event/Event.h"
+#include "slt/Event/EventHandler.h"
+#include "slt/Event/EventHandlerIml.h"
+#include "slt/Event/EventSender.h"
+#include "slt/Event/EventReciver.h"
+#include "slt/Math/Math.h"
+#include "slt/Log/Log.h"
 
 using namespace slt;
 

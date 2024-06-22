@@ -1,6 +1,6 @@
-#include "QuadTree.h"
-#include "../Scene/SNode.h"
-#include "QuadNode.h"
+#include "slt/Math/QuadTree.h"
+#include "slt//Scene/SNode.h"
+#include "slt/Math/QuadNode.h"
 
 using namespace slt;
 

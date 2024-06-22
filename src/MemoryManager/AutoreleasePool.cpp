@@ -3,9 +3,9 @@
 *Resovle memory
 *Auto releseve memory
  */
-#include "AutoreleasePool.h"
-#include "PoolManager.h"
-#include "Ref.h"
+#include "slt/MemoryManager/AutoreleasePool.h"
+#include "slt/MemoryManager/PoolManager.h"
+#include "slt/MemoryManager/Ref.h"
 
 using namespace slt;
 
@@ -56,4 +56,3 @@ std::string AutoreleasePool::getName()
 {
     return _name;
 }
-

@@ -1,5 +1,5 @@
-#include "EventSender.h"
-#include "EventManager.h"
+#include "slt/Event/EventSender.h"
+#include "slt/Event/EventManager.h"
 
 using namespace slt;
 
