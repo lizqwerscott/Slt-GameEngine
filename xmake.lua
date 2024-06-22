@@ -10,7 +10,6 @@ add_cxxflags("-g", "-Wall")
 package("box2d")
     set_urls("https://github.com/erincatto/box2d.git")
     add_deps("cmake")
-    -- set_sourcedir(path.join(os.scriptdir(), "lib/box2d"))
     on_install(function (package)
         local configs = {}
         table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:debug() and "Debug" or "Release"))
