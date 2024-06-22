@@ -11,8 +11,8 @@
 #include <functional>
 #include <box2d/box2d.h>
 #include <memory>
-#include "../Math/Tree.h"
-#include "../Object.h"
+#include "slt/Math/Tree.h"
+#include "slt/Object.h"
 
 namespace slt
 {

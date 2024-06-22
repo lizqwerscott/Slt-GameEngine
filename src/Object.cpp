@@ -3,7 +3,7 @@
 *The Base class
  */
 
-#include "Object.h"
+#include "slt/Object.h"
 
 using namespace slt;
 
@@ -53,4 +53,3 @@ void Object::SetDrawUi(bool isDrawUi)
 {
     this->m_isDrawUi = isDrawUi;
 }
-
