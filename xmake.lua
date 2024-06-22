@@ -26,7 +26,7 @@ add_includedirs("include")
 local src_files = os.files("src/**/*.cpp")
 
 target("slt")
-   set_kind("static")
+   set_kind("shared")
    set_basename("slt")
    add_files(src_files)
    add_headerfiles("include/(**.h)")
