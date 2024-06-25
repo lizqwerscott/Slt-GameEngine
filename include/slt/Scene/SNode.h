@@ -56,7 +56,7 @@ public:
     PhysicalBody * CreatePhysicalBody(std::string name, b2Vec2 localWorldPos, b2BodyDef bodyDef, b2World * world);
     bool isInGroup();
     bool isGroupRoot();
-    
+
 
     std::shared_ptr<sf::Sprite> GetSprite(std::string name);
     std::shared_ptr<sf::Shape> GetShape(std::string name);
@@ -75,6 +75,7 @@ public:
     void DeleteChild(unsigned int id);
     SNode * popChild(std::string name);
     SNode * popChild(unsigned int id);
+    std::list<SNode *> GetChilds();
 public:
     //CallBack
 

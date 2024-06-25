@@ -355,6 +355,10 @@ SNode * SNode::popChild(unsigned int id)
     this->m_next.remove(node);
     return node;
 }
+std::list<SNode *> SNode::GetChilds()
+{
+    return this->m_next;
+}
 
 void SNode::pushUpdateCallBack(std::function<void(SNode *)> updateCallBack)
 {
