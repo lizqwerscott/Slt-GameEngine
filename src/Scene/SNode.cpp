@@ -26,8 +26,8 @@ SNode::SNode(std::string name, SNode * parent) :
 
 SNode::~SNode()
 {
-    this->m_UpdateCallBacks.clear();
-    this->m_DrawCallBacks.clear();
+    // this->m_UpdateCallBacks.clear();
+    // this->m_DrawCallBacks.clear();
     Log::setLevel(LOG_LEVEL_INFO);
     Log::printLog("[SNode:release]");
     Log::printLog("%s", GetName().c_str());
