@@ -204,6 +204,12 @@ void PhysicalWorld::onEndContact()
 
 void PhysicalWorld::BeginContact(b2Contact *contact)
 {
+    if (!contact) {
+        Log::setLevel(LOG_LEVEL_ERROR);
+        Log::printLog("BeginContact received a null contact pointer\n");
+        return;
+    }
+
     for (auto beginContact : this->m_beginContact) {
         beginContact(contact);
     }
@@ -211,6 +217,12 @@ void PhysicalWorld::BeginContact(b2Contact *contact)
 
 void PhysicalWorld::EndContact(b2Contact *contact)
 {
+    if (!contact) {
+        Log::setLevel(LOG_LEVEL_ERROR);
+        Log::printLog("EndContact received a null contact pointer\n");
+        return;
+    }
+
     for (auto endContact : this->m_endContact) {
         endContact(contact);
     }
