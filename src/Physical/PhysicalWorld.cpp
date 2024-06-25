@@ -108,7 +108,7 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
         // Log::printLog("Up=====\n");
         distance = height + size.y;
         if (abs(size.x - width) > 0.1) {
-	    float runAngle = leftUp - mAngle;
+            float runAngle = leftUp - mAngle;
             mouseWidth = radWidth * runAngle - size.x;
         }
         nodePos = mainPos + b2Vec2(mouseWidth, distance);
@@ -119,7 +119,7 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
         distance = width + size.x;
         // Log::printLog("width: %f, %f, %f\n", width, size.x, distance);
         if (abs(size.y - height) > 0.1) {
-	    float runAngle = leftDown - mAngle;
+            float runAngle = leftDown - mAngle;
             mouseHeight = radHeight * runAngle - size.y;
         }
         nodePos = mainPos + b2Vec2(-distance, mouseHeight);
@@ -130,7 +130,7 @@ b2Vec2 PhysicalWorld::generateNodePos(PhysicalBody * body, b2Vec2 bodySize, b2Ve
         distance = height + size.y;
         if (abs(size.x - width) > 0.1) {
             float runAngle = mAngle - leftDown;
-	    mouseWidth = radWidth * runAngle - size.x;
+            mouseWidth = radWidth * runAngle - size.x;
         }
         nodePos = mainPos + b2Vec2(mouseWidth, -distance);
     }
@@ -204,26 +204,26 @@ void PhysicalWorld::onEndContact()
 
 void PhysicalWorld::BeginContact(b2Contact *contact)
 {
-    if (!contact) {
+    try {
+        for (auto beginContact : this->m_beginContact) {
+            beginContact(contact);
+        }
+
+    } catch (const std::exception& e) {
         Log::setLevel(LOG_LEVEL_ERROR);
         Log::printLog("BeginContact received a null contact pointer\n");
-        return;
     }
 
-    for (auto beginContact : this->m_beginContact) {
-        beginContact(contact);
-    }
 }
 
 void PhysicalWorld::EndContact(b2Contact *contact)
 {
-    if (!contact) {
+    try {
+        for (auto endContact : this->m_endContact) {
+            endContact(contact);
+        }
+    } catch (const std::exception& e) {
         Log::setLevel(LOG_LEVEL_ERROR);
         Log::printLog("EndContact received a null contact pointer\n");
-        return;
-    }
-
-    for (auto endContact : this->m_endContact) {
-        endContact(contact);
     }
 }
